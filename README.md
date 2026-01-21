@@ -65,6 +65,8 @@ elmo-hikes/
 
 - **Veerpartap** - BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Loves to play basketball.
 
+- **Shaan** - BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Loves solving Rubik's Cubes in under a minute.
+
 ---
 
 ## Acknowledgments
