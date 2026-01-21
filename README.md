@@ -61,6 +61,7 @@ elmo-hikes/
 ---
 
 ## Contributors
+- **Malcolm Roosdahl** - BCIT CST Student with an interest in creating programs and games. I am a fan of many music genres, particularly metal and punk!
 
 - **Veerpartap** - BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Loves to play basketball.
 
