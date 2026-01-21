@@ -67,6 +67,8 @@ elmo-hikes/
 
 - **Shaan** - BCIT CST Student with a passion for outdoor adventures and user-friendly applications. Fun fact: Loves solving Rubik's Cubes in under a minute.
 
+**Omar** - BCIT CST student who is an aspiring Software Developer.
+
 ---
 
 ## Acknowledgments
