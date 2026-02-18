@@ -9,6 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Other libraries go here -->
+
+    <!-- Script Refences-->
+    <script type="module" src="/src/components/site-navbar.js"></script>
   </head>
 
   <body>
@@ -43,8 +46,12 @@
             <b>Become a Travel Buddy today</b>, and get ready for loads of
             exciting experiences!
           </p>
-          <button class="btn btn-primary btn-lg" type="button">
-            Sign up now
+          <button
+            onclick="window.location.href = 'login.html'"
+            type="button"
+            class="btn btn-info btn-lg"
+          >
+            Login/Signup
           </button>
         </div>
       </div>
