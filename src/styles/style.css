@@ -1,1 +1,21 @@
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    gap: 40px;
+    font-family: sans-serif;
+    overflow: hidden;
+  }
 
+  .btn {
+    width: 300px;
+    height: 160px;
+    background-color: #d9d9d9;
+    border: none;
+    border-radius: 12px;
+    font-size: 42px;
+    font-weight: bold;
+    cursor: pointer;
+  }
