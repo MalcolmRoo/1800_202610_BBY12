@@ -19,3 +19,12 @@ body {
   font-weight: bold;
   cursor: pointer;
 }
+#indexBody {
+  background-color: #f2f527;
+}
+#buddyBox {
+  background-color: #f5b727;
+}
+#login-body {
+  background-color: #f2f527;
+}

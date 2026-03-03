@@ -1,7 +1,7 @@
 class SiteNavbar extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
-            <nav class="navbar fixed-bottom" style="background-color: #e0a503">
+            <nav class="navbar fixed-bottom" style="background-color: #27e4f5">
       <div class="container-fluid"></div>
       <button class="btn" href="#">
         <img src="/images/home.png" alt="Bootstrap" width="30" height="30" />
