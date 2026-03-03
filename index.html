@@ -7,24 +7,22 @@
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    <link rel="stylesheet" href="/src/styles/style.css" />
     <!-- Other libraries go here -->
 
     <!-- Script Refences-->
     <script type="module" src="/src/components/site-navbar.js"></script>
   </head>
 
-  <body>
+  <body class="mainBackground">
     <!------------------------------>
     <!-- Your HTML Layout go here -->
     <!------------------------------>
     <div class="container py-4">
       <!--Top Header Start-->
 
-      <div class="container">
-        <header
-          class="d-flex flex-wrap justify-content-center py-3 border-bottom"
-        >
+      <div class="container header">
+        <header class="d-flex flex-wrap justify-content-center py-3 rounded-3">
           <img
             src="/images/carpool.png"
             alt="bootstrap"
@@ -35,10 +33,11 @@
         </header>
       </div>
 
+      <br />
       <!--Top Header end-->
 
       <!-- Welcome Msg and Signup button Start-->
-      <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+      <div class="p-5 mb-4 rounded-3 textBubble">
         <div class="container-fluid py-5">
           <h1 class="display-5 fw-bold"><b>Travel Buddies!</b></h1>
           <p class="col-md-8 fs-4">
@@ -49,7 +48,8 @@
           <button
             onclick="window.location.href = 'login.html'"
             type="button"
-            class="btn btn-info btn-lg"
+            class="btn btn-lg"
+            style="background-color: #7b5ea0"
           >
             Login/Signup
           </button>

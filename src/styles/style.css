@@ -1,3 +1,15 @@
+/*
+Colour Values
+Primary: #7B5EA0
+Secondary: #C5ACE5
+White: #FFFFFF
+Grey: #5D5D5D
+Black: #262626
+*/
+* {
+  color: #ffffff;
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -9,13 +21,33 @@ body {
   overflow: hidden;
 }
 
+header {
+  background-color: #c5ace5;
+}
+
 .mainScreenButton {
   width: 300px;
   height: 160px;
-  background-color: #7a7a7a;
   border: none;
   border-radius: 12px;
   font-size: 42px;
   font-weight: bold;
   cursor: pointer;
+}
+
+.mainBackground {
+  background-image: linear-gradient(to bottom right, #7b5ea0, #262626);
+}
+
+.textBubble {
+  background-color: #5d5d5d66;
+}
+
+b {
+  color: #c5ace5;
+}
+
+button {
+  background-color: #c5ace5;
+  color: #ffffff;
 }
