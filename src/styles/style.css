@@ -22,7 +22,7 @@ body {
 }
 
 header {
-  background-color: #c5ace5;
+  background-color: #c5ace566;
 }
 
 .mainScreenButton {
@@ -50,4 +50,8 @@ b {
 button {
   background-color: #c5ace5;
   color: #ffffff;
+}
+
+#offcanvasNavbar {
+  background-color: #c5ace5;
 }

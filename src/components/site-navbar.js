@@ -42,8 +42,9 @@ class SiteNavbar extends HTMLElement {
                   height="30"
                   class="rounded float-start"
                   alt="..."
-              /></a>
-              Navigate to Group Page
+              />
+               My Account
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
@@ -53,8 +54,9 @@ class SiteNavbar extends HTMLElement {
                   height="30"
                   class="rounded float-start"
                   alt="..."
-              /></a>
-              Navigate to Group Page
+              />
+               Navigate to Group Page
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
@@ -64,8 +66,9 @@ class SiteNavbar extends HTMLElement {
                   height="30"
                   class="rounded float-start"
                   alt="..."
-              /></a>
-              Navigate to Group Page
+              />
+               Navigate to Group Page
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
@@ -75,8 +78,9 @@ class SiteNavbar extends HTMLElement {
                   height="30"
                   class="rounded float-start"
                   alt="..."
-              /></a>
-              Navigate to Group Page
+              />
+               Navigate to Group Page
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
@@ -86,8 +90,9 @@ class SiteNavbar extends HTMLElement {
                   height="30"
                   class="rounded float-start"
                   alt="..."
-              /></a>
-              Navigate to Group Page
+              />
+               Settings
+              </a>
             </li>
             <li class="nav-item"></li>
           </ul>
