@@ -40,7 +40,7 @@ class SiteNavbar extends HTMLElement {
                   src="/images/buddy.png"
                   width="30"
                   height="30"
-                  class="rounded float-start"
+                  class="rounded float-start navImage"
                   alt="..."
               />
                My Account
@@ -52,10 +52,10 @@ class SiteNavbar extends HTMLElement {
                   src="/images/buddy.png"
                   width="30"
                   height="30"
-                  class="rounded float-start"
+                  class="rounded float-start navImage"
                   alt="..."
               />
-               Navigate to Group Page
+               Report an issue
               </a>
             </li>
             <li class="nav-item">
@@ -64,34 +64,34 @@ class SiteNavbar extends HTMLElement {
                   src="/images/buddy.png"
                   width="30"
                   height="30"
-                  class="rounded float-start"
-                  alt="..."
-              />
-               Navigate to Group Page
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"
-                ><img
-                  src="/images/buddy.png"
-                  width="30"
-                  height="30"
-                  class="rounded float-start"
-                  alt="..."
-              />
-               Navigate to Group Page
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"
-                ><img
-                  src="/images/buddy.png"
-                  width="30"
-                  height="30"
-                  class="rounded float-start"
+                  class="rounded float-start navImage"
                   alt="..."
               />
                Settings
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"
+                ><img
+                  src="/images/buddy.png"
+                  width="30"
+                  height="30"
+                  class="rounded float-start navImage"
+                  alt="..."
+              />
+               Exit App
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"
+                ><img
+                  src="/images/buddy.png"
+                  width="30"
+                  height="30"
+                  class="rounded float-start navImage"
+                  alt="..."
+              />
+               Log Out
               </a>
             </li>
             <li class="nav-item"></li>

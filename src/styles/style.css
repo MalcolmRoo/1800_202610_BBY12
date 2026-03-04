@@ -35,6 +35,16 @@ header {
   cursor: pointer;
 }
 
+.nav-item {
+  background-color: #7b5ea0;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.navImage {
+  margin-right: 1rem;
+}
+
 .mainBackground {
   background-image: linear-gradient(to bottom right, #7b5ea0, #262626);
 }
