@@ -1,7 +1,7 @@
 class SiteNavbar extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
-            <nav class="navbar fixed-bottom" style="background-color: #e0a503">
+            <nav class="navbar fixed-bottom" style="background-color: #7B5EA0">
       <div class="container-fluid"></div>
       <button class="btn" href="#">
         <img src="/images/home.png" alt="Bootstrap" width="30" height="30" />
@@ -40,10 +40,11 @@ class SiteNavbar extends HTMLElement {
                   src="/images/buddy.png"
                   width="30"
                   height="30"
-                  class="rounded float-start"
+                  class="rounded float-start navImage"
                   alt="..."
-              /></a>
-              Navigate to Group Page
+              />
+               My Account
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
@@ -51,10 +52,11 @@ class SiteNavbar extends HTMLElement {
                   src="/images/buddy.png"
                   width="30"
                   height="30"
-                  class="rounded float-start"
+                  class="rounded float-start navImage"
                   alt="..."
-              /></a>
-              Navigate to Group Page
+              />
+               Report an issue
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
@@ -62,10 +64,11 @@ class SiteNavbar extends HTMLElement {
                   src="/images/buddy.png"
                   width="30"
                   height="30"
-                  class="rounded float-start"
+                  class="rounded float-start navImage"
                   alt="..."
-              /></a>
-              Navigate to Group Page
+              />
+               Settings
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
@@ -73,10 +76,11 @@ class SiteNavbar extends HTMLElement {
                   src="/images/buddy.png"
                   width="30"
                   height="30"
-                  class="rounded float-start"
+                  class="rounded float-start navImage"
                   alt="..."
-              /></a>
-              Navigate to Group Page
+              />
+               Exit App
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
@@ -84,10 +88,11 @@ class SiteNavbar extends HTMLElement {
                   src="/images/buddy.png"
                   width="30"
                   height="30"
-                  class="rounded float-start"
+                  class="rounded float-start navImage"
                   alt="..."
-              /></a>
-              Navigate to Group Page
+              />
+               Log Out
+              </a>
             </li>
             <li class="nav-item"></li>
           </ul>
