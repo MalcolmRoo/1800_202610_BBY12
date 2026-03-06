@@ -6,9 +6,6 @@ White: #FFFFFF
 Grey: #5D5D5D
 Black: #262626
 */
-* {
-  color: #ffffff;
-}
 
 body {
   display: flex;
@@ -56,12 +53,14 @@ header {
   letter-spacing: 0.5px;
   display: flex;
   align-items: center;
+  color: white 
 } 
 
 .navImage {
   margin-right: 1rem;
   width: 30px;
   height: 30px;
+  filter: brightness(0) invert(1);
 }
 
 .mainBackground {
