@@ -22,8 +22,6 @@ class SiteNavbar extends HTMLElement {
         id="offcanvasNavbar"
         aria-labelledby="offcanvasNavbarLabel"
       >
-        <!-- Slide out menu start-->
-
         <div class="offcanvas-header">
           <button
             type="button"
@@ -36,68 +34,36 @@ class SiteNavbar extends HTMLElement {
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li class="nav-item">
               <a class="nav-link" href="#"
-                ><img
-                  src="/images/buddy.png"
-                  width="30"
-                  height="30"
-                  class="rounded float-start navImage"
-                  alt="..."
-              />
+                ><img src="/images/buddy.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
                My Account
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
-                ><img
-                  src="/images/buddy.png"
-                  width="30"
-                  height="30"
-                  class="rounded float-start navImage"
-                  alt="..."
-              />
+                ><img src="/images/buddy.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
                Report an issue
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"
-                ><img
-                  src="/images/buddy.png"
-                  width="30"
-                  height="30"
-                  class="rounded float-start navImage"
-                  alt="..."
-              />
+              <a class="nav-link" href="/settings.html"
+                ><img src="public/images/Settings-Images/settings.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
                Settings
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
-                ><img
-                  src="/images/buddy.png"
-                  width="30"
-                  height="30"
-                  class="rounded float-start navImage"
-                  alt="..."
-              />
+                ><img src="/images/buddy.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
                Exit App
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
-                ><img
-                  src="/images/buddy.png"
-                  width="30"
-                  height="30"
-                  class="rounded float-start navImage"
-                  alt="..."
-              />
+                ><img src="/images/buddy.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
                Log Out
               </a>
             </li>
-            <li class="nav-item"></li>
           </ul>
         </div>
-        <!--slide out menu end-->
       </div>
     </nav>
         `;
