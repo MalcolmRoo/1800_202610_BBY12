@@ -1,5 +1,5 @@
-body {
-  background: linear-gradient(to bottom right, #4a3a6b, #2d2040) !important;
+#Settings-body {
+  background: linear-gradient(to bottom right, #4a3a6b, #2d2040);
   min-height: 100vh;
 }
 
@@ -40,7 +40,7 @@ body {
   box-sizing: border-box;
   width: auto;
   border-left: 4px solid #c5ace5;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .settings-item span {
@@ -64,10 +64,12 @@ body {
   transform: scale(1.2);
 }
 
-.settings-toggle.on { background: #c5ace5; }
+.settings-toggle.on {
+  background: #c5ace5;
+}
 
 .settings-toggle::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 18px;
   height: 18px;
@@ -77,7 +79,9 @@ body {
   left: 3px;
 }
 
-.settings-toggle.on::after { left: 23px; }
+.settings-toggle.on::after {
+  left: 23px;
+}
 
 .settings-icon {
   width: 28px;

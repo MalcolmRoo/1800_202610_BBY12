@@ -291,5 +291,37 @@ input[type="search"]::placeholder {
   transform: translateY(0);
   box-shadow: 0 2px 10px rgba(123, 94, 160, 0.2);
 }
+.nav-item {
+  background: linear-gradient(135deg, #6a4a9a, #9b7fc7);
+  border-radius: 14px;
+  margin-bottom: 0.8rem;
+  border-left: 4px solid #c5ace5;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s;
+}
+
+.nav-item:hover {
+  background: linear-gradient(135deg, #7b5ea0, #c5ace5);
+  transform: translateX(4px);
+}
+
+.nav-item a {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 16px 18px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+}
+
+.navImage {
+  margin-right: 1rem;
+  width: 30px;
+  height: 30px;
+}
+
+#cbNav {
+  background-color: #7b5ea0 !important;
+}
 
 /* ─── Responsive ─────────────────────────────────────────────────────── */

@@ -1,39 +1,77 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Settings</title>
-<link rel="stylesheet" href="src/styles/settings.css">
-</head>
-<body>
-
-  <div class="settings-header">
-    <button class="settings-back" onclick="history.back()">✕</button>
-    <h2 class="settings-title">Settings</h2>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings</title>
+    <link rel="stylesheet" href="src/styles/settings.css" />
+  </head>
+  <body id="Settings-body">
+    <div class="settings-header">
+      <button class="settings-back" onclick="history.back()">✕</button>
+      <h2 class="settings-title">Settings</h2>
+    </div>
 
     <div class="settings-item">
-    <span><img src="public\images\Settings-Images\bell.png" id="Belly" class="settings-icon"> Notifications</span>
-    <div class="settings-toggle on" onclick="this.classList.toggle('on')"></div>
-  </div>
-  <div class="settings-item">
-    <span><img src="public\images\Settings-Images\DarkMode.png" class="settings-icon" id="Darky"> Dark Mode</span>
-    <div class="settings-toggle on" onclick="this.classList.toggle('on')"></div>
-  </div>
-  <div class="settings-item">
-    <span><img src="public\images\Settings-Images\language.png" class="settings-icon"> Language</span>
-    <span class="settings-arrow">›</span>
-  </div>
-  <div class="settings-item">
-    <span><img src="public\images\Settings-Images\volume.png" class="settings-icon"> Sound</span>
-    <div class="settings-toggle on" onclick="this.classList.toggle('on')"></div>
-  </div>
-   <div class="settings-item">
-    <span><img src="public\images\Settings-Images\location.png" class="settings-icon"> Location</span>
-    <div class="settings-toggle" onclick="this.classList.toggle('on')"></div>
-  </div>
-
-
-</body>
+      <span
+        ><img
+          src="public\images\Settings-Images\bell.png"
+          id="Belly"
+          class="settings-icon"
+        />
+        Notifications</span
+      >
+      <div
+        class="settings-toggle on"
+        onclick="this.classList.toggle('on')"
+      ></div>
+    </div>
+    <div class="settings-item">
+      <span
+        ><img
+          src="public\images\Settings-Images\DarkMode.png"
+          class="settings-icon"
+          id="Darky"
+        />
+        Dark Mode</span
+      >
+      <div
+        class="settings-toggle on"
+        onclick="this.classList.toggle('on')"
+      ></div>
+    </div>
+    <div class="settings-item">
+      <span
+        ><img
+          src="public\images\Settings-Images\language.png"
+          class="settings-icon"
+        />
+        Language</span
+      >
+      <span class="settings-arrow">›</span>
+    </div>
+    <div class="settings-item">
+      <span
+        ><img
+          src="public\images\Settings-Images\volume.png"
+          class="settings-icon"
+        />
+        Sound</span
+      >
+      <div
+        class="settings-toggle on"
+        onclick="this.classList.toggle('on')"
+      ></div>
+    </div>
+    <div class="settings-item">
+      <span
+        ><img
+          src="public\images\Settings-Images\location.png"
+          class="settings-icon"
+        />
+        Location</span
+      >
+      <div class="settings-toggle" onclick="this.classList.toggle('on')"></div>
+    </div>
+  </body>
 </html>
