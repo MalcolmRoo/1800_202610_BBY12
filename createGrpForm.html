@@ -251,11 +251,27 @@
         <h1 id="cbH1">Create your<br /><span>Buddy Group</span></h1>
       </header>
 
-      <form class="card">
+      const form = document.getElementById("createGroupForm");
+      form.addEventListener("submit", function (event) { event.preventDefault();
+      const formData = new FormData(form); const dataObject =
+      Object.fromEntries(formData.entries()); const name =
+      formData.get("group-name"); const location =
+      formData.get("destinations-list"); const tags =
+      document.getElementsByName("tags[]"); const method =
+      formData.get("travel-method"); const visibility =
+      formData.get("visibility"); console.log(name); console.log(location); for
+      (var i = 0; i < tags.length; i++) { if (tags[i].checked == true) {
+      console.log(tags[i].value); } } console.log(tags); console.log(method);
+      console.log(visibility); console.log(dataObject); // CreateGroup(name,
+      tags, null, location, method, null, // visibility, "open" // ) }); give
+      form id="createGroupForm' in createGrpForm change "tags" to "tags[]"
+
+      <form class="card" id="createGroupForm">
         <!-- Group Name -->
         <div class="field">
           <label for="group-name" id="cbLable">Group Name</label>
           <input
+            name="group-name"
             type="text"
             id="group-name"
             placeholder="e.g. Summer Squad"
@@ -270,13 +286,14 @@
           <label id="cbLable">Destinations</label>
           <div class="destinations-list" id="destinations-list">
             <input
+              name="destinations-list"
               type="text"
               placeholder="Search a city or address…"
-              oninput="showSuggestions(this)"
               autocomplete="off"
               required
             />
           </div>
+          <!--oninput="showSuggestions(this)"-->
         </div>
 
         <hr class="divider" />
@@ -288,64 +305,64 @@
             <input
               type="checkbox"
               class="tag-option"
-              id="tag-beach"
-              name="tags"
-              value="chatty"
+              id="tag-Chatty"
+              name="tags[]"
+              value="Chatty"
             />
-            <label id="cbLable" class="tag-label" for="tag-beach">chatty</label>
-
-            <input
-              type="checkbox"
-              class="tag-option"
-              id="tag-mountains"
-              name="tags"
-              value="Quiet"
-            />
-            <label id="cbLable" class="tag-label" for="tag-mountains"
-              >Quiet</label
+            <label id="cbLable" class="tag-label" for="tag-Chatty"
+              >Chatty</label
             >
 
             <input
               type="checkbox"
               class="tag-option"
-              id="tag-city"
-              name="tags"
+              id="tag-Quiet"
+              name="tags[]"
+              value="Quiet"
+            />
+            <label id="cbLable" class="tag-label" for="tag-Quiet">Quiet</label>
+
+            <input
+              type="checkbox"
+              class="tag-option"
+              id="tag-FamilyOriented"
+              name="tags[]"
               value="familyOriented"
             />
-            <label id="cbLable" class="tag-label" for="tag-city"
+            <label id="cbLable" class="tag-label" for="tag-FamilyOriented"
               >Family Oriented</label
             >
 
             <input
               type="checkbox"
               class="tag-option"
-              id="tag-nightlife"
-              name="tags"
+              id="tag-PhysicalImpariment"
+              name="tags[]"
               value="PhysicalImpairment"
             />
-            <label id="cbLable" class="tag-label" for="tag-nightlife"
+            <label id="cbLable" class="tag-label" for="tag-PhysicalImpariment"
               >Physical Impairments</label
             >
 
             <input
               type="checkbox"
               class="tag-option"
-              id="tag-culture"
-              name="tags"
+              id="tag-Culture"
+              name="tags[]"
               value="culture"
             />
-            <label id="cbLable" class="tag-label" for="tag-culture"
+            <label id="cbLable" class="tag-label" for="tag-Culture"
               >Culture</label
             >
 
             <input
               type="checkbox"
               class="tag-option"
-              id="tag-food"
-              name="tags"
-              value="Mental Impairments"
+              id="tag-MentalImpairment"
+              name="tags[]"
+              value="Mental Impairment"
             />
-            <label id="cbLable" class="tag-label" for="tag-food"
+            <label id="cbLable" class="tag-label" for="tag-MentalImpairment"
               >Mental Impairments</label
             >
           </div>
@@ -361,7 +378,7 @@
               type="radio"
               class="travel-radio"
               id="travel-drive"
-              name="travel_method"
+              name="travel-method"
               value="drive"
             />
             <label id="cbLable" class="travel-card" for="travel-drive">
@@ -372,7 +389,7 @@
               type="radio"
               class="travel-radio"
               id="travel-train"
-              name="travel_method"
+              name="travel-method"
               value="skyTrain"
             />
             <label id="cbLable" class="travel-card" for="travel-train">
@@ -383,7 +400,7 @@
               type="radio"
               class="travel-radio"
               id="travel-bus"
-              name="travel_method"
+              name="travel-method"
               value="bus"
             />
             <label id="cbLable" class="travel-card" for="travel-bus">
@@ -394,7 +411,7 @@
               type="radio"
               class="travel-radio"
               id="travel-boat"
-              name="travel_method"
+              name="travel-method"
               value="boat"
             />
             <label id="cbLable" class="travel-card" for="travel-boat">
@@ -405,7 +422,7 @@
               type="radio"
               class="travel-radio"
               id="travel-mix"
-              name="travel_method"
+              name="travel-method"
               value="mix"
             />
             <label id="cbLable" class="travel-card" for="travel-mix">
