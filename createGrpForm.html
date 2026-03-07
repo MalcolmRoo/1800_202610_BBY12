@@ -282,6 +282,32 @@
 
         <hr class="divider" />
 
+        <label for="range4" class="form-label">Max Group size</label>
+        <input
+          name="maxBuddies"
+          type="range"
+          class="form-range"
+          min="2"
+          max="12"
+          value="2"
+          id="range4"
+        />
+        <output for="range4" id="rangeValue" aria-hidden="true"></output>
+
+        <script>
+          // This is an example script, please modify as needed
+          const rangeInput = document.getElementById("range4");
+          const rangeOutput = document.getElementById("rangeValue");
+
+          // Set initial value
+          rangeOutput.textContent = rangeInput.value;
+
+          rangeInput.addEventListener("input", function () {
+            rangeOutput.textContent = this.value;
+          });
+        </script>
+        <hr class="divider" />
+
         <!-- Tags -->
         <div class="field">
           <label id="cbLable">Trip Vibe (pick all that apply)</label>

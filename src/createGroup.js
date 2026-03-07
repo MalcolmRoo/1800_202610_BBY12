@@ -7,27 +7,37 @@ const form = document.getElementById("createGroupForm");
 form.addEventListener("submit", function (event) {
   event.preventDefault();
   const formData = new FormData(form);
-  const dataObject = Object.fromEntries(formData.entries());
+
   const name = formData.get("group-name");
   const location = formData.get("destinations-list");
+  const maxBuddies = formData.get("maxBuddies");
   const tags = document.getElementsByName("tags[]");
   const method = formData.get("travel-method");
   const visibility = formData.get("visibility");
   console.log(name);
   console.log(location);
+  console.log(maxBuddies);
+  const tagsArray = [];
   for (var i = 0; i < tags.length; i++) {
     if (tags[i].checked == true) {
-      console.log(tags[i].value);
+      tagsArray.push(tags[i].value);
     }
   }
-  console.log(tags);
+  console.log(tagsArray);
   console.log(method);
   console.log(visibility);
-  console.log(dataObject);
 
-  // CreateGroup(name, tags, null, location, method, null,
-  //   visibility, "open"
-  // )
+  CreateGroup(
+    name.toString(),
+    tagsArray.toString(),
+    "testID",
+    location.toString(),
+    method.toString(),
+    maxBuddies,
+    "testID, testID, testID",
+    visibility.toString(),
+    "open",
+  );
 });
 
 export async function CreateGroup(
@@ -43,7 +53,7 @@ export async function CreateGroup(
 ) {
   //Generates a random group ID
   let randomGID = uuidv4();
-
+  console.log(randomGID);
   const group = {
     groupName: name,
     tags: tags,
