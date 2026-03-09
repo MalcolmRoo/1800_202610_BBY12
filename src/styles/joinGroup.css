@@ -1,0 +1,211 @@
+/* ── Join Group Page Styles ── */
+
+:root {
+  --primary: #7b5ea0;
+  --secondary: #c5ace5;
+  --white: #ffffff;
+  --grey: #5d5d5d;
+  --black: #262626;
+
+  --bg: #f5f0fc; /* very light lavender page bg */
+  --surface: var(--white);
+  --border: #7356b0;
+  --radius: 14px;
+}
+body.joinGroupBody {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "DM Sans", sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 18px;
+}
+
+/* ── Wrapper ── */
+.wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+}
+
+/* ── Header ── */
+#jgHeader {
+  margin-bottom: 43px;
+}
+
+#jgH1 {
+  font-family: "Syne", sans-serif;
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 800;
+  line-height: 1.05;
+  color: var(--text);
+}
+
+#jgH1 span {
+  color: var(--accent);
+}
+
+/* ── Card ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ── Fields ── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.jgLabel {
+  font-family: "Syne", sans-serif;
+  font-size: 12.7px;
+  font-weight: 640;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+input[type="text"] {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: "DM Sans", sans-serif;
+  font-size: 15px;
+  padding: 12px 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 96%;
+}
+
+input[type="text"]::placeholder {
+  color: #b5aac8;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ── Tags ── */
+.tags-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.tag-option {
+  display: none;
+}
+
+.tag-label {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.tag-option:checked + .tag-label {
+  background: var(--accent);
+  border-color: var(--accent);
+  background: #7a5ea09e;
+}
+
+/* ── Divider ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Submit Button ── */
+.submit-btn {
+  background: var(--primary);
+  border: none;
+  border-radius: var(--radius);
+  color: var(--white);
+  cursor: pointer;
+  font-family: "Syne", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 16px;
+  text-transform: uppercase;
+  transition:
+    s transform 0.15s,
+    box-shadow 0.2s;
+  width: 100%;
+  box-shadow: 0 4px 18px rgba(123, 94, 160, 0.3);
+}
+
+.submit-btn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+/* ── Results Section ── */
+#results {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Each group result card */
+.result-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.result-card h3 {
+  font-family: "Syne", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--muted);
+  margin: 0 0 4px 0;
+}
+
+.result-card p {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.join-btn {
+  background: var(--accent2);
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  cursor: pointer;
+  font-family: "Syne", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 18px;
+  transition: opacity 0.2s;
+}
+
+.join-btn:hover {
+  opacity: 0.85;
+}
