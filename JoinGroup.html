@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/src/styles/style.css" />
     <script type="module" src="/src/components/site-navbar.js"></script>
   </head>
-  <body class="joinGroupBody">
+  <body class="joinGroupBody" onload="initialize()">
     <div class="wrapper">
       <header id="jgHeader">
         <h1 id="jgH1">Find your<br /><span id="spncolor">Buddy Group</span></h1>
@@ -42,11 +42,10 @@
         <div class="field">
           <label class="jgLabel">Where are you headed?</label>
           <input
-            name="destination"
+            name="destination-input"
             type="text"
             id="destination-input"
             placeholder="address / street / location"
-            autocomplete="off"
             required=""
           />
         </div>
