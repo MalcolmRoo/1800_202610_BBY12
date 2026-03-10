@@ -9,6 +9,13 @@
 
     <script type="module" src="/src/components/site-navbar.js"></script>
     <link rel="stylesheet" href="/src/styles/style.css" />
+
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
   </head>
 
   <body class="mainBackground">
@@ -25,8 +32,12 @@
     >
       Create Group
     </button>
-    <button class="mainScreenButton"       onclick="window.location.href = 'joinGroup.html'"
->Join Group</button>
+    <button
+      class="mainScreenButton"
+      onclick="window.location.href='JoinGroup.html'""
+    >
+      Join Group
+    </button>
     <!-- our own footer goes here -->
     <site-navbar></site-navbar>
     <!---------------------------------------------->
@@ -34,5 +45,6 @@
     <!---------------------------------------------->
 
     <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/authentication.js"></script>
   </body>
 </html>

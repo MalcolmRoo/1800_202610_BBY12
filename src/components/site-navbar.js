@@ -34,7 +34,7 @@ class SiteNavbar extends HTMLElement {
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
               <li class="nav-item">
                 <a class="nav-link" href="Slide-Out-Menu/MyAccount.html"
-                  ><img src="public/images/MyAccount/account.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
+                  ><img src="/images/MyAccount/account.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
                   My Account
                 </a>
               </li>
@@ -46,7 +46,7 @@ class SiteNavbar extends HTMLElement {
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="Slide-Out-Menu/settings.html"
-                  ><img src="public/images/Settings-Images/settings.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
+                  ><img src="/images/Settings-Images/settings.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
                   Settings
                 </a>
               </li>
@@ -57,7 +57,7 @@ class SiteNavbar extends HTMLElement {
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#"
+                <a class="nav-link" href="#" id="LogOutUser"
                   ><img src="/images/buddy.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
                   Log Out
                 </a>

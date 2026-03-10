@@ -9,13 +9,11 @@ Black: #262626
 
 body {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   gap: 40px;
   font-family: sans-serif;
-  overflow: hidden;
 }
 
 header {
@@ -37,7 +35,7 @@ header {
   border-radius: 14px;
   margin-bottom: 0.8rem;
   border-left: 4px solid #c5ace5;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   transition: all 0.2s;
 }
 
@@ -53,8 +51,8 @@ header {
   letter-spacing: 0.5px;
   display: flex;
   align-items: center;
-  color: white 
-} 
+  color: white;
+}
 
 .navImage {
   margin-right: 1rem;

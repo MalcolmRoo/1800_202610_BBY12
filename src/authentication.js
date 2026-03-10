@@ -18,6 +18,7 @@ import {
   updateProfile,
   onAuthStateChanged,
   signOut,
+  getAuth,
 } from "firebase/auth";
 
 // -------------------------------------------------------------
@@ -100,10 +101,14 @@ export async function signupUser(name, email, password) {
 // Usage:
 //   await logoutUser();
 // -------------------------------------------------------------
-export async function logoutUser() {
-  await signOut(auth);
-  window.location.href = "index.html";
-}
+
+document
+  .getElementById("LogOutUser")
+  .addEventListener("click", async function (event) {
+    event.preventDefault();
+    await signOut(auth);
+    window.location.href = "index.html";
+  });
 
 // -------------------------------------------------------------
 // checkAuthState()
@@ -131,6 +136,25 @@ export function checkAuthState() {
       }
     }
   });
+}
+
+// -------------------------------------------------------------
+// getCurrentUser()
+// -------------------------------------------------------------
+// Observes changes in the user's authentication state (login/logout)
+// and gets any required information.
+//
+// Usage:
+//  getCurrentUser();
+// -------------------------------------------------------------
+
+export function getCurrentUser() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (user !== null) {
+    return user.uid;
+  }
 }
 
 // -------------------------------------------------------------
