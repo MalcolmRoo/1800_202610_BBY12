@@ -1,76 +1,134 @@
 <!doctype html>
 <html lang="en">
- <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/src/styles/joinGroup.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/styles/joinGroup.css" />
     <title>Join a Group</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&amp;display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles/style.css" />
     <script type="module" src="/src/components/site-navbar.js"></script>
   </head>
-<body class="joinGroupBody">
+  <body class="joinGroupBody">
     <div class="wrapper">
-
       <header id="jgHeader">
-        <h1 id="jgH1">Find your<br><span id="spncolor">Buddy Group</span></h1>
+        <h1 id="jgH1">Find your<br /><span id="spncolor">Buddy Group</span></h1>
       </header>
 
       <form class="card" id="joinGroupForm">
-
         <!-- Destination Search -->
+        <!-- API key: AIzaSyC4BrEVNK9X9ZYsMJdnrwJgzRxu8loh4U8-->
+        <!-- <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"> -->
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyC4BrEVNK9X9ZYsMJdnrwJgzRxu8loh4U8&loading=async"></script>
+        <script>
+          var autocomplete;
+          function initialize() {
+            autocomplete = new google.maps.places.Autocomplete(
+              /** @type {HTMLInputElement} */ (
+                document.getElementById("destination-input")
+              ),
+              { types: ["geocode"] },
+            );
+            google.maps.event.addListener(
+              autocomplete,
+              "place_changed",
+              function () {},
+            );
+          }
+        </script>
         <div class="field">
           <label class="jgLabel">Where are you headed?</label>
-          <input name="destination" type="text" id="destination-input" placeholder="address / street / location" autocomplete="off" required="">
+          <input
+            name="destination"
+            type="text"
+            id="destination-input"
+            placeholder="address / street / location"
+            autocomplete="off"
+            required=""
+          />
         </div>
 
-        <hr class="divider">
+        <hr class="divider" />
 
         <!-- Trip Vibe Tags -->
         <div class="field">
           <label class="jgLabel">Trip Vibe (pick all that apply)</label>
           <div class="tags-grid">
-
-            <input type="checkbox" class="tag-option" id="tag-Chatty" name="tags[]" value="Chatty">
+            <input
+              type="checkbox"
+              class="tag-option"
+              id="tag-Chatty"
+              name="tags[]"
+              value="Chatty"
+            />
             <label class="tag-label" for="tag-Chatty">Chatty</label>
 
-            <input type="checkbox" class="tag-option" id="tag-Quiet" name="tags[]" value="Quiet">
+            <input
+              type="checkbox"
+              class="tag-option"
+              id="tag-Quiet"
+              name="tags[]"
+              value="Quiet"
+            />
             <label class="tag-label" for="tag-Quiet">Quiet</label>
 
-            <input type="checkbox" class="tag-option" id="tag-Family" name="tags[]" value="familyOriented">
+            <input
+              type="checkbox"
+              class="tag-option"
+              id="tag-Family"
+              name="tags[]"
+              value="familyOriented"
+            />
             <label class="tag-label" for="tag-Family">Family Oriented</label>
 
-            <input type="checkbox" class="tag-option" id="tag-Physical" name="tags[]" value="PhysicalImpairment">
-            <label class="tag-label" for="tag-Physical">Physical Impairments</label>
+            <input
+              type="checkbox"
+              class="tag-option"
+              id="tag-Physical"
+              name="tags[]"
+              value="PhysicalImpairment"
+            />
+            <label class="tag-label" for="tag-Physical"
+              >Physical Impairments</label
+            >
 
-            <input type="checkbox" class="tag-option" id="tag-Culture" name="tags[]" value="culture">
+            <input
+              type="checkbox"
+              class="tag-option"
+              id="tag-Culture"
+              name="tags[]"
+              value="culture"
+            />
             <label class="tag-label" for="tag-Culture">Culture</label>
 
-            <input type="checkbox" class="tag-option" id="tag-Mental" name="tags[]" value="MentalImpairment">
+            <input
+              type="checkbox"
+              class="tag-option"
+              id="tag-Mental"
+              name="tags[]"
+              value="MentalImpairment"
+            />
             <label class="tag-label" for="tag-Mental">Mental Impairments</label>
-
           </div>
         </div>
 
-        <hr class="divider">
+        <hr class="divider" />
 
         <!-- Submit -->
         <button type="submit" class="submit-btn">Search 🔍</button>
-
       </form>
 
       <!-- Results appear here after search -->
       <div id="results"></div>
-
     </div>
 
-    <nav>
-      <site-navbar></site-navbar>
-    </nav>
+    <site-navbar></site-navbar>
 
-    <script type="module" src="./src/joinGroup.js"></script>
-  
-    <script type="module" src="./src/main.js"></script>
-
-</body>
+    <script type="module" src="/src/joinGroup.js"></script>
+    <script type="module" src="/src/authentication.js"></script>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>
-  

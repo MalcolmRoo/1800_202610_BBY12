@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/src/styles/cbStyles.css" />
+    <link rel="stylesheet" href="/src/styles/style.css"/>
 
     <title>Plan Your Trip</title>
     <link
@@ -11,241 +12,8 @@
       rel="stylesheet"
     />
     <script type="module" src="/src/components/site-navbar.js"></script>
-
-    <!-- <style>
-      /* :root {
-        --bg: #7b5ea0;
-        --surface: #c5ace5;
-        --border: #c5b6b1;
-        --accent: #bed61e;
-        --accent2: #21be26;
-        --text: #ffffff;
-        --muted: #262626;
-        --radius: 12px;
-      }
-
-      body {
-        background: var(--bg);
-        color: var(--text);
-        font-family: "DM Sans", sans-serif;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px 18px;
-      }
-
-      .wrapper {
-        position: relative;
-        width: 100%;
-        max-width: 680px;
-      }
-
-      header {
-        margin-bottom: 43px;
-      }
-
-      h1 {
-        font-family: "Syne", sans-serif;
-        font-size: clamp(2rem, 6vw, 3rem);
-        font-weight: 800;
-        line-height: 1.05;
-        color: var(--text);
-      }
-
-      h1 span {
-        color: var(--accent);
-      }
-
-      /* Card */
-      .card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 36px;
-        display: flex;
-        flex-direction: column;
-        gap: 28px;
-      }
-
-      /* Field groups */
-      .field {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      label {
-        font-family: "Syne", sans-serif;
-        font-size: 12.7px;
-        font-weight: 640;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--muted);
-      }
-
-      input[type="text"],
-      input[type="search"],
-      select {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        color: var(--text);
-        font-family: "DM Sans", sans-serif;
-        font-size: 15px;
-        padding: 12px 16px;
-        transition:
-          border-color 0.2s,
-          box-shadow 0.2s;
-        width: 96%;
-      }
-
-      input[type="text"]:focus,
-      input[type="search"]:focus,
-      select:focus {
-        border-color: var(--accent);
-      }
-
-      /* Destination rows */
-      .destinations-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      /* Tags */
-      .tags-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 9px;
-      }
-
-      .tag-option {
-        display: none;
-      }
-
-      .tag-label {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        color: var(--muted);
-        cursor: pointer;
-        font-size: 13px;
-        font-weight: 500;
-        padding: 6px 14px;
-        transition: all 0.15s;
-        user-select: none;
-      }
-
-      .tag-option:checked + .tag-label {
-        background: var(--accent);
-        border-color: var(--accent);
-        color: #0d0f14;
-      }
-
-      /* Travel method */
-      .travel-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-        gap: 10px;
-      }
-
-      .travel-radio {
-        display: none;
-      }
-
-      .travel-card {
-        background: var(--bg);
-        border: 2px solid var(--muted);
-        border-radius: var(--radius);
-        color: var(--muted);
-        cursor: pointer;
-        font-size: 13px;
-        font-weight: 500;
-        padding: 12px 14px;
-        text-align: center;
-        transition: all 0.15s;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .travel-card .icon {
-        font-size: 22px;
-      }
-
-      .travel-radio:checked + .travel-card {
-        background: rgba(232, 255, 71, 0.07);
-        border-color: var(--accent2);
-        color: var(--muted);
-      }
-
-      /* Visibility radio */
-      .visibility-row {
-        display: flex;
-        gap: 12px;
-      }
-
-      .vis-label {
-        flex: 1;
-        background: var(--bg);
-        border: 2px solid var(--muted);
-        border-radius: var(--radius);
-        color: var(--muted);
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 500;
-        padding: 14px;
-        text-align: center;
-        transition: all 0.15s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-      }
-
-      .vis-radio:checked + .vis-label {
-        background: rgba(71, 255, 232, 0.07);
-        border-color: var(--accent2);
-        color: var(--muted);
-      }
-
-      /* Divider */
-      .divider {
-        border: none;
-        border-top: 1px solid var(--border);
-      }
-
-      /* Submit */
-      .submit-btn {
-        background: var(--accent);
-        border: none;
-        border-radius: var(--radius);
-        color: #0d0f14;
-        cursor: pointer;
-        font-family: "Syne", sans-serif;
-        font-size: 15px;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-        padding: 16px;
-        text-transform: uppercase;
-        transition:
-          opacity 0.2s,
-          transform 0.15s;
-        width: 100%;
-      }
-
-      .submit-btn:hover {
-        opacity: 0.88;
-        transform: translateY(-1px);
-      }
-      .submit-btn:active {
-        transform: translateY(0);
-      } 
-    </style> -->
   </head>
-  <body class="createButtonBody">
+  <body class="createButtonBody" onload="initialize()">
     <div class="wrapper">
       <header id="cbHeader">
         <h1 id="cbH1">Create your<br /><span>Buddy Group</span></h1>
@@ -264,11 +32,27 @@
         </div>
 
         <hr class="divider" />
+        <!-- API key: AIzaSyC4BrEVNK9X9ZYsMJdnrwJgzRxu8loh4U8-->
 
         <!-- Destinations -->
         <div class="field">
           <label id="cbLable">Destinations</label>
-          <div class="destinations-list" id="destinations-list">
+          <!-- <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"> -->
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyC4BrEVNK9X9ZYsMJdnrwJgzRxu8loh4U8&loading=async"></script>
+        <script>
+            var autocomplete;
+            function initialize() {
+              autocomplete = new google.maps.places.Autocomplete (
+                  /** @type {HTMLInputElement} */(document.getElementById('destinations-list')),
+                  { types: ['geocode'] });
+              google.maps.event.addListener(autocomplete, 'place_changed', function() {
+              });
+            }
+        </script>
+        <div>
+          <input name="destinations-list" id="destinations-list" placeholder="Search your destination"  type="text"></input>
+        </div>
+          <!-- <div class="destinations-list" id="destinations-list">
             <input
               name="destinations-list"
               type="text"
@@ -276,13 +60,13 @@
               autocomplete="off"
               required
             />
-          </div>
+          </div> -->
           <!--oninput="showSuggestions(this)"-->
         </div>
 
         <hr class="divider" />
 
-        <label for="range4" class="form-label">Max Group size</label>
+        <label for="range4" class="field">Max Group size</label>
         <input
           name="maxBuddies"
           type="range"
@@ -479,8 +263,9 @@
     <nav>
       <site-navbar></site-navbar>
     </nav>
-    <script type="module" src="./src/main.js"></script>
-
-    <script type="module" src="./src/createGroup.js"></script>
+    <script type="module" src="/src/main.js"></script>
+    <script type ="module" src="/src/authentication.js"></script>
+    <script type="module" src="/src/createGroup.js"></script>
   </body>
 </html>
+
