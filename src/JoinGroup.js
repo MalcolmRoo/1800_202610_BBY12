@@ -24,13 +24,12 @@ form.addEventListener("submit", function (event) {
 export async function QueryGroups(location, tags) {
   console.log(location);
   console.log(tags);
+
   try {
     const groupQuery = query(
       travelGroups,
-      and(
-        where("location", "==", location.toString()),
-        where("tags", "array-contains-any", tags),
-      ),
+      where("destination", "==", location.toString()),
+      where("tags", "array-contains-any", tags),
     );
     const querySnapshot = await getDocs(groupQuery);
     querySnapshot.forEach((doc) => {
