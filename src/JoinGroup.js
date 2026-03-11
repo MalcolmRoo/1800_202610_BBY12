@@ -44,6 +44,10 @@ export async function QueryGroups(location, tags) {
   }
 }
 
+function populateResults() {
+  /* This function will be used to populate the search results in the JoinGroupForm */
+}
+
 function JoinGroup() {
   /* This function will be used to Join a group once implemented. */
 }

@@ -12,7 +12,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  gap: 40px;
+  /*gap: 40px;*/
   font-family: sans-serif;
 }
 
@@ -26,6 +26,7 @@ header {
   border: none;
   border-radius: 12px;
   font-size: 42px;
+  margin-bottom: 40px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -67,6 +68,11 @@ header {
 
 .textBubble {
   background-color: #5d5d5d66;
+  color: #ffffff;
+}
+
+.text-center {
+  color: #ffffff;
 }
 
 b {
