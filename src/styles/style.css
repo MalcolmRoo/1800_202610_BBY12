@@ -112,6 +112,7 @@ button {
 
 #groupTitle {
   display: inline;
+  margin-left: 3rem;
 }
 
 #leaderCard {
@@ -147,6 +148,7 @@ button {
   display: inline;
   border-radius: 35%;
   background-color: red;
+  transform: translate(1rem);
 }
 
 #chat {
