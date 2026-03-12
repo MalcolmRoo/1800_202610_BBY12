@@ -36,6 +36,8 @@ form.addEventListener("submit", function (event) {
     visibility.toString(),
     groupStatus,
   );
+
+  window.location.href = "group.html";
 });
 
 export async function CreateGroup(
@@ -85,6 +87,7 @@ export async function CreateGroup(
       `Error creating user document:\n${error.code || ""}\n${error.message || error}`,
     );
   }
+
   return group;
 }
 

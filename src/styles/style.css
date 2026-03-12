@@ -16,7 +16,7 @@ body {
   font-family: sans-serif;
 }
 
-header {
+.header {
   background-color: #c5ace566;
 }
 
@@ -86,4 +86,91 @@ button {
 
 #offcanvasNavbar {
   background: linear-gradient(160deg, #4a3a6b, #6b5090);
+}
+
+#groupCard {
+  min-width: 90%;
+  min-height: 45rem;
+  margin: auto;
+  background-color: #4a3a6b;
+  margin-top: 1rem;
+  margin-bottom: 5rem;
+  border-radius: 5%;
+  overflow-y: scroll;
+}
+
+#headerCard {
+  margin: auto;
+  text-align: center;
+  font-size: 25pt;
+  font-weight: 500;
+  color: #ffffff;
+  max-width: 95%;
+  margin-top: 1rem;
+}
+
+#groupTitle {
+  display: inline;
+}
+
+#leaderCard {
+  min-height: 5rem;
+  background-color: #c5ace5;
+  border-radius: 15px;
+  max-width: 90%;
+  margin: auto;
+}
+
+.buddyCard {
+  min-height: 5rem;
+  background-color: #c5ace5;
+  border-radius: 15px;
+  max-width: 90%;
+  margin: auto;
+  margin-top: 0.5rem;
+}
+
+#buddiesTitle {
+  text-align: center;
+  font-size: 20pt;
+  color: #ffffff;
+}
+
+#destination-text {
+  font-size: 12pt;
+  text-align: center;
+  color: #ffffff;
+}
+
+#leaveGroup {
+  display: inline;
+  border-radius: 35%;
+  background-color: red;
+}
+
+#chat {
+  min-height: 30rem;
+  max-height: 30rem;
+  overflow-y: scroll;
+  margin-bottom: 2%;
+  display: none;
+}
+
+#buddiesScrollable {
+  min-height: 26rem;
+  max-height: 26rem;
+  overflow-y: scroll;
+  margin-bottom: 2%;
+}
+
+#openChat {
+  font-size: 18pt;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  border-radius: 25%;
+}
+
+#bottomButton {
+  text-align: center;
+  margin-bottom: 3%;
 }

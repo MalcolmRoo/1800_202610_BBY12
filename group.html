@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>My BCIT Project</title>
+    <meta name="comp1800 template" content="My 1800 App" />
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <script type="module" src="/src/components/site-navbar.js"></script>
+    <link rel="stylesheet" href="/src/styles/style.css" />
+  </head>
+
+  <body class="mainBackground">
+    <!------------------------------>
+    <!-- Your HTML Layout go here -->
+    <!------------------------------>
+
+    <!-- Main content goes here -->
+    <div id="groupCard">
+      <div id="headerCard">
+        <header id="groupTitle">Group Name</header>
+        <button id="leaveGroup">X</button>
+      </div>
+      <p id="destination-text">Destination</p>
+      <header id="buddiesTitle">Buddies</header>
+      <div id="leaderCard"></div>
+      <div id="chat"></div>
+      <div id="buddiesScrollable">
+        <div id="buddies">
+          <div class="buddyCard"></div>
+        </div>
+      </div>
+      <div id="bottomButton">
+        <button id="openChat">Chat</button>
+      </div>
+    </div>
+    <!-- our own footer goes here -->
+    <site-navbar></site-navbar>
+    <!---------------------------------------------->
+    <!-- Your own JavaScript scripts go here      -->
+    <!---------------------------------------------->
+    <script type="module" src="./src/main.js"></script>
+    <script type="module" src="/src/group.js"></script>
+    <script type="module" src="/src/authentication.js"></script>
+  </body>
+</html>
