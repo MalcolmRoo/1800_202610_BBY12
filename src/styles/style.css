@@ -17,7 +17,7 @@ body {
 }
 
 .header {
-  background-color: #c5ace566;
+  background-color: #7b5ea066;
 }
 
 .mainScreenButton {
@@ -63,11 +63,12 @@ body {
 }
 
 .mainBackground {
-  background-image: linear-gradient(to bottom right, #7b5ea0, #262626);
+  background-color: #c5ace5;
+  /* background-image: linear-gradient(to bottom right, #7b5ea0, #262626); */
 }
 
 .textBubble {
-  background-color: #5d5d5d66;
+  background-color: #5d5d5d45;
   color: #ffffff;
 }
 
@@ -76,11 +77,11 @@ body {
 }
 
 b {
-  color: #c5ace5;
+  color: #7b5ea0;
 }
 
 button {
-  background-color: #c5ace5;
+  background-color: #7b5ea0;
   color: #ffffff;
 }
 
@@ -149,10 +150,13 @@ button {
 }
 
 #chat {
-  min-height: 30rem;
-  max-height: 30rem;
+  min-height: 30.85rem;
+  max-height: 30.85rem;
   overflow-y: scroll;
-  margin-bottom: 2%;
+  background-color: #ffffff;
+  max-width: 90%;
+  margin: auto;
+  border-radius: 2rem;
   display: none;
 }
 
@@ -173,4 +177,5 @@ button {
 #bottomButton {
   text-align: center;
   margin-bottom: 3%;
+  margin-top: 3%;
 }
