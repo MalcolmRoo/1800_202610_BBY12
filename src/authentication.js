@@ -106,6 +106,7 @@ document
   .getElementById("LogOutUser")
   .addEventListener("click", async function (event) {
     event.preventDefault();
+    localStorage.removeItem("user");
     await signOut(auth);
     window.location.href = "index.html";
   });
@@ -127,14 +128,13 @@ document
 // -------------------------------------------------------------
 export function checkAuthState() {
   onAuthStateChanged(auth, (user) => {
-    if (
-      !window.location.pathname.endsWith("index.html") ||
-      !window.location.pathname.endsWith("login.html")
-    ) {
+    if (!window.location.pathname.endsWith("index.html")) {
       if (user) {
         localStorage.setItem("user", user.uid);
       } else {
-        window.location.href = "index.html";
+        if (!window.location.pathname.endsWith("login.html")) {
+          window.location.href = "index.html";
+        }
       }
     }
   });

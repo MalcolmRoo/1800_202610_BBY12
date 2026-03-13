@@ -115,14 +115,6 @@ button {
   margin-left: 3rem;
 }
 
-#leaderCard {
-  min-height: 5rem;
-  background-color: #c5ace5;
-  border-radius: 15px;
-  max-width: 90%;
-  margin: auto;
-}
-
 .buddyCard {
   min-height: 5rem;
   max-height: 5rem;

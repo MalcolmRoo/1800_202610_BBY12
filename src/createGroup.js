@@ -17,6 +17,7 @@ form.addEventListener("submit", function (event) {
   const visibility = formData.get("visibility");
   const tagsArray = [];
   const membersArray = [];
+  membersArray.push(userID);
   const groupStatus = true;
   for (var i = 0; i < tags.length; i++) {
     if (tags[i].checked == true) {
@@ -79,7 +80,7 @@ export async function CreateGroup(
       status: status,
       groupID: randomGID,
     });
-
+    localStorage.setItem("group", randomGID);
     window.location.href = "group.html";
   } catch (error) {
     alert(
