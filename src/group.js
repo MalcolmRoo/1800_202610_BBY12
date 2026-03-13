@@ -56,7 +56,7 @@ async function GetUserInfo(userID) {
 }
 
 //Gets the group info from tbGroups and
-// assigns the user info based on the and adds it
+// assigns the user info based on the group ans userid and adds it
 //to the html of "buddies"
 async function fillInfo(data) {
   const groupTitle = document.getElementById("groupTitle");
