@@ -127,10 +127,12 @@ document
 // -------------------------------------------------------------
 export function checkAuthState() {
   onAuthStateChanged(auth, (user) => {
-    if (window.location.pathname.endsWith("main.html")) {
+    if (
+      !window.location.pathname.endsWith("index.html") ||
+      !window.location.pathname.endsWith("login.html")
+    ) {
       if (user) {
-        const displayName = user.displayName || user.email;
-        $("#welcomeMessage").text(`Hello, ${displayName}!`);
+        localStorage.setItem("user", user.uid);
       } else {
         window.location.href = "index.html";
       }
@@ -148,12 +150,12 @@ export function checkAuthState() {
 //  getCurrentUser();
 // -------------------------------------------------------------
 
-export function getCurrentUser() {
+function getCurrentUser() {
   const auth = getAuth();
   const user = auth.currentUser;
 
   if (user !== null) {
-    return user.uid;
+    localStorage.setItem("user", user);
   }
 }
 
