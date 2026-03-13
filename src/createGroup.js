@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { db } from "/src/firebaseConfig.js";
 import { doc, setDoc } from "firebase/firestore";
-import { getCurrentUser } from "./authentication";
 
 const form = document.getElementById("createGroupForm");
 //Get form data and then use the create group function to store form variables
@@ -11,13 +10,14 @@ form.addEventListener("submit", function (event) {
 
   const name = formData.get("group-name");
   const location = formData.get("destinations-list");
-  const currentUser = getCurrentUser();
+  const userID = localStorage.getItem("user");
   const maxBuddies = formData.get("maxBuddies");
   const tags = document.getElementsByName("tags[]");
   const method = formData.get("travel-method");
   const visibility = formData.get("visibility");
   const tagsArray = [];
   const membersArray = [];
+  membersArray.push(userID);
   const groupStatus = true;
   for (var i = 0; i < tags.length; i++) {
     if (tags[i].checked == true) {
@@ -28,7 +28,7 @@ form.addEventListener("submit", function (event) {
   CreateGroup(
     name.toString(),
     tagsArray,
-    currentUser.toString(),
+    userID,
     location.toString(),
     method,
     maxBuddies,
@@ -80,12 +80,13 @@ export async function CreateGroup(
       status: status,
       groupID: randomGID,
     });
+    localStorage.setItem("group", randomGID);
+    window.location.href = "group.html";
   } catch (error) {
     alert(
       `Error creating user document:\n${error.code || ""}\n${error.message || error}`,
     );
   }
-  return group;
 }
 
 export async function DeleteGroup(groupID) {

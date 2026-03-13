@@ -16,8 +16,8 @@ body {
   font-family: sans-serif;
 }
 
-header {
-  background-color: #c5ace566;
+.header {
+  background-color: #7b5ea066;
 }
 
 .mainScreenButton {
@@ -63,11 +63,12 @@ header {
 }
 
 .mainBackground {
-  background-image: linear-gradient(to bottom right, #7b5ea0, #262626);
+  background-color: #c5ace5;
+  /* background-image: linear-gradient(to bottom right, #7b5ea0, #262626); */
 }
 
 .textBubble {
-  background-color: #5d5d5d66;
+  background-color: #5d5d5d45;
   color: #ffffff;
 }
 
@@ -76,14 +77,125 @@ header {
 }
 
 b {
-  color: #c5ace5;
+  color: #7b5ea0;
 }
 
 button {
-  background-color: #c5ace5;
+  background-color: #7b5ea0;
   color: #ffffff;
 }
 
 #offcanvasNavbar {
   background: linear-gradient(160deg, #4a3a6b, #6b5090);
+}
+
+#groupCard {
+  min-width: 90%;
+  min-height: 45rem;
+  margin: auto;
+  background-color: #4a3a6b;
+  margin-top: 1rem;
+  margin-bottom: 5rem;
+  border-radius: 5%;
+  overflow-y: scroll;
+}
+
+#headerCard {
+  margin: auto;
+  text-align: center;
+  font-size: 25pt;
+  font-weight: 500;
+  color: #ffffff;
+  max-width: 95%;
+  margin-top: 1rem;
+}
+
+#groupTitle {
+  display: inline;
+  margin-left: 3rem;
+}
+
+.buddyCard {
+  min-height: 5rem;
+  max-height: 5rem;
+  background-color: #c5ace5;
+  border-radius: 15px;
+  max-width: 90%;
+  margin: auto;
+  margin-top: 0.5rem;
+}
+
+#buddiesTitle {
+  text-align: center;
+  font-size: 20pt;
+  color: #ffffff;
+}
+
+#destination-text {
+  font-size: 12pt;
+  text-align: center;
+  color: #ffffff;
+}
+
+#leaveGroup {
+  display: inline;
+  border-radius: 35%;
+  background-color: red;
+  transform: translate(1rem);
+}
+
+#chat {
+  min-height: 30.85rem;
+  max-height: 30.85rem;
+  overflow-y: scroll;
+  background-color: #ffffff;
+  max-width: 90%;
+  margin: auto;
+  border-radius: 2rem;
+  display: none;
+}
+
+#buddiesScrollable {
+  min-height: 30.85rem;
+  max-height: 30.85rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-bottom: 2%;
+}
+
+#openChat {
+  font-size: 18pt;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  border-radius: 25%;
+}
+
+#bottomButton {
+  text-align: center;
+  margin-bottom: 3%;
+  margin-top: 3%;
+}
+
+.buddyCardName {
+  transform: translate(66px, -62px);
+  font-weight: 600;
+}
+
+.icon {
+  max-width: 50px;
+  max-height: 50px;
+  display: inline;
+}
+
+.buddyStatus {
+  font-size: 10pt;
+  transform: translate(66px, -76px);
+  max-width: 80%;
+  max-height: 20px;
+}
+
+.successfulGroups {
+  transform: translate(20px, 2px);
+  max-width: 1px;
+  max-height: 1px;
 }
