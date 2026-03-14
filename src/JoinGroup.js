@@ -1,6 +1,5 @@
 import { db } from "/src/firebaseConfig.js";
 import { doc, getDocs, collection, query, where } from "firebase/firestore";
-import { getCurrentUser } from "./authentication";
 
 const travelGroups = collection(db, "tbGroups");
 

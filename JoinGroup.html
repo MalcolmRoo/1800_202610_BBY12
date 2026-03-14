@@ -54,64 +54,8 @@
 
         <!-- Trip Vibe Tags -->
         <div class="field">
-          <label class="jgLabel">Trip Vibe (pick all that apply)</label>
-          <div class="tags-grid">
-            <input
-              type="checkbox"
-              class="tag-option"
-              id="tag-Chatty"
-              name="tags[]"
-              value="Chatty"
-            />
-            <label class="tag-label" for="tag-Chatty">Chatty</label>
-
-            <input
-              type="checkbox"
-              class="tag-option"
-              id="tag-Quiet"
-              name="tags[]"
-              value="Quiet"
-            />
-            <label class="tag-label" for="tag-Quiet">Quiet</label>
-
-            <input
-              type="checkbox"
-              class="tag-option"
-              id="tag-Family"
-              name="tags[]"
-              value="familyOriented"
-            />
-            <label class="tag-label" for="tag-Family">Family Oriented</label>
-
-            <input
-              type="checkbox"
-              class="tag-option"
-              id="tag-Physical"
-              name="tags[]"
-              value="PhysicalImpairment"
-            />
-            <label class="tag-label" for="tag-Physical"
-              >Physical Impairments</label
-            >
-
-            <input
-              type="checkbox"
-              class="tag-option"
-              id="tag-Culture"
-              name="tags[]"
-              value="culture"
-            />
-            <label class="tag-label" for="tag-Culture">Culture</label>
-
-            <input
-              type="checkbox"
-              class="tag-option"
-              id="tag-Mental"
-              name="tags[]"
-              value="MentalImpairment"
-            />
-            <label class="tag-label" for="tag-Mental">Mental Impairments</label>
-          </div>
+          <label id="cbLable">Trip Vibe (pick all that apply)</label>
+          <div id="tag-container"></div>
         </div>
 
         <hr class="divider" />
@@ -129,5 +73,14 @@
     <script type="module" src="/src/joinGroup.js"></script>
     <script type="module" src="/src/authentication.js"></script>
     <script type="module" src="/src/main.js"></script>
+    <script type="module">
+      import { loadTags } from "/src/tags.js";
+
+      async function startTags() {
+        loadTags("tag-container");
+      }
+
+      startTags();
+    </script>
   </body>
 </html>
