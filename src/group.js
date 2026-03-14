@@ -30,9 +30,12 @@ document.getElementById("openChat").addEventListener("click", function () {
   }
 });
 
+window.addEventListener("load", function () {
+  fillBuddyCard();
+});
+
 //gets the userID stored in local storage at login
 //passes it into the GetUserInfo function
-fillBuddyCard();
 async function fillBuddyCard() {
   const userID = localStorage.getItem("user");
   GetUserInfo(userID);
