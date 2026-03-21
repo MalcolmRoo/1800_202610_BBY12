@@ -1,13 +1,6 @@
-import { db } from "./firebaseConfig.js";
-import {
-  collection,
-  getDocs,
-  doc,
-  setDoc,
-  deleteDoc,
-} from "firebase/firestore";
+// tags.js
 
-// ⭐ ONLY edit this list to add/remove tags
+// ⭐ Add or remove tags here — this is the only place you need to edit
 const MASTER_TAGS = [
   { id: "chatty", label: "Chatty", emoji: "💬" },
   { id: "quiet", label: "Quiet", emoji: "🤫" },
@@ -17,88 +10,49 @@ const MASTER_TAGS = [
   { id: "culture", label: "Culture", emoji: "🏛️" },
 ];
 
-// tracks which tags user clicked
 let selectedTags = [];
 
-// ---- upload tags to Firebase (run ONCE) ----
-async function seedTags() {
-  // delete all existing tags first
-  const existing = await getDocs(collection(db, "tags"));
-  for (const document of existing.docs) {
-    await deleteDoc(doc(db, "tags", document.id));
-    console.log("deleted: " + document.id);
-  }
-  // upload only new tags
-  for (const tag of MASTER_TAGS) {
-    await setDoc(doc(db, "tags", tag.id), {
-      label: tag.label,
-      emoji: tag.emoji,
-    });
-    console.log("uploaded: " + tag.emoji + " " + tag.label);
-  }
-  console.log("ALL TAGS UPLOADED!");
-}
-
-// ---- fetch from Firebase + show checkboxes ----
-async function loadTags(containerID) {
+// Shows checkboxes on the page — pass in the container div's id
+export function loadTags(containerID) {
   const container = document.getElementById(containerID);
-  container.innerHTML = "<p>Loading tags...</p>";
-
-  const snapshot = await getDocs(collection(db, "tags"));
   container.innerHTML = "";
 
-  snapshot.docs.forEach((doc) => {
-    const tagId = doc.id;
-    const tag = doc.data();
-
-    // create checkbox exactly like your original HTML
+  MASTER_TAGS.forEach((tag) => {
     const input = document.createElement("input");
     input.type = "checkbox";
     input.className = "tag-option";
-    input.id = "tag-" + tagId;
+    input.id = "tag-" + tag.id;
     input.name = "tags[]";
-    input.value = tagId;
+    input.value = tag.id;
 
-    // create label
     const label = document.createElement("label");
     label.className = "tag-label";
-    label.htmlFor = "tag-" + tagId;
+    label.htmlFor = "tag-" + tag.id;
     label.textContent = `${tag.emoji} ${tag.label}`;
 
-    // when checkbox is ticked → toggleTag
-    input.addEventListener("change", () => toggleTag(tagId, input));
+    input.addEventListener("change", () => {
+      if (input.checked) {
+        selectedTags.push(tag.id);
+      } else {
+        selectedTags = selectedTags.filter((id) => id !== tag.id);
+      }
+    });
 
     container.appendChild(input);
     container.appendChild(label);
   });
 }
 
-// ---- select / deselect ----
-function toggleTag(tagId, inputElement) {
-  const isSelected = selectedTags.includes(tagId);
-
-  if (isSelected) {
-    selectedTags = selectedTags.filter((id) => id !== tagId);
-    inputElement.checked = false;
-  } else {
-    selectedTags.push(tagId);
-    inputElement.checked = true;
-  }
-
-  console.log("Selected:", selectedTags);
-}
-
-// ---- getters / reset ----
-function getSelectedTags() {
+// Call this when the form submits to get the picked tags
+export function getSelectedTags() {
   return selectedTags;
 }
 
-function resetTags(containerID) {
+// Call this to uncheck everything (e.g. after form submits)
+export function resetTags(containerID) {
   selectedTags = [];
   document
     .getElementById(containerID)
     .querySelectorAll(".tag-option")
     .forEach((input) => (input.checked = false));
 }
-
-export { seedTags, loadTags, getSelectedTags, resetTags };
