@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Groups</title>
+    <link rel="stylesheet" href="/src/styles/joinGroup.css" />
+    <link rel="stylesheet" href="/src/styles/style.css" />
+    <script type="module" src="/src/components/site-navbar.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="joinGroupBody">
+    <div class="wrapper">
+      <header id="jgHeader">
+        <h1 id="jgH1">My <span id="spncolor">Groups</span></h1>
+      </header>
+
+      <!-- All groups the user belongs to will be injected here -->
+      <div id="myGroupsList"></div>
+    </div>
+
+    <site-navbar></site-navbar>
+
+    <script type="module" src="/src/myGroups.js"></script>
+    <script type="module" src="/src/authentication.js"></script>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
