@@ -142,18 +142,19 @@ async function fillBuddyCard() {
           buddyListHTML +=
             "<div class='buddyCard'>" +
             "<img class='icon' src='" +
-            (data.profilePicture || "/public/images/account.png") +
-            "'/>" +
-            "<p class='successfulGroups'>" +
-            (data.successfulGroups || 0) +
-            "</p>" +
+            (data.profilePicture || "/images/account.png") +
+            "' alt='Buddy profile picture' />" +
+            "<div class='buddyText'>" +
             "<p class='buddyCardName'>" +
             (data.name || "Unknown") +
-            (isLeader ? " 👑" : "") +
+            (isLeader
+              ? " <span style='position: relative; top: -2px;'>👑</span>"
+              : "") +
             "</p>" +
             "<p class='buddyStatus'>" +
             (data.statusMessage || "") +
             "</p>" +
+            "</div>" +
             "</div>";
         });
       } catch (userError) {
