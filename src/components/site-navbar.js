@@ -3,7 +3,7 @@ class SiteNavbar extends HTMLElement {
     this.innerHTML = `
       <nav class="navbar fixed-bottom" style="background-color: #7B5EA0">
         <div class="container-fluid"></div>
-        <button class="btn" href="#">
+        <button class="btn" onclick="window.location.href='/main.html'">
           <img src="/images/home.png" alt="Bootstrap" width="30" height="30" />
         </button>
         <button
@@ -39,6 +39,12 @@ class SiteNavbar extends HTMLElement {
                 </a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" href="/myGroups.html"
+                  ><img src="/images/buddy.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
+                  My Groups
+                </a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="#"
                   ><img src="/images/buddy.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
                   Report an issue
@@ -69,5 +75,4 @@ class SiteNavbar extends HTMLElement {
     `;
   }
 }
-
 customElements.define("site-navbar", SiteNavbar);
