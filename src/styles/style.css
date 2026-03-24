@@ -12,7 +12,6 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  /*gap: 40px;*/
   font-family: sans-serif;
 }
 
@@ -64,7 +63,6 @@ body {
 
 .mainBackground {
   background-color: #c5ace5;
-  /* background-image: linear-gradient(to bottom right, #7b5ea0, #262626); */
 }
 
 .textBubble {
@@ -123,6 +121,16 @@ button {
   max-width: 90%;
   margin: auto;
   margin-top: 0.5rem;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.buddyCard:hover {
+  background-color: #b89dd8;
+  transform: translateY(-2px);
+}
+
+.buddyCard:last-child {
+  margin-bottom: 0.5rem;
 }
 
 #buddiesTitle {
@@ -158,9 +166,12 @@ button {
 #buddiesScrollable {
   min-height: 30.85rem;
   max-height: 30.85rem;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
+  padding-bottom: 1rem;
   margin-bottom: 2%;
+  scrollbar-width: thin;
+  scrollbar-color: #7b5ea0 transparent;
 }
 
 #openChat {
