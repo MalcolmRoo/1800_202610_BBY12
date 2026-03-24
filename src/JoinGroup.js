@@ -30,30 +30,33 @@ form.addEventListener("submit", function (event) {
 });
 
 export async function QueryGroups(location, tags) {
-  console.log(location);
-  console.log(tags);
-
+  const resultsDiv = document.getElementById("results");
+resultsDiv.innerHTML = "<p style='text-align:center;'>Searching...</p>";
   try {
-    const groupQuery = query(
-      travelGroups,
-      where("destination", "==", location.toString()),
-      where("tags", "array-contains-any", tags),
-    );
-    const querySnapshot = await getDocs(groupQuery);
+    let groupQuery;
 
-    // Collect results into an array and pass to populateResults
+    if (tags.length === 0) {
+      groupQuery = query(
+        travelGroups,
+        where("destination", "==", location.toString())
+      );
+    } else {
+      groupQuery = query(
+        travelGroups,
+        where("destination", "==", location.toString()),
+        where("tags", "array-contains-any", tags)
+      );
+    }
+
+    const querySnapshot = await getDocs(groupQuery);
     const groups = [];
     querySnapshot.forEach((docSnap) => {
-      console.log("return docs");
-      console.log(docSnap.id, " => ", docSnap.data());
       groups.push({ id: docSnap.id, ...docSnap.data() });
     });
 
     populateResults(groups);
   } catch (error) {
-    alert(
-      `Error searching for group documents: \n${error.code || ""}\n${error.message || error}`,
-    );
+    alert(`Error searching: ${error.message}`);
   }
 }
 
@@ -64,7 +67,7 @@ function populateResults(groups) {
 
   if (groups.length === 0) {
     resultsDiv.innerHTML =
-      "<p style='color:var(--muted); text-align:center;'>No groups found. Try a different destination or tags.</p>";
+     "<p style='text-align:center;'>No groups found for that destination. Try different tags or a different location.</p>"
     return;
   }
 
@@ -87,6 +90,15 @@ function populateResults(groups) {
     info.appendChild(name);
     info.appendChild(dest);
     info.appendChild(tagsLine);
+
+    const members = document.createElement("p");
+members.textContent = "Members: " + (group.members ? group.members.length : 0);
+info.appendChild(members);
+
+const method = document.createElement("p");
+method.textContent = "Travel: " + (group.travelMethod || "Not specified");
+info.appendChild(method);
+
 
     // Right side: Join button
     const joinBtn = document.createElement("button");

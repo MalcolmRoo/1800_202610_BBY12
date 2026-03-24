@@ -166,6 +166,9 @@ input[type="text"]:focus {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 6px;
 }
 
 /* Each group result card */
@@ -194,7 +197,7 @@ input[type="text"]:focus {
 }
 
 .join-btn {
-  background: var(--accent2);
+  background: #7b5ea0;
   border: none;
   border-radius: var(--radius);
   color: #fff;
