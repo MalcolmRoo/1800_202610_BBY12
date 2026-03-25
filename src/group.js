@@ -15,6 +15,8 @@ const userCollection = collection(db, "tbUsers");
 const groupCollection = collection(db, "tbGroups");
 const buddyList = document.getElementById("buddies");
 
+//ADD FUNCTION TO INTAKE CHAT MESSAGES AND INPUT INTO SUB-DOCUMENT
+
 /* Switch between Buddies list and Chat */
 document.getElementById("openChat").addEventListener("click", function () {
   const memberDiv = document.getElementById("buddiesScrollable");
@@ -31,6 +33,7 @@ document.getElementById("openChat").addEventListener("click", function () {
     chatDiv.style.display = "block";
     button.textContent = "Buddies";
     headerText.textContent = "Chat";
+    //Refresh chat funtion here
   }
 });
 

@@ -4,7 +4,13 @@ import { doc, setDoc } from "firebase/firestore";
 import { getSelectedTags } from "/src/tags.js"; // 👈 added this
 
 const form = document.getElementById("createGroupForm");
-
+//Add creation of chat sub-document
+/* sub document name = chat
+  document ID = groupID + "_chat"
+  user = userID
+  message = text content submitted
+  timestamp = timestamp of message sent
+*/
 form.addEventListener("submit", function (event) {
   event.preventDefault();
   const formData = new FormData(form);
