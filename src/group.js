@@ -12,6 +12,7 @@ import {
   limit,
   where,
   addDoc,
+  orderBy,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -34,18 +35,25 @@ document.getElementById("openChat").addEventListener("click", function () {
   const memberDiv = document.getElementById("buddiesScrollable");
   const chatDiv = document.getElementById("chat");
   const button = document.getElementById("openChat");
-  const headerText = document.getElementById("buddiesTitle");
+  const sectionTitle = document.getElementById("sectionTitle");
+
   if (memberDiv.style.display === "none") {
     memberDiv.style.display = "block";
     chatDiv.style.display = "none";
     button.textContent = "Chat";
-    headerText.textContent = "Buddies";
+    sectionTitle.textContent = "Buddies";
   } else {
     memberDiv.style.display = "none";
-    chatDiv.style.display = "block";
+    chatDiv.style.display = "flex";
     button.textContent = "Buddies";
-    headerText.textContent = "Chat";
+    sectionTitle.textContent = "Chat";
     createOrUpdateChat();
+    setTimeout(() => {
+      const msgs = document.getElementById("chatMessages");
+      if (msgs) msgs.scrollTop = msgs.scrollHeight;
+      const input = document.getElementById("chatInput");
+      if (input) input.focus();
+    }, 50);
   }
 });
 
@@ -53,42 +61,48 @@ document.getElementById("openChat").addEventListener("click", function () {
 exists, if it does refreshes the existing chat box, if not
 creates a new sub-document for the chat. */
 function createOrUpdateChat() {
-  const groupCollection = "tbGroups";
   const groupID = localStorage.getItem("group");
   const subCollection = "chat";
-  const subDocID = Date.now() + "_chat";
-
   const systemMessage = "systemMessage";
-
-  // const collectionPath = doc(db, collection, groupID, subCollection);
-  const chatMessageRef = doc(
-    db,
-    groupCollection,
-    groupID,
-    subCollection,
-    subDocID,
-  );
 
   const systemMessageRef = doc(
     db,
-    groupCollection,
+    "tbGroups",
     groupID,
     subCollection,
     systemMessage,
   );
-
   const collectionRef = query(
-    collection(db, groupCollection, groupID, subCollection),
+    collection(db, "tbGroups", groupID, subCollection),
     limit(1),
   );
 
   const checkSubDoc = async () => {
     const docSnap = await getDocs(collectionRef);
-
     if (!docSnap.empty) {
       console.log("Chat exists!");
-      //Get all entires and display
-      //TODO grab X number of chat entries and display them
+      // Load all existing messages and display them
+
+      // this makes the old messages appear everything er load !.
+      const allMessages = await getDocs(
+        query(
+          collection(db, "tbGroups", groupID, "chat"),
+          orderBy("timestamp"),
+        ),
+      );
+      allMessages.forEach((msgDoc) => {
+        const data = msgDoc.data();
+        if (data.user === "server") return; // skip system message
+        const currentUser = auth.currentUser;
+        const isMine = data.uid === currentUser?.uid;
+        appendChatBubble({
+          text: data.message,
+          senderName: data.user,
+          initials: data.user.charAt(0).toUpperCase(),
+          color: isMine ? "#7b5ea0" : "#e85d75",
+          isMine,
+        });
+      });
     } else {
       try {
         await setDoc(systemMessageRef, {
@@ -97,9 +111,16 @@ function createOrUpdateChat() {
           message:
             "Welcome to the chat! You can chat here with your buddies in the group!",
         });
+        appendChatBubble({
+          text: "Welcome to the chat! You can chat here with your buddies in the group!",
+          senderName: "Server",
+          initials: "★",
+          color: "#4f3d73",
+          isMine: false,
+        });
       } catch (error) {
         alert(
-          `Error loading group:\n${error.code || ""}\n${error.message || error}`,
+          `Error loading chat:\n${error.code || ""}\n${error.message || error}`,
         );
       }
     }
@@ -107,37 +128,31 @@ function createOrUpdateChat() {
 
   checkSubDoc();
 }
-
 /* This is a function to post chat messages */
-async function postChatMessage() {
-  /* Change as needed this is a placeholder. */
-  const groupCollection = "tbGroups";
+/* ── Post a chat message to Firestore ── */
+async function postChatMessage(text) {
   const groupID = localStorage.getItem("group");
-  const subCollection = "chat";
+  const user = auth.currentUser;
   const subDocID = Date.now() + "_chat";
 
-  const chatMessageRef = doc(
-    db,
-    groupCollection,
-    groupID,
-    subCollection,
-    subDocID,
-  );
+  const chatMessageRef = doc(db, "tbGroups", groupID, "chat", subDocID);
 
   try {
-    await setDoc(systemMessageRef, {
-      user: "username",
+    await setDoc(chatMessageRef, {
+      user: user ? user.displayName || user.email || "unknown" : "unknown",
+      uid: user ? user.uid : "unknown",
       timestamp: Date.now(),
-      message: "message",
+      message: text,
     });
+    console.log("[Chat] Saved to Firestore:", { groupID, message: text });
   } catch (error) {
     alert(
-      `Error loading group:\n${error.code || ""}\n${error.message || error}`,
+      `Error posting message:\n${error.code || ""}\n${error.message || error}`,
     );
   }
 }
 
-/* Leave group button — removes user from members array, clears localStorage, goes to main */
+/* ── Leave group ── */
 document
   .getElementById("leaveGroup")
   .addEventListener("click", async function () {
@@ -159,9 +174,7 @@ document
       const groupSnap = await getDocs(groupQuery);
       if (!groupSnap.empty) {
         const groupDocRef = doc(db, "tbGroups", groupSnap.docs[0].id);
-        await updateDoc(groupDocRef, {
-          members: arrayRemove(user.uid),
-        });
+        await updateDoc(groupDocRef, { members: arrayRemove(user.uid) });
       }
       localStorage.removeItem("group");
       window.location.href = "main.html";
@@ -172,9 +185,7 @@ document
     }
   });
 
-/* Wait for Firebase Auth to be ready before loading group data.
-   This fixes the bug where members don't show because auth isn't
-   resolved yet when the page loads. */
+/* ── Auth guard ── */
 window.addEventListener("load", function () {
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -185,9 +196,7 @@ window.addEventListener("load", function () {
   });
 });
 
-// Fetches the group from Firestore using the groupID in localStorage,
-// then loops through every member UID in the group's members array,
-// looks up each user's info in tbUsers, and renders a buddy card for each.
+/* ── Load group data and buddy cards ── */
 async function fillBuddyCard() {
   try {
     const groupID = localStorage.getItem("group");
@@ -201,7 +210,6 @@ async function fillBuddyCard() {
       return;
     }
 
-    // 1. Get the group document
     const groupQuery = query(groupCollection, where("groupID", "==", groupID));
     const groupSnap = await getDocs(groupQuery);
 
@@ -211,8 +219,6 @@ async function fillBuddyCard() {
     }
 
     const groupData = groupSnap.docs[0].data();
-
-    // 2. Populate group header
     document.getElementById("groupTitle").textContent = groupData.groupName;
     document.getElementById("destination-text").textContent =
       groupData.destination;
@@ -227,14 +233,13 @@ async function fillBuddyCard() {
 
     let buddyListHTML = "";
 
-    // 3. Loop through every member UID and fetch their user document
     for (const uid of members) {
       try {
         const userQuery = query(userCollection, where("userID", "==", uid));
         const userSnap = await getDocs(userQuery);
 
         if (userSnap.empty) {
-          console.warn("No user document found for UID:", uid);
+          console.warn("No user found for UID:", uid);
           continue;
         }
 
@@ -251,14 +256,13 @@ async function fillBuddyCard() {
             "<p class='buddyCardName'>" +
             (data.name || "Unknown") +
             (isLeader
-              ? " <span style='position: relative; top: -2px;'>👑</span>"
+              ? " <span style='position:relative;top:-2px;'>👑</span>"
               : "") +
             "</p>" +
             "<p class='buddyStatus'>" +
             (data.statusMessage || "") +
             "</p>" +
-            "</div>" +
-            "</div>";
+            "</div></div>";
         });
       } catch (userError) {
         console.error("Error fetching user:", uid, userError);
@@ -272,3 +276,91 @@ async function fillBuddyCard() {
     );
   }
 }
+
+/* ── Chat UI helpers ── */
+function getTimeLabel() {
+  return new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function appendChatBubble({ text, senderName, initials, color, isMine }) {
+  const chatMessages = document.getElementById("chatMessages");
+  if (!chatMessages) return;
+
+  const row = document.createElement("div");
+  row.className = "chat-msg-row" + (isMine ? " mine" : "");
+
+  const avatarEl = document.createElement("div");
+  avatarEl.className = "chat-avatar-msg";
+  avatarEl.style.background = color || "#7b5ea0";
+  avatarEl.textContent = initials || "?";
+
+  const body = document.createElement("div");
+  body.className = "chat-msg-body";
+
+  if (!isMine) {
+    const nameEl = document.createElement("div");
+    nameEl.className = "chat-sender-name";
+    nameEl.textContent = senderName;
+    body.appendChild(nameEl);
+  }
+
+  const bubble = document.createElement("div");
+  bubble.className = "chat-bubble bubble-new " + (isMine ? "mine" : "theirs");
+  bubble.textContent = text;
+
+  const time = document.createElement("div");
+  time.className = "chat-bubble-time";
+  time.textContent = getTimeLabel();
+
+  body.appendChild(bubble);
+  body.appendChild(time);
+  row.appendChild(avatarEl);
+  row.appendChild(body);
+  chatMessages.appendChild(row);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+/* ── Send message — saves to Firestore + shows bubble ── */
+function sendChatMessage() {
+  const input = document.getElementById("chatInput");
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+
+  const user = auth.currentUser;
+  const initials = user?.displayName
+    ? user.displayName.charAt(0).toUpperCase()
+    : "?";
+
+  postChatMessage(text); // saves to Firebase
+
+  appendChatBubble({
+    text,
+    senderName: user?.displayName || "You",
+    initials,
+    color: "#7b5ea0",
+    isMine: true,
+  });
+
+  input.value = "";
+  input.style.height = "auto";
+}
+
+document
+  .getElementById("chatSendBtn")
+  ?.addEventListener("click", sendChatMessage);
+
+document.getElementById("chatInput")?.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendChatMessage();
+  }
+});
+
+document.getElementById("chatInput")?.addEventListener("input", function () {
+  this.style.height = "auto";
+  this.style.height = Math.min(this.scrollHeight, 90) + "px";
+});
