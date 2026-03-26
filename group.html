@@ -3,40 +3,54 @@
   <head>
     <title>My BCIT Project</title>
     <meta name="comp1800 template" content="My 1800 App" />
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <script type="module" src="/src/components/site-navbar.js"></script>
     <link rel="stylesheet" href="/src/styles/style.css" />
+    <link rel="stylesheet" href="/src/styles/group.css" />
   </head>
 
-  <body class="mainBackground">
-    <!------------------------------>
-    <!-- Your HTML Layout go here -->
-    <!------------------------------>
+  <body class="group-page">
+    <div id="groupHeader">
+      <h1 id="groupTitle">Group Name</h1>
+      <p id="destination-text">Destination</p>
+    </div>
 
-    <!-- Main content goes here -->
-    <div id="groupCard">
-      <div id="headerCard">
-        <header id="groupTitle">Group Name</header>
-        <p id="destination-text">Destination</p>
+    <div id="membersStrip"></div>
+
+    <div id="sectionTitle">Buddies</div>
+
+    <div id="buddiesScrollable">
+      <div id="buddies"></div>
+    </div>
+
+    <div id="chat">
+      <div id="chatMessages">
+        <div class="chat-date-divider">Today</div>
       </div>
-      <header id="buddiesTitle">Buddies</header>
-      <div id="chat"></div>
-      <div id="buddiesScrollable">
-        <div id="buddies"></div>
-      </div>
-      <div id="bottomButton">
-        <button id="leaveGroup">Leave</button>
-        <button id="openChat">Chat</button>
+      <div id="chatInputRow">
+        <div id="chatAvatarMe" class="member-avatar"></div>
+        <textarea
+          id="chatInput"
+          placeholder="Say something…"
+          rows="1"
+        ></textarea>
+        <button id="chatSendBtn" title="Send">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="white">
+            <path d="M2 21l21-9L2 3v7l15 2-15 2z" />
+          </svg>
+        </button>
       </div>
     </div>
-    <!-- our own footer goes here -->
+
+    <div id="bottomButton">
+      <button id="leaveGroup">Leave</button>
+      <button id="openChat">Chat</button>
+    </div>
+
     <site-navbar></site-navbar>
-    <!---------------------------------------------->
-    <!-- Your own JavaScript scripts go here      -->
-    <!---------------------------------------------->
+
     <script type="module" src="/src/authentication.js"></script>
     <script type="module" src="/src/group.js"></script>
     <script type="module" src="./src/main.js"></script>
