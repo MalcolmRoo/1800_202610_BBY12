@@ -2,18 +2,32 @@ import { db } from "/src/firebaseConfig.js";
 import { auth } from "/src/firebaseConfig.js";
 import {
   doc,
+  setDoc,
+  getDoc,
   getDocs,
   updateDoc,
   arrayRemove,
   collection,
   query,
+  limit,
   where,
+  addDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
 const userCollection = collection(db, "tbUsers");
 const groupCollection = collection(db, "tbGroups");
 const buddyList = document.getElementById("buddies");
+
+//ADD FUNCTION TO INTAKE CHAT MESSAGES AND INPUT INTO SUB-DOCUMENT.
+
+//Add creation of chat sub-document
+/* sub document name = chat
+  document ID = groupID + "_chat"
+  user = username
+  message = text content submitted
+  timestamp = timestamp of message sent
+*/
 
 /* Switch between Buddies list and Chat */
 document.getElementById("openChat").addEventListener("click", function () {
@@ -31,8 +45,97 @@ document.getElementById("openChat").addEventListener("click", function () {
     chatDiv.style.display = "block";
     button.textContent = "Buddies";
     headerText.textContent = "Chat";
+    createOrUpdateChat();
   }
 });
+
+/* This function checks to see if a chat sub-document
+exists, if it does refreshes the existing chat box, if not
+creates a new sub-document for the chat. */
+function createOrUpdateChat() {
+  const groupCollection = "tbGroups";
+  const groupID = localStorage.getItem("group");
+  const subCollection = "chat";
+  const subDocID = Date.now() + "_chat";
+
+  const systemMessage = "systemMessage";
+
+  // const collectionPath = doc(db, collection, groupID, subCollection);
+  const chatMessageRef = doc(
+    db,
+    groupCollection,
+    groupID,
+    subCollection,
+    subDocID,
+  );
+
+  const systemMessageRef = doc(
+    db,
+    groupCollection,
+    groupID,
+    subCollection,
+    systemMessage,
+  );
+
+  const collectionRef = query(
+    collection(db, groupCollection, groupID, subCollection),
+    limit(1),
+  );
+
+  const checkSubDoc = async () => {
+    const docSnap = await getDocs(collectionRef);
+
+    if (!docSnap.empty) {
+      console.log("Chat exists!");
+      //Get all entires and display
+      //TODO grab X number of chat entries and display them
+    } else {
+      try {
+        await setDoc(systemMessageRef, {
+          user: "server",
+          timestamp: Date.now(),
+          message:
+            "Welcome to the chat! You can chat here with your buddies in the group!",
+        });
+      } catch (error) {
+        alert(
+          `Error loading group:\n${error.code || ""}\n${error.message || error}`,
+        );
+      }
+    }
+  };
+
+  checkSubDoc();
+}
+
+/* This is a function to post chat messages */
+async function postChatMessage() {
+  /* Change as needed this is a placeholder. */
+  const groupCollection = "tbGroups";
+  const groupID = localStorage.getItem("group");
+  const subCollection = "chat";
+  const subDocID = Date.now() + "_chat";
+
+  const chatMessageRef = doc(
+    db,
+    groupCollection,
+    groupID,
+    subCollection,
+    subDocID,
+  );
+
+  try {
+    await setDoc(systemMessageRef, {
+      user: "username",
+      timestamp: Date.now(),
+      message: "message",
+    });
+  } catch (error) {
+    alert(
+      `Error loading group:\n${error.code || ""}\n${error.message || error}`,
+    );
+  }
+}
 
 /* Leave group button — removes user from members array, clears localStorage, goes to main */
 document
