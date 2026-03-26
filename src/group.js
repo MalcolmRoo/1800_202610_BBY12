@@ -88,6 +88,7 @@ function createOrUpdateChat() {
     if (!docSnap.empty) {
       console.log("Chat exists!");
       //Get all entires and display
+      //TODO grab X number of chat entries and display them
     } else {
       try {
         await setDoc(systemMessageRef, {
