@@ -61,6 +61,10 @@ document.getElementById("openChat").addEventListener("click", function () {
 exists, if it does refreshes the existing chat box, if not
 creates a new sub-document for the chat. */
 function createOrUpdateChat() {
+  //Clear chat to remove duplicates
+  const chatDiv = document.getElementById("chatMessages");
+  chatDiv.innerHTML = "<div class='chat-date-divider'>Today</div>";
+
   const groupID = localStorage.getItem("group");
   const subCollection = "chat";
   const systemMessage = "systemMessage";
