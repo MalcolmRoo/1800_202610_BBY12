@@ -4,19 +4,19 @@
   --primary: #7b5ea0;
   --secondary: #c5ace5;
   --white: #ffffff;
-  --grey: #a890cc;
-  --dark-text: #e0d4f5;
+  --grey: #5d5d5d;
+  --text-color: #262626;
   --muted: #8a7a9b;
 
-  --bg: #0f0a1a;
-  --surface: #1e1530;
-  --border: rgba(197, 172, 229, 0.15);
+  --bg: #f5f0fc;
+  --surface: #ffffff;
+  --border: #7356b0;
   --radius: 14px;
 }
 
 body.joinGroupBody {
-  background: linear-gradient(160deg, #1a1225 0%, #0f0a1a 100%);
-  color: var(--dark-text);
+  background: linear-gradient(160deg, #bca0e1 0%, #c9b3e8 100%);
+  color: var(--text-color);
   font-family: "DM Sans", sans-serif;
   min-height: 100vh;
   display: flex;
@@ -44,7 +44,7 @@ body.joinGroupBody {
   font-size: clamp(1.8rem, 5.5vw, 2.6rem);
   font-weight: 800;
   line-height: 1.1;
-  color: var(--dark-text);
+  color: var(--text-color);
   margin: 0;
 }
 
@@ -54,15 +54,15 @@ body.joinGroupBody {
 
 /* ── Card (form box) ── */
 .card {
-  background: linear-gradient(180deg, #2a1d40 0%, #1e1530 100%);
-  border: 1px solid rgba(197, 172, 229, 0.12);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
   border-radius: 24px;
   padding: 32px 28px;
   display: flex;
   flex-direction: column;
   gap: 28px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: background 0.3s, border-color 0.3s;
+  box-shadow: 0 8px 32px rgba(123, 94, 160, 0.12);
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
 /* ── Fields ── */
@@ -92,10 +92,10 @@ label[id="cbLable"] {
 }
 
 input[type="text"] {
-  background: #150f25;
+  background: var(--bg);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
-  color: var(--dark-text);
+  color: var(--text-color);
   font-family: "DM Sans", sans-serif;
   font-size: 15px;
   padding: 14px 16px;
@@ -106,12 +106,12 @@ input[type="text"] {
 }
 
 input[type="text"]::placeholder {
-  color: #6b4d9a;
+  color: #b5aac8;
 }
 
 input[type="text"]:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(123, 94, 160, 0.2);
+  box-shadow: 0 0 0 3px rgba(123, 94, 160, 0.15);
 }
 
 /* ── Tags ── */
@@ -126,7 +126,7 @@ input[type="text"]:focus {
 }
 
 .tag-label {
-  background: #150f25;
+  background: var(--bg);
   border: 1.5px solid var(--border);
   border-radius: 999px;
   color: var(--grey);
@@ -139,8 +139,8 @@ input[type="text"]:focus {
 }
 
 .tag-label:hover {
-  border-color: var(--secondary);
-  color: var(--white);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .tag-option:checked + .tag-label {
@@ -152,7 +152,7 @@ input[type="text"]:focus {
 /* ── Divider ── */
 .divider {
   border: none;
-  border-top: 1px solid var(--border);
+  border-top: 1.5px solid var(--border);
 }
 
 /* ── Submit Button ── */
@@ -199,21 +199,22 @@ input[type="text"]:focus {
 }
 
 .result-card {
-  background: linear-gradient(180deg, #2a1d40 0%, #1e1530 100%);
-  border: 1px solid rgba(197, 172, 229, 0.12);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
   border-radius: 20px;
   padding: 20px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 16px rgba(123, 94, 160, 0.1);
+  transition: background 0.3s, border-color 0.3s;
 }
 
 .result-card h3 {
   font-family: "Syne", sans-serif;
   font-size: 16px;
   font-weight: 700;
-  color: var(--dark-text);
+  color: var(--text-color);
   margin: 0 0 4px 0;
 }
 
@@ -241,14 +242,71 @@ input[type="text"]:focus {
   opacity: 0.9;
 }
 
-/* ── Navbar override ── */
-.joinGroupBody .navbar {
-  background-color: #1a1030;
-}
-
 /* ── Responsive ── */
 @media (max-width: 480px) {
   body.joinGroupBody {
     padding: 28px 14px 80px;
   }
+}
+
+/* ═══════════════════════════════════════════
+   DARK MODE — Join Group & My Groups pages
+   ═══════════════════════════════════════════ */
+body.dark-mode.joinGroupBody {
+  background: linear-gradient(160deg, #1a1225 0%, #0f0a1a 100%);
+  color: #e0d4f5;
+}
+
+body.dark-mode #jgH1 {
+  color: #e0d4f5;
+}
+
+body.dark-mode .card {
+  background: linear-gradient(180deg, #2a1d40 0%, #1e1530 100%);
+  border-color: rgba(197, 172, 229, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .jgLabel,
+body.dark-mode #cbLable,
+body.dark-mode label[id="cbLable"] {
+  color: #a890cc;
+}
+
+body.dark-mode input[type="text"] {
+  background: #150f25;
+  border-color: rgba(197, 172, 229, 0.15);
+  color: #e0d4f5;
+}
+
+body.dark-mode input[type="text"]::placeholder {
+  color: #6b4d9a;
+}
+
+body.dark-mode .tag-label {
+  background: #150f25;
+  border-color: rgba(197, 172, 229, 0.15);
+  color: #a890cc;
+}
+
+body.dark-mode .divider {
+  border-top-color: rgba(197, 172, 229, 0.15);
+}
+
+body.dark-mode .result-card {
+  background: linear-gradient(180deg, #2a1d40 0%, #1e1530 100%);
+  border-color: rgba(197, 172, 229, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .result-card h3 {
+  color: #e0d4f5;
+}
+
+body.dark-mode .result-card p {
+  color: #a890cc;
+}
+
+body.dark-mode.joinGroupBody .navbar {
+  background-color: #1a1030;
 }
