@@ -3,20 +3,20 @@
   --primary: #7b5ea0;
   --secondary: #c5ace5;
   --white: #ffffff;
-  --grey: #a890cc;
-  --dark-text: #e0d4f5;
+  --grey: #5d5d5d;
+  --text-color: #262626;
   --muted: #8a7a9b;
 
-  --bg: #0f0a1a;
-  --surface: #1e1530;
-  --border: rgba(197, 172, 229, 0.15);
+  --bg: #f5f0fc;
+  --surface: #ffffff;
+  --border: #7356b0;
   --radius: 14px;
 }
 
 /* ─── Body ───────────────────────────────────────────────────────────── */
 .createButtonBody {
-  background: linear-gradient(160deg, #1a1225 0%, #0f0a1a 100%);
-  color: var(--dark-text);
+  background: linear-gradient(160deg, #bca0e1 0%, #c9b3e8 100%);
+  color: var(--text-color);
   font-family: "DM Sans", sans-serif;
   min-height: 100vh;
   display: flex;
@@ -43,7 +43,7 @@
   font-size: clamp(1.8rem, 5.5vw, 2.6rem);
   font-weight: 800;
   line-height: 1.1;
-  color: var(--dark-text);
+  color: var(--text-color);
   margin: 0;
 }
 
@@ -53,14 +53,15 @@
 
 /* ─── Form Sections (replaces .card) ─────────────────────────────────── */
 .form-sections {
-  background: linear-gradient(180deg, #2a1d40 0%, #1e1530 100%);
-  border: 1px solid rgba(197, 172, 229, 0.12);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
   border-radius: 24px;
   padding: 32px 28px;
   display: flex;
   flex-direction: column;
   gap: 28px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(123, 94, 160, 0.12);
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
 /* ─── Field ──────────────────────────────────────────────────────────── */
@@ -84,10 +85,10 @@ label[id="cbLable"] {
 /* ─── Text Inputs ────────────────────────────────────────────────────── */
 input[type="text"],
 input[type="search"] {
-  background: #150f25;
+  background: var(--bg);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
-  color: var(--dark-text);
+  color: var(--text-color);
   font-family: "DM Sans", sans-serif;
   font-size: 15px;
   padding: 14px 16px;
@@ -102,12 +103,12 @@ input[type="search"] {
 input[type="text"]:focus,
 input[type="search"]:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(123, 94, 160, 0.2);
+  box-shadow: 0 0 0 3px rgba(123, 94, 160, 0.15);
 }
 
 input[type="text"]::placeholder,
 input[type="search"]::placeholder {
-  color: #6b4d9a;
+  color: #b5aac8;
 }
 
 /* ─── Range Slider ───────────────────────────────────────────────────── */
@@ -116,7 +117,7 @@ input[type="search"]::placeholder {
   appearance: none;
   width: 100%;
   height: 6px;
-  background: #2e1f4a;
+  background: #d5c8e8;
   border-radius: 3px;
   outline: none;
   cursor: pointer;
@@ -131,7 +132,7 @@ input[type="search"]::placeholder {
   background: var(--primary);
   border: 3px solid var(--secondary);
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(123, 94, 160, 0.4);
+  box-shadow: 0 2px 6px rgba(123, 94, 160, 0.3);
 }
 
 .form-range::-moz-range-thumb {
@@ -141,7 +142,7 @@ input[type="search"]::placeholder {
   background: var(--primary);
   border: 3px solid var(--secondary);
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(123, 94, 160, 0.4);
+  box-shadow: 0 2px 6px rgba(123, 94, 160, 0.3);
 }
 
 #rangeValue {
@@ -172,7 +173,7 @@ input[type="search"]::placeholder {
   font-size: 13px !important;
   font-weight: 500 !important;
 
-  background: #150f25;
+  background: var(--bg);
   border: 1.5px solid var(--border);
   border-radius: 999px;
   color: var(--grey);
@@ -183,8 +184,8 @@ input[type="search"]::placeholder {
 }
 
 .tag-label:hover {
-  border-color: var(--secondary);
-  color: var(--white);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .tag-option:checked + .tag-label {
@@ -211,7 +212,7 @@ input[type="search"]::placeholder {
   font-size: 13px !important;
   font-weight: 500 !important;
 
-  background: #150f25;
+  background: var(--bg);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
   color: var(--grey);
@@ -230,15 +231,15 @@ input[type="search"]::placeholder {
 }
 
 .travel-card:hover {
-  border-color: var(--secondary);
-  color: var(--white);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .travel-radio:checked + .travel-card {
-  background: rgba(123, 94, 160, 0.25);
+  background: rgba(123, 94, 160, 0.15);
   border-color: var(--primary);
   border-width: 2px;
-  color: var(--white);
+  color: var(--primary);
 }
 
 /* ─── Visibility ─────────────────────────────────────────────────────── */
@@ -259,7 +260,7 @@ input[type="search"]::placeholder {
   font-weight: 500 !important;
 
   flex: 1;
-  background: #150f25;
+  background: var(--bg);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
   color: var(--grey);
@@ -274,22 +275,22 @@ input[type="search"]::placeholder {
 }
 
 .vis-label:hover {
-  border-color: var(--secondary);
-  color: var(--white);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .vis-radio:checked + .vis-label {
-  background: rgba(123, 94, 160, 0.25);
+  background: rgba(123, 94, 160, 0.15);
   border-color: var(--primary);
   border-width: 2px;
-  color: var(--white);
+  color: var(--primary);
   font-weight: 600 !important;
 }
 
 /* ─── Divider ────────────────────────────────────────────────────────── */
 .divider {
   border: none;
-  border-top: 1px solid var(--border);
+  border-top: 1.5px solid var(--border);
 }
 
 /* ─── Submit Button ──────────────────────────────────────────────────── */
@@ -324,11 +325,6 @@ input[type="search"]::placeholder {
   box-shadow: 0 2px 10px rgba(123, 94, 160, 0.2);
 }
 
-/* ─── Navbar override for this page ──────────────────────────────────── */
-.createButtonBody .navbar {
-  background-color: #1a1030;
-}
-
 /* ─── Responsive ─────────────────────────────────────────────────────── */
 @media (max-width: 480px) {
   .createButtonBody {
@@ -338,4 +334,77 @@ input[type="search"]::placeholder {
   .travel-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+/* ═══════════════════════════════════════════
+   DARK MODE — Create Group Page
+   ═══════════════════════════════════════════ */
+body.dark-mode.createButtonBody {
+  background: linear-gradient(160deg, #1a1225 0%, #0f0a1a 100%);
+  color: #e0d4f5;
+}
+
+body.dark-mode #cbH1 {
+  color: #e0d4f5;
+}
+
+body.dark-mode .form-sections {
+  background: linear-gradient(180deg, #2a1d40 0%, #1e1530 100%);
+  border-color: rgba(197, 172, 229, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode #cbLable,
+body.dark-mode label[id="cbLable"] {
+  color: #a890cc;
+}
+
+body.dark-mode input[type="text"],
+body.dark-mode input[type="search"] {
+  background: #150f25;
+  border-color: rgba(197, 172, 229, 0.15);
+  color: #e0d4f5;
+}
+
+body.dark-mode input[type="text"]::placeholder,
+body.dark-mode input[type="search"]::placeholder {
+  color: #6b4d9a;
+}
+
+body.dark-mode .form-range {
+  background: #2e1f4a;
+}
+
+body.dark-mode .tag-label {
+  background: #150f25;
+  border-color: rgba(197, 172, 229, 0.15);
+  color: #a890cc;
+}
+
+body.dark-mode .travel-card {
+  background: #150f25;
+  border-color: rgba(197, 172, 229, 0.15);
+  color: #a890cc;
+}
+
+body.dark-mode .vis-label {
+  background: #150f25;
+  border-color: rgba(197, 172, 229, 0.15);
+  color: #a890cc;
+}
+
+body.dark-mode .travel-radio:checked + .travel-card {
+  background: rgba(123, 94, 160, 0.25);
+}
+
+body.dark-mode .vis-radio:checked + .vis-label {
+  background: rgba(123, 94, 160, 0.25);
+}
+
+body.dark-mode .divider {
+  border-top-color: rgba(197, 172, 229, 0.15);
+}
+
+body.dark-mode .createButtonBody .navbar {
+  background-color: #1a1030;
 }
