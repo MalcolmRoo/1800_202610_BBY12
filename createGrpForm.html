@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/src/styles/cbStyles.css" />
     <link rel="stylesheet" href="/src/styles/style.css" />
 
@@ -31,11 +32,12 @@
     <script type="module" src="/src/components/site-navbar.js"></script>
   </head>
   <body class="createButtonBody" onload="initialize()">
+    <script>if(localStorage.getItem('darkMode')==='true')document.body.classList.add('dark-mode');</script>
     <div class="wrapper">
       <header id="cbHeader">
         <h1 id="cbH1">Create your<br /><span>Buddy Group</span></h1>
       </header>
-      <form class="card" id="createGroupForm">
+      <form class="form-sections" id="createGroupForm">
         <!-- Group Name -->
         <div class="field">
           <label for="group-name" id="cbLable">Group Name</label>
@@ -48,7 +50,6 @@
           />
         </div>
 
-        <hr class="divider" />
         <!-- API key: AIzaSyC4BrEVNK9X9ZYsMJdnrwJgzRxu8loh4U8-->
 
         <!-- Destinations -->
@@ -65,107 +66,35 @@
           </div>
         </div>
 
-        <hr class="divider" />
+        <!-- Max Group Size -->
+        <div class="field">
+          <label for="range4" id="cbLable">Max Group Size</label>
+          <input
+            name="maxBuddies"
+            type="range"
+            class="form-range"
+            min="2"
+            max="12"
+            value="2"
+            id="range4"
+          />
+          <output for="range4" id="rangeValue" aria-hidden="true"></output>
 
-        <label for="range4" class="field">Max Group size</label>
-        <input
-          name="maxBuddies"
-          type="range"
-          class="form-range"
-          min="2"
-          max="12"
-          value="2"
-          id="range4"
-        />
-        <output for="range4" id="rangeValue" aria-hidden="true"></output>
-
-        <script>
-          // This is an example script, please modify as needed
-          const rangeInput = document.getElementById("range4");
-          const rangeOutput = document.getElementById("rangeValue");
-
-          // Set initial value
-          rangeOutput.textContent = rangeInput.value;
-
-          rangeInput.addEventListener("input", function () {
-            rangeOutput.textContent = this.value;
-          });
-        </script>
-        <hr class="divider" />
+          <script>
+            const rangeInput = document.getElementById("range4");
+            const rangeOutput = document.getElementById("rangeValue");
+            rangeOutput.textContent = rangeInput.value;
+            rangeInput.addEventListener("input", function () {
+              rangeOutput.textContent = this.value;
+            });
+          </script>
+        </div>
 
         <!-- Tags -->
         <div class="field">
-          <label id="cbLable">Trip Vibe (pick all that apply)</label>
+          <label id="cbLable">Trip Vibe (Pick all that apply)</label>
           <div id="tag-container"></div>
-
-          <!-- <div class="tags-grid">
-            <input
-              type="checkbox"
-              class="tag-option"
-              id="tag-Chatty"
-              name="tags[]"
-              value="Chatty"
-            />
-            <label id="cbLable" class="tag-label" for="tag-Chatty"
-              >Chatty</label
-            >
-
-            <input
-              type="checkbox"
-              class="tag-option"
-              id="tag-Quiet"
-              name="tags[]"
-              value="Quiet"
-            />
-            <label id="cbLable" class="tag-label" for="tag-Quiet">Quiet</label>
-
-            <input
-              type="checkbox"
-              class="tag-option"
-              id="tag-FamilyOriented"
-              name="tags[]"
-              value="familyOriented"
-            />
-            <label id="cbLable" class="tag-label" for="tag-FamilyOriented"
-              >Family Oriented</label
-            >
-
-            <input
-              type="checkbox"
-              class="tag-option"
-              id="tag-PhysicalImpariment"
-              name="tags[]"
-              value="PhysicalImpairment"
-            />
-            <label id="cbLable" class="tag-label" for="tag-PhysicalImpariment"
-              >Physical Impairments</label
-            >
-
-            <input
-              type="checkbox"
-              class="tag-option"
-              id="tag-Culture"
-              name="tags[]"
-              value="culture"
-            />
-            <label id="cbLable" class="tag-label" for="tag-Culture"
-              >Culture</label
-            >
-
-            <input
-              type="checkbox"
-              class="tag-option"
-              id="tag-MentalImpairment"
-              name="tags[]"
-              value="Mental Impairment"
-            />
-            <label id="cbLable" class="tag-label" for="tag-MentalImpairment"
-              >Mental Impairments</label
-            >
-          </div> -->
         </div>
-
-        <hr class="divider" />
 
         <!-- Travel Method -->
         <div class="field">
@@ -190,7 +119,7 @@
               value="skyTrain"
             />
             <label id="cbLable" class="travel-card" for="travel-train">
-              <span class="icon">🚆</span> skyTrain
+              <span class="icon">🚆</span> SkyTrain
             </label>
 
             <input
@@ -227,8 +156,6 @@
             </label>
           </div>
         </div>
-
-        <hr class="divider" />
 
         <!-- Visibility -->
         <div class="field">
@@ -274,5 +201,6 @@
       import { loadTags } from "/src/tags.js";
       loadTags("tag-container");
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

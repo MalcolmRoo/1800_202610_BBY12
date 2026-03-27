@@ -1,20 +1,22 @@
 class SiteNavbar extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
-      <nav class="navbar fixed-bottom" style="background-color: #7B5EA0">
+      <nav class="navbar fixed-bottom">
         <div class="container-fluid"></div>
-        <button class="btn" onclick="window.location.href='/main.html'">
-          <img src="/images/home.png" alt="Bootstrap" width="30" height="30" />
+        <button class="btn nav-home-btn" style="background:none; border:none; padding:8px;" onclick="window.location.href='/main.html'">
+          <img src="/images/home.png" alt="Home" width="38" height="38" />
         </button>
+
         <button
-          class="btn"
+          class="btn nav-menu-btn"
           type="button"
+          style="background:none; border:none; padding:8px;"
           data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasNavbar"
           aria-controls="offcanvasNavbar"
           aria-label="Toggle navigation"
         >
-          <img src="/images/menu.png" alt="Bootstrap" width="30" height="30" />
+          <img src="/images/menu.png" alt="Menu" width="48" height="48" />
         </button>
         <div
           class="offcanvas offcanvas-end"
@@ -75,4 +77,30 @@ class SiteNavbar extends HTMLElement {
     `;
   }
 }
+
 customElements.define("site-navbar", SiteNavbar);
+
+// ── Dark Mode Core Logic (runs on every page) ──────────────────────────
+
+function applyDarkMode() {
+  if (localStorage.getItem('darkMode') === 'true') {
+    document.body.classList.add('dark-mode');
+  }
+}
+
+function toggleDarkMode() {
+  const isDark = document.body.classList.toggle('dark-mode');
+  localStorage.setItem('darkMode', isDark);
+
+  // Sync settings page toggle if present
+  const settingsToggle = document.getElementById('darkModeToggle');
+  if (settingsToggle) {
+    settingsToggle.classList.toggle('on', isDark);
+  }
+}
+
+// Expose globally so onclick can reach it
+window.__toggleDarkMode = toggleDarkMode;
+
+// Apply on load immediately
+applyDarkMode();

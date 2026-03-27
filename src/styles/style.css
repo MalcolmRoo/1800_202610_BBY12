@@ -16,6 +16,37 @@ body {
   align-items: center;
   min-height: 100vh;
   font-family: sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ═══════════════════════════════════════════
+   BOOTSTRAP OVERRIDE LAYER
+   Ensures custom styles always take priority
+   ═══════════════════════════════════════════ */
+
+/* Prevent Bootstrap from adding its own body padding/margin */
+body > .container,
+body > .container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Prevent Bootstrap's default focus ring from flashing on all buttons */
+.btn:focus,
+.btn:focus-visible,
+.btn:active:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+/* Prevent Bootstrap's form-control from overriding custom inputs */
+.form-control {
+  border-radius: inherit;
+}
+
+/* Prevent Bootstrap's alert from using its own colors unless explicitly used */
+.alert {
+  font-family: sans-serif;
 }
 
 .header {
@@ -35,7 +66,7 @@ body {
 
 .nav-item {
   margin-bottom: 0.8rem;
-  border-left: 4px solid var(--purple-light);
+  border-left: 4px solid #3d2b60;
   border-radius: 14px;
   background: linear-gradient(135deg, #6a4a9a, #9b7fc7);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -81,7 +112,7 @@ body {
   color: var(--text-light);
 }
 
-.text-center {
+.text-light-custom {
   color: var(--text-light);
 }
 
@@ -89,13 +120,31 @@ b {
   color: var(--purple-primary);
 }
 
-button {
+/* Custom button default (scoped to avoid overriding Bootstrap .btn variants) */
+button:not(.btn):not(.btn-close):not(.settings-back):not(.account-back) {
   background-color: var(--purple-primary);
   color: var(--text-light);
 }
 
 #offcanvasNavbar {
   background: linear-gradient(160deg, #4a3a6b, #6b5090);
+}
+
+/* Offcanvas close button - no background square */
+#offcanvasNavbar .btn-close {
+  background-color: transparent;
+  opacity: 1;
+}
+
+#offcanvasNavbar .btn-close:hover,
+#offcanvasNavbar .btn-close:focus {
+  background-color: transparent;
+  box-shadow: none;
+  outline: none;
+}
+
+body.dark-mode #offcanvasNavbar .btn-close {
+  filter: invert(1);
 }
 
 #groupCard {
@@ -254,12 +303,167 @@ button {
 /* ── group page: reset fixed heights so flex layout works ── */
 body.group-page #chat,
 body.group-page #buddiesScrollable {
-  min-height: 0 !important;
-  max-height: none !important;
+  min-height: 0;
+  max-height: none;
   overflow-y: auto;
   margin-bottom: 0;
 }
 
 body.group-page #bottomButton {
   margin-top: 0;
+}
+
+/* ═══════════════════════════════════════════
+   NAVBAR
+   ═══════════════════════════════════════════ */
+.navbar {
+  background-color: #7B5EA0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 32px;
+}
+
+.navbar .btn {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 8px;
+}
+
+.nav-home-btn {
+  margin-left: 15px;
+}
+
+.nav-menu-btn {
+  margin-right: 15px;
+}
+
+.navbar .btn:hover {
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+}
+
+/* ═══════════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════════ */
+body.dark-mode {
+  background: linear-gradient(160deg, #1a1225 0%, #0f0a1a 100%);
+  color: #e0d4f5;
+}
+
+body.dark-mode.mainBackground {
+  background: linear-gradient(160deg, #1a1225 0%, #0f0a1a 100%);
+}
+
+body.dark-mode.group-page {
+  background: linear-gradient(160deg, #1a1225 0%, #0f0a1a 100%);
+}
+
+body.dark-mode .mainBackground {
+  background: linear-gradient(160deg, #1a1225 0%, #0f0a1a 100%);
+}
+
+body.dark-mode .mainScreenButton {
+  background-color: #2e1f4a;
+  color: #e0d4f5;
+}
+
+body.dark-mode .mainScreenButton:hover {
+  background-color: #3d2b60;
+}
+
+body.dark-mode #offcanvasNavbar {
+  background: linear-gradient(160deg, #1a1225, #2a1d40);
+}
+
+body.dark-mode .nav-item {
+  background: linear-gradient(135deg, #2e1f4a, #3d2b60);
+  border-left-color: #3d2b60;
+}
+
+body.dark-mode .nav-item:hover {
+  background: linear-gradient(135deg, #3d2b60, #4f3d73);
+}
+
+body.dark-mode .textBubble {
+  background-color: #1e1530aa;
+  color: #e0d4f5;
+}
+
+body.dark-mode b {
+  color: #c5ace5;
+}
+
+body.dark-mode button:not(.btn):not(.btn-close):not(.settings-back):not(.account-back) {
+  background-color: #3d2b60;
+  color: #e0d4f5;
+}
+
+body.dark-mode #groupCard {
+  background: linear-gradient(180deg, #1e1530 0%, #170f28 100%);
+}
+
+body.dark-mode .buddyCard {
+  background-color: #2a1d40;
+}
+
+body.dark-mode .buddyCardName {
+  color: #e0d4f5;
+}
+
+body.dark-mode .buddyStatus {
+  color: #a890cc;
+}
+
+body.dark-mode #groupHeader {
+  background: linear-gradient(180deg, #1a1030 0%, #140d24 100%);
+}
+
+body.dark-mode #membersStrip {
+  background: linear-gradient(180deg, #140d24 0%, #0f0a1a 100%);
+}
+
+body.dark-mode #sectionTitle {
+  background: linear-gradient(180deg, #0f0a1a 0%, #1a1225 100%);
+  color: #e0d4f5;
+}
+
+body.dark-mode #chat {
+  background: #1e1530;
+}
+
+body.dark-mode #chatInputRow {
+  background: linear-gradient(180deg, #140d24 0%, #1a1030 100%);
+}
+
+body.dark-mode #chatInput {
+  background: rgba(80, 50, 120, 0.25);
+  border-color: rgba(197, 172, 229, 0.2);
+  color: #e0d4f5;
+}
+
+body.dark-mode #bottomButton {
+  background: linear-gradient(180deg, #1a1030 0%, #110b20 100%);
+}
+
+body.dark-mode .navbar {
+  background-color: #1a1030;
+}
+
+.dark-mode-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  color: white;
+  line-height: 1;
+}
+
+.dark-mode-btn:hover {
+  background: rgba(255,255,255,0.15);
 }
