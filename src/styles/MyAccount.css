@@ -1,13 +1,16 @@
 body {
-  background: linear-gradient(to bottom right, #4a3a6b, #2d2040) !important;
+  background: linear-gradient(to bottom right, #4a3a6b, #2d2040);
   min-height: 100vh;
   font-family: sans-serif;
+  margin: 0;
+  transition: background 0.3s, color 0.3s;
 }
 
 .account-header {
   display: flex;
   align-items: center;
-  padding: 6px 10px;
+  justify-content: center;
+  padding: 16px 20px;
   position: relative;
   background: #7b5ea0;
 }
@@ -18,16 +21,23 @@ body {
   cursor: pointer;
   color: white;
   position: absolute;
-  left: 20px;
-  font-size: 32px;
+  right: 20px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  outline: none;
 }
 
 .account-title {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   text-align: center;
   width: 100%;
   color: white;
+  margin: 0;
+  line-height: 1.2;
 }
 
 .profile-section {
@@ -54,37 +64,39 @@ body {
   font-size: 22px;
   font-weight: 700;
   color: white;
-  margin-bottom: 4px;
+  margin: 0 0 4px;
 }
 
 .profile-email {
   font-size: 14px;
   color: #c5ace5;
+  margin: 0;
 }
 
 .account-item {
   background: linear-gradient(135deg, #6a4a9a, #9b7fc7);
   margin: 10px 20px;
-  border-radius: 14px;
-  padding: 24px 18px;
+  border-radius: 16px;
+  padding: 20px 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
   width: auto;
   border-left: 4px solid #c5ace5;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 .account-item span {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   color: white;
 }
 
 .account-arrow {
-  font-size: 26px;
-  color: white;
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .account-icon {
@@ -94,4 +106,66 @@ body {
   margin-right: 10px;
   filter: brightness(0) invert(1);
   object-fit: contain;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #7b5ea0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+}
+
+.navbar .btn {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 8px;
+}
+
+/* ═══════════════════════════════════════
+   DARK MODE — My Account Page
+   ═══════════════════════════════════════ */
+body.dark-mode {
+  background: linear-gradient(160deg, #1a1225 0%, #0f0a1a 100%);
+  color: #e0d4f5;
+}
+
+body.dark-mode .account-header {
+  background: #1a1030;
+  border-bottom: 1px solid rgba(197, 172, 229, 0.1);
+}
+
+body.dark-mode .account-back {
+  background: none;
+  box-shadow: none;
+}
+
+body.dark-mode .account-item {
+  background: #1e1530;
+  border-left: none;
+  border: 1px solid rgba(197, 172, 229, 0.12);
+  box-shadow: 0 4px 16px rgba(123, 94, 160, 0.12), 0 0 0 1px rgba(197, 172, 229, 0.06);
+}
+
+body.dark-mode .account-item span {
+  color: #e0d4f5;
+}
+
+body.dark-mode .account-arrow {
+  color: rgba(197, 172, 229, 0.5);
+}
+
+body.dark-mode .profile-pic {
+  background: #2e1f4a;
+  border-color: #7b5ea0;
+}
+
+body.dark-mode .profile-name {
+  color: #e0d4f5;
+}
+
+body.dark-mode .navbar {
+  background-color: #1a1030;
 }
