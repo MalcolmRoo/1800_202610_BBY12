@@ -33,6 +33,7 @@ document.getElementById("openChat").addEventListener("click", function () {
     chatDiv.style.display = "none";
     button.textContent = "Chat";
     sectionTitle.textContent = "Buddies";
+    fillBuddyCard();
   } else {
     memberDiv.style.display = "none";
     chatDiv.style.display = "flex";
@@ -47,8 +48,6 @@ document.getElementById("openChat").addEventListener("click", function () {
     }, 50);
   }
 });
-
-let unsubscribeChat = null;
 
 /* This function checks to see if a chat sub-document
 exists, if it does refreshes the existing chat box, if not
@@ -181,6 +180,7 @@ window.addEventListener("load", function () {
 
 /* ── Load group data and buddy cards ── */
 async function fillBuddyCard() {
+  buddyList.innerHTML = "";
   try {
     const groupID = localStorage.getItem("group");
 
