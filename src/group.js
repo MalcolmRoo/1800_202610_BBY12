@@ -86,8 +86,6 @@ function createOrUpdateChat() {
       return;
     }
 
-    chatDiv.innerHTML = "<div class='chat-date-divider'>Top</div>";
-
     //Add messages from the DB that are not the server message
     snapshot.forEach((msgDoc) => {
       const data = msgDoc.data();
