@@ -13,22 +13,13 @@ import {
   where,
   addDoc,
   orderBy,
+  onSnapshot,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
 const userCollection = collection(db, "tbUsers");
 const groupCollection = collection(db, "tbGroups");
 const buddyList = document.getElementById("buddies");
-
-//ADD FUNCTION TO INTAKE CHAT MESSAGES AND INPUT INTO SUB-DOCUMENT.
-
-//Add creation of chat sub-document
-/* sub document name = chat
-  document ID = groupID + "_chat"
-  user = username
-  message = text content submitted
-  timestamp = timestamp of message sent
-*/
 
 /* Switch between Buddies list and Chat */
 document.getElementById("openChat").addEventListener("click", function () {
@@ -57,81 +48,71 @@ document.getElementById("openChat").addEventListener("click", function () {
   }
 });
 
+let unsubscribeChat = null;
+
 /* This function checks to see if a chat sub-document
 exists, if it does refreshes the existing chat box, if not
 creates a new sub-document for the chat. */
-function createOrUpdateChat() {
-  //Clear chat to remove duplicates
-  const chatDiv = document.getElementById("chatMessages");
-  chatDiv.innerHTML = "<div class='chat-date-divider'>Today</div>";
 
+function createOrUpdateChat() {
+  const chatDiv = document.getElementById("chatMessages");
   const groupID = localStorage.getItem("group");
   const subCollection = "chat";
-  const systemMessage = "systemMessage";
 
-  const systemMessageRef = doc(
-    db,
-    "tbGroups",
-    groupID,
-    subCollection,
-    systemMessage,
-  );
-  const collectionRef = query(
-    collection(db, "tbGroups", groupID, subCollection),
-    limit(1),
-  );
+  //Clear chat to remove dublicates
+  chatDiv.innerHTML = "<div class='chat-date-divider'>Top</div>";
 
-  const checkSubDoc = async () => {
-    const docSnap = await getDocs(collectionRef);
-    if (!docSnap.empty) {
-      console.log("Chat exists!");
-      // Load all existing messages and display them
+  const collectionRef = collection(db, "tbGroups", groupID, subCollection);
+  const chatQuery = query(collectionRef, orderBy("timestamp", "asc"));
 
-      // this makes the old messages appear everything er load !.
-      const allMessages = await getDocs(
-        query(
-          collection(db, "tbGroups", groupID, "chat"),
-          orderBy("timestamp"),
-        ),
+  // Create a Listener that watches the DB live and functions whenever
+  // the db gets a new entry
+  const unsubscribe = onSnapshot(chatQuery, (snapshot) => {
+    // If the collection is empty, create the system message
+    if (snapshot.empty) {
+      const systemMessageRef = doc(
+        db,
+        "tbGroups",
+        groupID,
+        subCollection,
+        "systemMessage",
       );
-      allMessages.forEach((msgDoc) => {
-        const data = msgDoc.data();
-        if (data.user === "server") return; // skip system message
-        const currentUser = auth.currentUser;
-        const isMine = data.uid === currentUser?.uid;
-        appendChatBubble({
-          text: data.message,
-          senderName: data.user,
-          initials: data.user.charAt(0).toUpperCase(),
-          color: isMine ? "#7b5ea0" : "#e85d75",
-          isMine,
-        });
+      setDoc(systemMessageRef, {
+        user: "server",
+        timestamp: Date.now(),
+        message:
+          "Welcome to the chat! You can chat here with your buddies in the group!",
       });
-    } else {
-      try {
-        await setDoc(systemMessageRef, {
-          user: "server",
-          timestamp: Date.now(),
-          message:
-            "Welcome to the chat! You can chat here with your buddies in the group!",
-        });
-        appendChatBubble({
-          text: "Welcome to the chat! You can chat here with your buddies in the group!",
-          senderName: "Server",
-          initials: "★",
-          color: "#4f3d73",
-          isMine: false,
-        });
-      } catch (error) {
-        alert(
-          `Error loading chat:\n${error.code || ""}\n${error.message || error}`,
-        );
-      }
+      return;
     }
-  };
 
-  checkSubDoc();
+    chatDiv.innerHTML = "<div class='chat-date-divider'>Top</div>";
+
+    //Add messages from the DB that are not the server message
+    snapshot.forEach((msgDoc) => {
+      const data = msgDoc.data();
+      if (data.user === "server") return;
+
+      const currentUser = auth.currentUser;
+      const isMine = data.uid === currentUser?.uid;
+
+      appendChatBubble({
+        text: data.message,
+        senderName: data.user,
+        initials: data.user.charAt(0).toUpperCase(),
+        color: isMine ? "#7b5ea0" : "#e85d75",
+        isMine,
+      });
+    });
+
+    // Auto-scroll to bottom on new message
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+  });
+
+  // Return unsubscribe so you can stop listening when the user leaves the page
+  return unsubscribe;
 }
+
 /* This is a function to post chat messages */
 /* ── Post a chat message to Firestore ── */
 async function postChatMessage(text) {
