@@ -24,7 +24,9 @@ body.joinGroupBody {
   justify-content: center;
   padding: 40px 18px 80px;
   margin: 0;
-  transition: background 0.3s, color 0.3s;
+  transition:
+    background 0.3s,
+    color 0.3s;
 }
 
 /* ── Wrapper ── */
@@ -62,7 +64,10 @@ body.joinGroupBody {
   flex-direction: column;
   gap: 28px;
   box-shadow: 0 8px 32px rgba(123, 94, 160, 0.12);
-  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+  transition:
+    background 0.3s,
+    border-color 0.3s,
+    box-shadow 0.3s;
 }
 
 /* ── Fields ── */
@@ -99,7 +104,9 @@ input[type="text"] {
   font-family: "DM Sans", sans-serif;
   font-size: 15px;
   padding: 14px 16px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   width: 100%;
   box-sizing: border-box;
   outline: none;
@@ -207,7 +214,9 @@ input[type="text"]:focus {
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 4px 16px rgba(123, 94, 160, 0.1);
-  transition: background 0.3s, border-color 0.3s;
+  transition:
+    background 0.3s,
+    border-color 0.3s;
 }
 
 .result-card h3 {
@@ -309,4 +318,7 @@ body.dark-mode .result-card p {
 
 body.dark-mode.joinGroupBody .navbar {
   background-color: #1a1030;
+}
+.result-card {
+  margin-bottom: 0.75rem;
 }

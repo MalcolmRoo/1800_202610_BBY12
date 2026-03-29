@@ -16,7 +16,9 @@ body {
   align-items: center;
   min-height: 100vh;
   font-family: sans-serif;
-  transition: background 0.3s, color 0.3s;
+  transition:
+    background 0.3s,
+    color 0.3s;
 }
 
 /* ═══════════════════════════════════════════
@@ -317,7 +319,7 @@ body.group-page #bottomButton {
    NAVBAR
    ═══════════════════════════════════════════ */
 .navbar {
-  background-color: #7B5EA0;
+  background-color: #7b5ea0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -341,7 +343,7 @@ body.group-page #bottomButton {
 }
 
 .navbar .btn:hover {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 10px;
 }
 
@@ -396,7 +398,8 @@ body.dark-mode b {
   color: #c5ace5;
 }
 
-body.dark-mode button:not(.btn):not(.btn-close):not(.settings-back):not(.account-back) {
+body.dark-mode
+  button:not(.btn):not(.btn-close):not(.settings-back):not(.account-back) {
   background-color: #3d2b60;
   color: #e0d4f5;
 }
@@ -465,5 +468,32 @@ body.dark-mode .navbar {
 }
 
 .dark-mode-btn:hover {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .chat-bubble.theirs {
+  background: #2e1f4a;
+  color: #e0d9ed;
+}
+
+body.dark-mode .chat-bubble.mine {
+  background: #4f3d73;
+  color: #dad4e5;
+}
+
+body.dark-mode .chat-sender-name {
+  color: #a890cc;
+}
+
+body.dark-mode .chat-bubble-time {
+  color: #7a5fa0;
+}
+
+body.dark-mode .chat-date-divider {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e7e7e8;
+}
+
+body.dark-mode #chatMessages {
+  background: #1e1530;
 }
