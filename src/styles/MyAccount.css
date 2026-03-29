@@ -125,6 +125,89 @@ body {
 }
 
 /* ═══════════════════════════════════════
+   DELETE ACCOUNT MODAL
+   ═══════════════════════════════════════ */
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal-card {
+  background: linear-gradient(135deg, #6a4a9a, #9b7fc7);
+  border-radius: 20px;
+  padding: 32px 28px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  border: 2px solid #c5ace5;
+}
+
+.modal-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  margin: 0 0 24px;
+  line-height: 1.4;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.modal-btn {
+  flex: 1;
+  padding: 12px 0;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.modal-btn:active {
+  transform: scale(0.96);
+}
+
+.modal-btn-no {
+  background: #4a3a6b;
+  color: white;
+}
+
+.modal-btn-no:hover {
+  background: #5c4a80;
+}
+
+.modal-btn-yes {
+  background: #d9534f;
+  color: white;
+}
+
+.modal-btn-yes:hover {
+  background: #c9302c;
+}
+
+.modal-btn-yes:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ═══════════════════════════════════════
    DARK MODE — My Account Page
    ═══════════════════════════════════════ */
 body.dark-mode {
@@ -168,4 +251,17 @@ body.dark-mode .profile-name {
 
 body.dark-mode .navbar {
   background-color: #1a1030;
+}
+
+body.dark-mode .modal-card {
+  background: linear-gradient(135deg, #1e1530, #2e1f4a);
+  border-color: #3d2b60;
+}
+
+body.dark-mode .modal-btn-no {
+  background: #2e1f4a;
+}
+
+body.dark-mode .modal-btn-no:hover {
+  background: #3d2b60;
 }
