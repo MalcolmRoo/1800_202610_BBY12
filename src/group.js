@@ -68,6 +68,7 @@ function createOrUpdateChat() {
   // the db gets a new entry
   const unsubscribe = onSnapshot(chatQuery, (snapshot) => {
     // If the collection is empty, create the system message
+    chatDiv.innerHTML = "<div class='chat-date-divider'>Top</div>";
     if (snapshot.empty) {
       const systemMessageRef = doc(
         db,
@@ -99,6 +100,7 @@ function createOrUpdateChat() {
         initials: data.user.charAt(0).toUpperCase(),
         color: isMine ? "#7b5ea0" : "#e85d75",
         isMine,
+        timestamp: data.timestamp,
       });
     });
 
@@ -268,9 +270,49 @@ function getTimeLabel() {
   });
 }
 
-function appendChatBubble({ text, senderName, initials, color, isMine }) {
+// this function gives the date of chats on top of em
+function addDateDividerIfNeeded(timestamp) {
+  const chatMessages = document.getElementById("chatMessages");
+  const msgDate = new Date(timestamp);
+  const dateKey = msgDate.toDateString();
+
+  const dividers = chatMessages.querySelectorAll(".chat-date-divider");
+  const last = dividers[dividers.length - 1];
+  if (last && last.dataset.date === dateKey) return;
+
+  const now = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(now.getDate() - 1);
+
+  let label;
+  if (dateKey === now.toDateString()) label = "Today";
+  else if (dateKey === yesterday.toDateString()) label = "Yesterday";
+  else
+    label = msgDate.toLocaleDateString([], {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+
+  const divider = document.createElement("div");
+  divider.className = "chat-date-divider";
+  divider.dataset.date = dateKey;
+  divider.textContent = label;
+  chatMessages.appendChild(divider);
+}
+
+function appendChatBubble({
+  text,
+  senderName,
+  initials,
+  color,
+  isMine,
+  timestamp,
+}) {
   const chatMessages = document.getElementById("chatMessages");
   if (!chatMessages) return;
+
+  if (timestamp) addDateDividerIfNeeded(timestamp); // for the chat day bubble
 
   const row = document.createElement("div");
   row.className = "chat-msg-row" + (isMine ? " mine" : "");
@@ -296,8 +338,12 @@ function appendChatBubble({ text, senderName, initials, color, isMine }) {
 
   const time = document.createElement("div");
   time.className = "chat-bubble-time";
-  time.textContent = getTimeLabel();
-
+  time.textContent = timestamp
+    ? new Date(timestamp).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    : getTimeLabel();
   body.appendChild(bubble);
   body.appendChild(time);
   row.appendChild(avatarEl);
@@ -319,14 +365,6 @@ function sendChatMessage() {
     : "?";
 
   postChatMessage(text); // saves to Firebase
-
-  appendChatBubble({
-    text,
-    senderName: user?.displayName || "You",
-    initials,
-    color: "#7b5ea0",
-    isMine: true,
-  });
 
   input.value = "";
   input.style.height = "auto";
