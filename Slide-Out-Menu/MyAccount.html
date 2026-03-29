@@ -40,10 +40,93 @@
     <span>📧 Change Email</span>
     <span class="account-arrow">›</span>
   </div>
-  <div class="account-item">
+  <div class="account-item" id="deleteAccountBtn">
     <span>🗑️ Delete Account</span>
     <span class="account-arrow">›</span>
   </div>
+
+  <!-- Delete Account Confirmation Modal -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal-card">
+      <p class="modal-text">Are you sure you want to delete your account?</p>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-btn-no" id="deleteNo">No</button>
+        <button class="modal-btn modal-btn-yes" id="deleteYes">Yes</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── Delete Account UI logic ──
+    (function () {
+      var deleteBtn = document.getElementById("deleteAccountBtn");
+      var modal = document.getElementById("deleteModal");
+      var noBtn = document.getElementById("deleteNo");
+      var yesBtn = document.getElementById("deleteYes");
+
+      deleteBtn.addEventListener("click", function () {
+        modal.classList.add("show");
+      });
+
+      noBtn.addEventListener("click", function () {
+        modal.classList.remove("show");
+      });
+
+      // Close modal when clicking the backdrop
+      modal.addEventListener("click", function (e) {
+        if (e.target === modal) {
+          modal.classList.remove("show");
+        }
+      });
+    })();
+  </script>
+  <script type="module">
+    // ── Delete Account — Firebase logic ──
+    try {
+      const { db, auth } = await import("/src/firebaseConfig.js");
+      const { doc, deleteDoc } = await import("firebase/firestore");
+      const { deleteUser } = await import("firebase/auth");
+
+      var yesBtn = document.getElementById("deleteYes");
+      var modal = document.getElementById("deleteModal");
+
+      yesBtn.addEventListener("click", async function () {
+        var user = auth.currentUser;
+        if (!user) {
+          alert("No user is logged in.");
+          return;
+        }
+
+        yesBtn.disabled = true;
+        yesBtn.textContent = "Deleting...";
+
+        try {
+          // 1. Delete Firestore user document
+          await deleteDoc(doc(db, "tbUsers", user.uid));
+
+          // 2. Delete Firebase Auth account
+          await deleteUser(user);
+
+          // 3. Clear local data and redirect
+          localStorage.clear();
+          window.location.href = "/index.html";
+        } catch (err) {
+          console.error("Delete account error:", err);
+          modal.classList.remove("show");
+          yesBtn.disabled = false;
+          yesBtn.textContent = "Yes";
+
+          if (err.code === "auth/requires-recent-login") {
+            alert("For security, please log out and log back in before deleting your account.");
+          } else {
+            alert("Failed to delete account. Please try again.");
+          }
+        }
+      });
+    } catch (err) {
+      console.error("Delete account module load error:", err);
+    }
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="../src/components/site-navbar.js"></script>
