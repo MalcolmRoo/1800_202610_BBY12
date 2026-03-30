@@ -11,11 +11,13 @@ import {
   query,
   limit,
   where,
-  addDoc,
   orderBy,
   onSnapshot,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { processGroup } from "/src/archiveUtils.js";
+
+var groupArchived = false;
 
 const userCollection = collection(db, "tbUsers");
 const groupCollection = collection(db, "tbGroups");
@@ -23,10 +25,37 @@ const buddyList = document.getElementById("buddies");
 
 /* Switch between Buddies list and Chat */
 document.getElementById("openChat").addEventListener("click", function () {
-  const memberDiv = document.getElementById("buddiesScrollable");
-  const chatDiv = document.getElementById("chat");
-  const button = document.getElementById("openChat");
-  const sectionTitle = document.getElementById("sectionTitle");
+  if (groupArchived) {
+    // Allow viewing chat but not sending
+    var memberDiv = document.getElementById("buddiesScrollable");
+    var chatDiv = document.getElementById("chat");
+    var button = document.getElementById("openChat");
+    var sectionTitle = document.getElementById("sectionTitle");
+
+    if (memberDiv.style.display === "none") {
+      memberDiv.style.display = "block";
+      chatDiv.style.display = "none";
+      button.textContent = "Chat";
+      sectionTitle.textContent = "Buddies";
+      fillBuddyCard();
+    } else {
+      memberDiv.style.display = "none";
+      chatDiv.style.display = "flex";
+      button.textContent = "Buddies";
+      sectionTitle.textContent = "Chat";
+      createOrUpdateChat();
+      setTimeout(function () {
+        var msgs = document.getElementById("chatMessages");
+        if (msgs) msgs.scrollTop = msgs.scrollHeight;
+      }, 50);
+    }
+    return;
+  }
+
+  var memberDiv = document.getElementById("buddiesScrollable");
+  var chatDiv = document.getElementById("chat");
+  var button = document.getElementById("openChat");
+  var sectionTitle = document.getElementById("sectionTitle");
 
   if (memberDiv.style.display === "none") {
     memberDiv.style.display = "block";
@@ -40,10 +69,10 @@ document.getElementById("openChat").addEventListener("click", function () {
     button.textContent = "Buddies";
     sectionTitle.textContent = "Chat";
     createOrUpdateChat();
-    setTimeout(() => {
-      const msgs = document.getElementById("chatMessages");
+    setTimeout(function () {
+      var msgs = document.getElementById("chatMessages");
       if (msgs) msgs.scrollTop = msgs.scrollHeight;
-      const input = document.getElementById("chatInput");
+      var input = document.getElementById("chatInput");
       if (input) input.focus();
     }, 50);
   }
@@ -57,6 +86,12 @@ function createOrUpdateChat() {
   const chatDiv = document.getElementById("chatMessages");
   const groupID = localStorage.getItem("group");
   const subCollection = "chat";
+
+  // Hide input row if archived
+  var inputRow = document.getElementById("chatInputRow");
+  if (inputRow) {
+    inputRow.style.display = groupArchived ? "none" : "flex";
+  }
 
   //Clear chat to remove dublicates
   chatDiv.innerHTML = "<div class='chat-date-divider'>Top</div>";
@@ -140,6 +175,11 @@ async function postChatMessage(text) {
 document
   .getElementById("leaveGroup")
   .addEventListener("click", async function () {
+    if (groupArchived) {
+      alert("You cannot leave an archived trip.");
+      return;
+    }
+
     const confirmed = confirm("Are you sure you want to leave this group?");
     if (!confirmed) return;
 
@@ -204,9 +244,39 @@ async function fillBuddyCard() {
     }
 
     const groupData = groupSnap.docs[0].data();
+    var docID = groupSnap.docs[0].id;
+
+    // Check archive status
+    var result = await processGroup(groupData, docID);
+    if (result === null) {
+      // Group was deleted (past 30-day archive)
+      localStorage.removeItem("group");
+      document.getElementById("groupTitle").textContent = "Group Deleted";
+      document.getElementById("destination-text").textContent = "This trip has been removed.";
+      buddyList.innerHTML = "<p style='text-align:center; padding:1rem;'>This group no longer exists. <a href='myGroups.html'>Back to My Groups.</a></p>";
+      return;
+    }
+    if (result.archived) {
+      groupArchived = true;
+      document.getElementById("archivedBanner").style.display = "block";
+      var leaveBtn = document.getElementById("leaveGroup");
+      if (leaveBtn) leaveBtn.style.display = "none";
+    }
+
     document.getElementById("groupTitle").textContent = groupData.groupName;
     document.getElementById("destination-text").textContent =
       groupData.destination;
+
+    // Display trip dates
+    var tripDatesEl = document.getElementById("trip-dates");
+    if (groupData.startDate && groupData.endDate) {
+      var start = new Date(groupData.startDate + "T00:00:00");
+      var end = new Date(groupData.endDate + "T00:00:00");
+      var opts = { month: "short", day: "numeric" };
+      tripDatesEl.textContent = start.toLocaleDateString([], opts) + " – " + end.toLocaleDateString([], opts) + ", " + end.getFullYear();
+    } else {
+      tripDatesEl.textContent = "";
+    }
 
     const members = groupData.members || [];
     const leaderID = groupData.leader;
@@ -354,6 +424,8 @@ function appendChatBubble({
 
 /* ── Send message — saves to Firestore + shows bubble ── */
 function sendChatMessage() {
+  if (groupArchived) return;
+
   const input = document.getElementById("chatInput");
   if (!input) return;
   const text = input.value.trim();

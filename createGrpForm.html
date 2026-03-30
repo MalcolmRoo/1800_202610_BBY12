@@ -52,6 +52,22 @@
 
         <!-- API key: AIzaSyC4BrEVNK9X9ZYsMJdnrwJgzRxu8loh4U8-->
 
+        <!-- Trip Dates -->
+        <div class="field">
+          <label id="cbLable">Trip Dates</label>
+          <div class="date-row">
+            <div class="date-col">
+              <label for="start-date" class="date-sub-label">Start</label>
+              <input name="start-date" type="date" id="start-date" required />
+            </div>
+            <div class="date-col">
+              <label for="end-date" class="date-sub-label">End</label>
+              <input name="end-date" type="date" id="end-date" required />
+            </div>
+          </div>
+          <p id="date-error" class="date-error"></p>
+        </div>
+
         <!-- Destinations -->
         <div class="field">
           <label id="cbLable">Destinations</label>
@@ -196,6 +212,21 @@
     <script type="module" src="/src/main.js"></script>
     <script type="module" src="/src/authentication.js"></script>
     <script type="module" src="/src/createGroup.js"></script>
+
+    <script>
+      // Set min date to today for both date inputs
+      var today = new Date().toISOString().split("T")[0];
+      document.getElementById("start-date").setAttribute("min", today);
+      document.getElementById("end-date").setAttribute("min", today);
+
+      // When start date changes, ensure end date is not before it
+      document.getElementById("start-date").addEventListener("change", function () {
+        document.getElementById("end-date").setAttribute("min", this.value);
+        if (document.getElementById("end-date").value && document.getElementById("end-date").value < this.value) {
+          document.getElementById("end-date").value = this.value;
+        }
+      });
+    </script>
 
     <script type="module">
       import { loadTags } from "/src/tags.js";
