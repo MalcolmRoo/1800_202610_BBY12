@@ -322,3 +322,45 @@ body.dark-mode.joinGroupBody .navbar {
 .result-card {
   margin-bottom: 0.75rem;
 }
+
+/* ── Archive Section ── */
+.archive-section-header {
+  font-family: "Syne", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 20px 0 8px;
+  border-top: 1.5px solid rgba(115, 86, 176, 0.3);
+  margin-top: 8px;
+}
+
+.archived-card {
+  opacity: 0.7;
+}
+
+.archived-label {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #a08c6a !important;
+  margin-top: 4px !important;
+}
+
+.archived-card .join-btn {
+  background: #8a7a9b;
+}
+
+/* ── Dark Mode — Archive ── */
+body.dark-mode .archive-section-header {
+  border-top-color: rgba(197, 172, 229, 0.15);
+  color: #6b4d9a;
+}
+
+body.dark-mode .archived-label {
+  color: #8a7a4a !important;
+}
+
+body.dark-mode .archived-card .join-btn {
+  background: #4a3a6b;
+}

@@ -111,6 +111,61 @@ input[type="search"]::placeholder {
   color: #b5aac8;
 }
 
+/* ─── Date Picker ────────────────────────────────────────────────────── */
+.date-row {
+  display: flex;
+  gap: 12px;
+}
+
+.date-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.date-sub-label {
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-family: "DM Sans", sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: var(--muted);
+}
+
+input[type="date"] {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-color);
+  font-family: "DM Sans", sans-serif;
+  font-size: 15px;
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+  color-scheme: light;
+}
+
+input[type="date"]:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(123, 94, 160, 0.15);
+}
+
+.date-error {
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #d9534f;
+  margin: 0;
+  min-height: 0;
+}
+
+body.dark-mode .date-error {
+  color: #ff6b6b;
+}
+
 /* ─── Range Slider ───────────────────────────────────────────────────── */
 .form-range {
   -webkit-appearance: none;
@@ -369,6 +424,17 @@ body.dark-mode input[type="search"] {
 body.dark-mode input[type="text"]::placeholder,
 body.dark-mode input[type="search"]::placeholder {
   color: #6b4d9a;
+}
+
+body.dark-mode input[type="date"] {
+  background: #150f25;
+  border-color: rgba(197, 172, 229, 0.15);
+  color: #e0d4f5;
+  color-scheme: dark;
+}
+
+body.dark-mode .date-sub-label {
+  color: #8a70b8;
 }
 
 body.dark-mode .form-range {

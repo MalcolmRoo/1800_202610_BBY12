@@ -51,7 +51,10 @@ resultsDiv.innerHTML = "<p style='text-align:center;'>Searching...</p>";
     const querySnapshot = await getDocs(groupQuery);
     const groups = [];
     querySnapshot.forEach((docSnap) => {
-      groups.push({ id: docSnap.id, ...docSnap.data() });
+      var data = docSnap.data();
+      // Exclude archived groups from search results
+      if (data.archived) return;
+      groups.push({ id: docSnap.id, ...data });
     });
 
     populateResults(groups);
@@ -98,6 +101,15 @@ info.appendChild(members);
 const method = document.createElement("p");
 method.textContent = "Travel: " + (group.travelMethod || "Not specified");
 info.appendChild(method);
+
+const dateLine = document.createElement("p");
+if (group.startDate && group.endDate) {
+  var s = new Date(group.startDate + "T00:00:00");
+  var e = new Date(group.endDate + "T00:00:00");
+  var opts = { month: "short", day: "numeric" };
+  dateLine.textContent = "📅 " + s.toLocaleDateString([], opts) + " – " + e.toLocaleDateString([], opts) + ", " + e.getFullYear();
+  info.appendChild(dateLine);
+}
 
 
     // Right side: Join button
