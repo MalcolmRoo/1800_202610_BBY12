@@ -31,8 +31,24 @@
             width="40"
             height="40"
             class="me-2"
+            id="easterLogo"
           />
         </header>
+        <script>
+          (function () {
+            var taps = 0;
+            var timer = null;
+            document.getElementById("easterLogo").addEventListener("click", function () {
+              taps++;
+              clearTimeout(timer);
+              if (taps >= 5) {
+                window.location.href = "credits.html";
+                return;
+              }
+              timer = setTimeout(function () { taps = 0; }, 3000);
+            });
+          })();
+        </script>
       </div>
 
       <br />
