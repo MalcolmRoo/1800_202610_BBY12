@@ -58,6 +58,38 @@ body {
   font-size: 40px;
   border: 3px solid #c5ace5;
   margin-bottom: 12px;
+  position: relative;
+}
+
+.profile-pic-overlay {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #6b5fa8;
+  border: 2.5px solid #c5ace5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  z-index: 3;
+  transition: background 0.2s;
+}
+
+.profile-pic-overlay:hover {
+  background: #8b7fc7;
+}
+
+body.dark-mode .profile-pic-overlay {
+  background: #3d2b60;
+  border-color: rgba(197, 172, 229, 0.4);
+}
+
+body.dark-mode .profile-pic-overlay:hover {
+  background: #5a4080;
 }
 
 .profile-name {
