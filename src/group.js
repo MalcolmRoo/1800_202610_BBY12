@@ -23,59 +23,29 @@ const userCollection = collection(db, "tbUsers");
 const groupCollection = collection(db, "tbGroups");
 const buddyList = document.getElementById("buddies");
 
-/* Switch between Buddies list and Chat */
-document.getElementById("openChat").addEventListener("click", function () {
-  if (groupArchived) {
-    // Allow viewing chat but not sending
-    var memberDiv = document.getElementById("buddiesScrollable");
-    var chatDiv = document.getElementById("chat");
-    var button = document.getElementById("openChat");
-    var sectionTitle = document.getElementById("sectionTitle");
+/* ── Tab switching (Buddies ↔ Chat) ── */
+document.getElementById("tabBuddies").addEventListener("click", function () {
+  document.getElementById("buddiesScrollable").style.display = "block";
+  document.getElementById("chat").style.display = "none";
+  this.classList.add("active");
+  document.getElementById("tabChat").classList.remove("active");
+  fillBuddyCard();
+});
 
-    if (memberDiv.style.display === "none") {
-      memberDiv.style.display = "block";
-      chatDiv.style.display = "none";
-      button.textContent = "Chat";
-      sectionTitle.textContent = "Buddies";
-      fillBuddyCard();
-    } else {
-      memberDiv.style.display = "none";
-      chatDiv.style.display = "flex";
-      button.textContent = "Buddies";
-      sectionTitle.textContent = "Chat";
-      createOrUpdateChat();
-      setTimeout(function () {
-        var msgs = document.getElementById("chatMessages");
-        if (msgs) msgs.scrollTop = msgs.scrollHeight;
-      }, 50);
-    }
-    return;
-  }
-
-  var memberDiv = document.getElementById("buddiesScrollable");
-  var chatDiv = document.getElementById("chat");
-  var button = document.getElementById("openChat");
-  var sectionTitle = document.getElementById("sectionTitle");
-
-  if (memberDiv.style.display === "none") {
-    memberDiv.style.display = "block";
-    chatDiv.style.display = "none";
-    button.textContent = "Chat";
-    sectionTitle.textContent = "Buddies";
-    fillBuddyCard();
-  } else {
-    memberDiv.style.display = "none";
-    chatDiv.style.display = "flex";
-    button.textContent = "Buddies";
-    sectionTitle.textContent = "Chat";
-    createOrUpdateChat();
-    setTimeout(function () {
-      var msgs = document.getElementById("chatMessages");
-      if (msgs) msgs.scrollTop = msgs.scrollHeight;
+document.getElementById("tabChat").addEventListener("click", function () {
+  document.getElementById("buddiesScrollable").style.display = "none";
+  document.getElementById("chat").style.display = "flex";
+  this.classList.add("active");
+  document.getElementById("tabBuddies").classList.remove("active");
+  createOrUpdateChat();
+  setTimeout(function () {
+    var msgs = document.getElementById("chatMessages");
+    if (msgs) msgs.scrollTop = msgs.scrollHeight;
+    if (!groupArchived) {
       var input = document.getElementById("chatInput");
       if (input) input.focus();
-    }, 50);
-  }
+    }
+  }, 50);
 });
 
 /* This function checks to see if a chat sub-document
@@ -252,8 +222,10 @@ async function fillBuddyCard() {
       // Group was deleted (past 30-day archive)
       localStorage.removeItem("group");
       document.getElementById("groupTitle").textContent = "Group Deleted";
-      document.getElementById("destination-text").textContent = "This trip has been removed.";
-      buddyList.innerHTML = "<p style='text-align:center; padding:1rem;'>This group no longer exists. <a href='myGroups.html'>Back to My Groups.</a></p>";
+      document.getElementById("destination-text").textContent =
+        "This trip has been removed.";
+      buddyList.innerHTML =
+        "<p style='text-align:center; padding:1rem;'>This group no longer exists. <a href='myGroups.html'>Back to My Groups.</a></p>";
       return;
     }
     if (result.archived) {
@@ -273,12 +245,21 @@ async function fillBuddyCard() {
       var start = new Date(groupData.startDate + "T00:00:00");
       var end = new Date(groupData.endDate + "T00:00:00");
       var opts = { month: "short", day: "numeric" };
-      tripDatesEl.textContent = start.toLocaleDateString([], opts) + " – " + end.toLocaleDateString([], opts) + ", " + end.getFullYear();
+      tripDatesEl.textContent =
+        start.toLocaleDateString([], opts) +
+        " – " +
+        end.toLocaleDateString([], opts) +
+        ", " +
+        end.getFullYear();
     } else {
       tripDatesEl.textContent = "";
     }
 
     const members = groupData.members || [];
+    // Update the member count pill in the header
+    var countEl = document.getElementById("memberCountText");
+    if (countEl) countEl.textContent = members.length + " Buddies";
+
     const leaderID = groupData.leader;
 
     if (members.length === 0) {

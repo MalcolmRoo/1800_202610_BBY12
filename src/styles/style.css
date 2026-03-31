@@ -497,3 +497,8 @@ body.dark-mode .chat-date-divider {
 body.dark-mode #chatMessages {
   background: #1e1530;
 }
+body.dark-mode #memberCountPill {
+  background: rgba(110, 238, 121, 0.334);
+  border: 1px solid rgba(10, 231, 95, 0.536);
+  color: rgb(47, 255, 68);
+}
