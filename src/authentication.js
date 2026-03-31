@@ -107,6 +107,7 @@ document
   .addEventListener("click", async function (event) {
     event.preventDefault();
     localStorage.removeItem("user");
+    localStorage.removeItem("profilePic");
     await signOut(auth);
     window.location.href = "index.html";
   });
