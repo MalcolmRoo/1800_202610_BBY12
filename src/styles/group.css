@@ -22,11 +22,7 @@ body.group-page {
 
 /* ── Top header ── */
 #groupHeader {
-  background: linear-gradient(
-    180deg,
-    var(--purple-panel-start) 0%,
-    var(--purple-panel-end) 100%
-  );
+  background: linear-gradient(180deg, #2d1f52 0%, #7b5ea0 100%);
   text-align: center;
   padding: 0.85rem 1rem 0.75rem;
   flex-shrink: 0;
@@ -161,6 +157,9 @@ body.dark-mode #archivedBanner {
   border-radius: 20px;
   background: rgba(197, 172, 229, 0.45);
 }
+.buddyCard {
+  background-color: #a07ad1;
+}
 
 /* ── Chat panel ── */
 #chat {
@@ -170,6 +169,7 @@ body.dark-mode #archivedBanner {
   min-height: 0; /* critical for flex overflow */
   overflow: hidden;
   background: var(--purple-card);
+  border-radius: 0%;
 }
 
 #chatMessages {
@@ -307,7 +307,7 @@ body.dark-mode #archivedBanner {
   background: rgba(197, 172, 229, 0.18);
   border: 1.5px solid rgba(197, 172, 229, 0.35);
   border-radius: 22px;
-  padding: 0.52rem 1rem;
+  padding: 0.52rem 1.3rem;
   color: #fff;
   font-size: 0.9rem;
   font-weight: 500;
@@ -403,4 +403,135 @@ body.dark-mode #archivedBanner {
 
 body.group-page {
   padding-bottom: 80px !important;
+}
+
+/* ── Hide avatar circle ── */
+#chatAvatarMe {
+  display: none;
+}
+
+/* ── Tab switcher ── */
+#tabSwitcher {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  margin: 0.4rem 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 0.55rem 0;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 650;
+  border: none !important;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: transparent;
+  color: var(--purple-light);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #7d3fe8, #a855f7) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);
+}
+
+.tab-btn:not(.active):hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #fff !important;
+}
+
+/* ── Header actions ── */
+#headerActions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+#memberCountPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  background: rgba(110, 238, 121, 0.334);
+  border: 1px solid rgba(10, 231, 95, 0.536);
+  color: rgb(47, 255, 68);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+#leaveGroup {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px !important;
+  border-radius: 100px !important;
+  background: rgba(241, 163, 163, 0.438);
+  border: 2px solid rgba(231, 48, 48, 0.573) !important;
+  color: rgba(255, 22, 22, 0.555) !important;
+  font-size: 0.8rem !important;
+  font-weight: 620;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: auto !important;
+}
+
+#leaveGroup:hover {
+  background: rgba(255, 77, 77, 0.08) !important;
+  border-color: rgba(255, 77, 77, 0.25) !important;
+  color: #df3e3e !important;
+}
+
+/* ── Dark mode for tabs ── */
+body.dark-mode #tabSwitcher {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .tab-btn {
+  color: #a890cc !important;
+}
+
+body.dark-mode .tab-btn.active {
+  background: linear-gradient(135deg, #7c3aed, #a855f7) !important;
+  color: #fff !important;
+}
+
+body.dark-mode #leaveGroup {
+  background: rgba(241, 163, 163, 0.438);
+  border: 2px solid rgba(240, 47, 47, 0.553);
+  color: rgba(255, 22, 22, 0.555);
+  font-size: 0.8rem;
+}
+
+body.dark-mode .chat-bubble.theirs {
+  background: #2e1f4a;
+  color: #e0d4f5;
+}
+
+body.dark-mode .chat-bubble.mine {
+  background: #4f3d73;
+  color: #e0d4f5;
+}
+
+body.dark-mode .chat-sender-name {
+  color: #a890cc;
+}
+
+body.dark-mode .chat-bubble-time {
+  color: #7a5fa0;
+}
+
+body.dark-mode .chat-date-divider {
+  background: rgba(255, 255, 255, 0.1);
+  color: #a890cc;
 }
