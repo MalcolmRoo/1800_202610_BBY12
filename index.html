@@ -21,38 +21,7 @@
     <!-- Your HTML Layout go here -->
     <!------------------------------>
     <div class="container py-4">
-      <!--Top Header Start-->
 
-      <div class="container header">
-        <header class="d-flex flex-wrap justify-content-center py-3 rounded-3">
-          <img
-            src="/images/carpool.png"
-            alt="bootstrap"
-            width="40"
-            height="40"
-            class="me-2"
-            id="easterLogo"
-          />
-        </header>
-        <script>
-          (function () {
-            var taps = 0;
-            var timer = null;
-            document.getElementById("easterLogo").addEventListener("click", function () {
-              taps++;
-              clearTimeout(timer);
-              if (taps >= 5) {
-                window.location.href = "credits.html";
-                return;
-              }
-              timer = setTimeout(function () { taps = 0; }, 3000);
-            });
-          })();
-        </script>
-      </div>
-
-      <br />
-      <!--Top Header end-->
 
       <!-- Welcome Msg and Signup button Start-->
       <div class="p-5 mb-4 rounded-3 textBubble">
