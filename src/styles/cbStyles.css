@@ -24,7 +24,9 @@
   justify-content: center;
   padding: 40px 18px 80px;
   margin: 0;
-  transition: background 0.3s, color 0.3s;
+  transition:
+    background 0.3s,
+    color 0.3s;
 }
 
 /* ─── Wrapper ────────────────────────────────────────────────────────── */
@@ -61,7 +63,10 @@
   flex-direction: column;
   gap: 28px;
   box-shadow: 0 8px 32px rgba(123, 94, 160, 0.12);
-  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+  transition:
+    background 0.3s,
+    border-color 0.3s,
+    box-shadow 0.3s;
 }
 
 /* ─── Field ──────────────────────────────────────────────────────────── */
@@ -142,7 +147,9 @@ input[type="date"] {
   font-size: 15px;
   padding: 12px 14px;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   width: 100%;
   box-sizing: border-box;
   color-scheme: light;
@@ -291,7 +298,7 @@ body.dark-mode .date-error {
 }
 
 .travel-radio:checked + .travel-card {
-  background: rgba(123, 94, 160, 0.15);
+  background: rgba(135, 75, 219, 0.323);
   border-color: var(--primary);
   border-width: 2px;
   color: var(--primary);
