@@ -1,0 +1,11 @@
+{
+  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }]
+
+  //   "$schema": "https://openapi.vercel.sh/vercel.json",
+  //   "rewrites": [
+  //     {
+  //       "source": "/resize/:width/:height",
+  //       "destination": "/api/sharp"
+  //     }
+  //   ]
+}
