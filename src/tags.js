@@ -5,9 +5,11 @@ const MASTER_TAGS = [
   { id: "chatty", label: "Chatty", emoji: "💬" },
   { id: "quiet", label: "Quiet", emoji: "🤫" },
   { id: "family-oriented", label: "Family Oriented", emoji: "👨‍👩‍👧" },
-  { id: "physical-impairment", label: "Physical Impairments", emoji: "♿" },
-  { id: "mental-impairment", label: "Mental Impairments", emoji: "🧠" },
-  { id: "culture", label: "Culture", emoji: "🏛️" },
+  { id: "mobility-impairment", label: "mobility Impairments", emoji: "♿" },
+  { id: "visually-impairment", label: "visually Impairments", emoji: "👀" },
+  { id: "neuro-diverse", label: "neuro diverse", emoji: "🧠" },
+  { id: "locals", label: "Locals", emoji: "🏠" },
+  { id: "tourists", label: "tourists", emoji: "🏖️" },
 ];
 
 let selectedTags = [];

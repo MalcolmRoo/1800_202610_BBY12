@@ -127,6 +127,11 @@ input[type="text"]:focus {
   flex-wrap: wrap;
   gap: 8px;
 }
+#tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7.4px; /* space between tags . */
+}
 
 .tag-option {
   display: none;
