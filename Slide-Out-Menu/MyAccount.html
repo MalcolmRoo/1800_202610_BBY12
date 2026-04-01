@@ -30,25 +30,30 @@
       </button>
     </div>
     <input type="file" id="picInput" accept="image/*" hidden>
-    <p class="profile-name">Username</p>
-    <p class="profile-email">user@email.com</p>
+    <p class="profile-name" id="profileName"></p>
+    <p class="profile-email" id="profileEmail"></p>
   </div>
 
   <script>
-    // ── Show profile picture INSTANTLY from localStorage ──
+    // ── Instant load from localStorage ──
     (function () {
-      var picEl = document.getElementById("profilePicContainer");
-      var savedPic = localStorage.getItem("profilePic");
       var camSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M9 2L7.2 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.2L15 2H9zm3 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>';
-      var cam = '<button class="profile-pic-overlay" id="changePicBtn" title="Change profile picture">' + camSvg + '</button>';
+      var camBtn = '<button class="profile-pic-overlay" id="changePicBtn" title="Change profile picture">' + camSvg + '</button>';
+
+      // Profile picture
+      var savedPic = localStorage.getItem("profilePic");
       if (savedPic) {
-        picEl.innerHTML = '<img src="' + savedPic + '" alt="Profile" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" />' + cam;
+        document.getElementById("profilePicContainer").innerHTML =
+          '<img src="' + savedPic + '" alt="Profile" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" />' + camBtn;
       }
-      // Attach camera click immediately
       document.getElementById("changePicBtn").addEventListener("click", function (e) {
         e.stopPropagation();
         document.getElementById("picInput").click();
       });
+
+      // Name and email
+      document.getElementById("profileName").textContent = localStorage.getItem("userName") || "Username";
+      document.getElementById("profileEmail").textContent = localStorage.getItem("userEmail") || "user@email.com";
     })();
   </script>
 
@@ -105,66 +110,44 @@
     })();
   </script>
   <script>
-    // ── Profile picture camera button ──
+    // ── Profile picture upload ──
     (function () {
-      var changeBtn = document.getElementById("changePicBtn");
       var picInput = document.getElementById("picInput");
-
-      function compressImage(dataUrl, maxSize, quality, callback) {
-        var img = new Image();
-        img.onload = function () {
-          var canvas = document.createElement("canvas");
-          var w = img.width;
-          var h = img.height;
-          // Crop to square (center)
-          var side = Math.min(w, h);
-          var sx = (w - side) / 2;
-          var sy = (h - side) / 2;
-          canvas.width = maxSize;
-          canvas.height = maxSize;
-          var ctx = canvas.getContext("2d");
-          ctx.drawImage(img, sx, sy, side, side, 0, 0, maxSize, maxSize);
-          callback(canvas.toDataURL("image/jpeg", quality));
-        };
-        img.src = dataUrl;
-      }
+      var camSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M9 2L7.2 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.2L15 2H9zm3 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>';
 
       function updatePic(dataUrl) {
         var picEl = document.getElementById("profilePicContainer");
-        var cameraSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="white">'
-          + '<path d="M9 2L7.2 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.2L15 2H9zm3 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>'
-          + '</svg>';
         picEl.innerHTML = '<img src="' + dataUrl + '" alt="Profile" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" />'
-          + '<button class="profile-pic-overlay" id="changePicBtn" title="Change profile picture">'
-          + cameraSvg
-          + '</button>';
-        // Re-attach click handler to the new button
-        var newBtn = document.getElementById("changePicBtn");
-        newBtn.addEventListener("click", function (ev) {
+          + '<button class="profile-pic-overlay" id="changePicBtn" title="Change profile picture">' + camSvg + '</button>';
+        document.getElementById("changePicBtn").addEventListener("click", function (ev) {
           ev.stopPropagation();
           picInput.click();
         });
       }
 
-      changeBtn.addEventListener("click", function (e) {
-        e.stopPropagation();
-        picInput.click();
-      });
+      function compressImage(dataUrl, maxSize, quality, callback) {
+        var img = new Image();
+        img.onload = function () {
+          var canvas = document.createElement("canvas");
+          var side = Math.min(img.width, img.height);
+          canvas.width = maxSize;
+          canvas.height = maxSize;
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, maxSize, maxSize);
+          callback(canvas.toDataURL("image/jpeg", quality));
+        };
+        img.src = dataUrl;
+      }
 
       picInput.addEventListener("change", function (e) {
         var file = e.target.files[0];
         if (!file) return;
-
         var reader = new FileReader();
         reader.onload = function (event) {
-          // Show raw image immediately for fast preview
           updatePic(event.target.result);
-          // Compress in background, then save the smaller version
           compressImage(event.target.result, 200, 0.8, function (compressed) {
-            console.log("[Profile] Compressed image:", compressed.length, "chars");
             localStorage.setItem("profilePic", compressed);
             updatePic(compressed);
-            console.log("[Profile] Dispatching profilePicChanged event");
             window.dispatchEvent(new CustomEvent("profilePicChanged", { detail: compressed }));
           });
         };
@@ -173,119 +156,85 @@
     })();
   </script>
   <script type="module">
-    // ── Load real user profile from Firestore ──
+    // ── Firebase: load profile + delete account ──
     try {
       const { db, auth } = await import("/src/firebaseConfig.js");
-      const { doc, getDoc, setDoc } = await import("firebase/firestore");
-      const { onAuthStateChanged } = await import("firebase/auth");
+      const { doc, getDoc, setDoc, deleteDoc } = await import("firebase/firestore");
+      const { onAuthStateChanged, deleteUser } = await import("firebase/auth");
 
+      // Load profile
       onAuthStateChanged(auth, async function (user) {
         if (!user) return;
 
         try {
-          console.log("[Profile] Fetching Firestore doc for:", user.uid);
           var userDoc = await getDoc(doc(db, "tbUsers", user.uid));
-          console.log("[Profile] Doc exists:", userDoc.exists());
+          var camSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M9 2L7.2 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.2L15 2H9zm3 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>';
+          var camBtn = '<button class="profile-pic-overlay" id="changePicBtn" title="Change profile picture">' + camSvg + '</button>';
+
           if (userDoc.exists()) {
             var data = userDoc.data();
-            console.log("[Profile] Firestore data:", JSON.stringify(data));
-            console.log("[Profile] profilePicture field:", data.profilePicture);
+            var name = data.name || user.displayName || "Unknown";
+            var email = data.email || user.email || "";
+            document.getElementById("profileName").textContent = name;
+            document.getElementById("profileEmail").textContent = email;
+            localStorage.setItem("userName", name);
+            localStorage.setItem("userEmail", email);
 
-            // Update name and email from Firestore
-            var nameEl = document.querySelector(".profile-name");
-            var emailEl = document.querySelector(".profile-email");
-            if (nameEl) nameEl.textContent = data.name || user.displayName || "Unknown";
-            if (emailEl) emailEl.textContent = data.email || user.email || "";
-
-            // Only update picture if localStorage doesn't have one yet
             var savedPic = localStorage.getItem("profilePic");
-            console.log("[Profile] localStorage profilePic:", savedPic ? "YES (" + savedPic.length + " chars)" : "NO");
             if (!savedPic && data.profilePicture && data.profilePicture !== "/images/account.png") {
               var picEl = document.querySelector(".profile-pic");
-              var camSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M9 2L7.2 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.2L15 2H9zm3 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>';
-              var cam = '<button class="profile-pic-overlay" id="changePicBtn" title="Change profile picture">' + camSvg + '</button>';
-              picEl.innerHTML = '<img src="' + data.profilePicture + '" alt="Profile" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" />' + cam;
+              picEl.innerHTML = '<img src="' + data.profilePicture + '" alt="Profile" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" />' + camBtn;
               document.getElementById("changePicBtn").addEventListener("click", function (ev) {
                 ev.stopPropagation();
                 document.getElementById("picInput").click();
               });
             } else if (!savedPic) {
-              // Show initials if no picture anywhere
               var picEl2 = document.querySelector(".profile-pic");
-              var camSvg2 = '<svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M9 2L7.2 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.2L15 2H9zm3 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>';
-              var cam2 = '<button class="profile-pic-overlay" id="changePicBtn" title="Change profile picture">' + camSvg2 + '</button>';
-              var initials = (data.name || user.displayName || "U").charAt(0).toUpperCase();
-              picEl2.innerHTML = '<span style="font-size:42px;font-weight:800;color:#c5ace5;">' + initials + '</span>' + cam2;
+              var initials = name.charAt(0).toUpperCase();
+              picEl2.innerHTML = '<span style="font-size:42px;font-weight:800;color:#c5ace5;">' + initials + '</span>' + camBtn;
               document.getElementById("changePicBtn").addEventListener("click", function (ev) {
                 ev.stopPropagation();
                 document.getElementById("picInput").click();
               });
             }
           } else {
-            // Fallback: use Firebase Auth profile data when Firestore doc is missing
-            var nameEl = document.querySelector(".profile-name");
-            var emailEl = document.querySelector(".profile-email");
-            if (nameEl) nameEl.textContent = user.displayName || "Unknown";
-            if (emailEl) emailEl.textContent = user.email || "";
+            var name = user.displayName || "Unknown";
+            var email = user.email || "";
+            document.getElementById("profileName").textContent = name;
+            document.getElementById("profileEmail").textContent = email;
+            localStorage.setItem("userName", name);
+            localStorage.setItem("userEmail", email);
           }
         } catch (err) {
           console.error("Error loading profile:", err);
         }
 
         // Save profile picture to Firestore when changed
-        console.log("[Profile] Attaching profilePicChanged listener for:", user.uid);
         window.addEventListener("profilePicChanged", function (e) {
-          console.log("[Profile] profilePicChanged event received, saving to Firestore...");
           setDoc(doc(db, "tbUsers", user.uid), {
             profilePicture: e.detail
-          }, { merge: true }).then(function () {
-            console.log("[Profile] Firestore save SUCCESS");
-          }).catch(function (err) {
-            console.error("[Profile] Firestore save FAILED:", err);
-          });
+          }, { merge: true });
         });
       });
-    } catch (err) {
-      console.error("Profile module load error:", err);
-    }
-  </script>
 
-  <script type="module">
-    // ── Delete Account — Firebase logic ──
-    try {
-      const { db, auth } = await import("/src/firebaseConfig.js");
-      const { doc, deleteDoc } = await import("firebase/firestore");
-      const { deleteUser } = await import("firebase/auth");
-
-      var yesBtn = document.getElementById("deleteYes");
-      var modal = document.getElementById("deleteModal");
-
-      yesBtn.addEventListener("click", async function () {
+      // Delete account
+      document.getElementById("deleteYes").addEventListener("click", async function () {
         var user = auth.currentUser;
-        if (!user) {
-          alert("No user is logged in.");
-          return;
-        }
+        if (!user) { alert("No user is logged in."); return; }
 
+        var yesBtn = document.getElementById("deleteYes");
         yesBtn.disabled = true;
         yesBtn.textContent = "Deleting...";
 
         try {
-          // 1. Delete Firestore user document
           await deleteDoc(doc(db, "tbUsers", user.uid));
-
-          // 2. Delete Firebase Auth account
           await deleteUser(user);
-
-          // 3. Clear local data and redirect
           localStorage.clear();
           window.location.href = "/index.html";
         } catch (err) {
-          console.error("Delete account error:", err);
-          modal.classList.remove("show");
+          document.getElementById("deleteModal").classList.remove("show");
           yesBtn.disabled = false;
           yesBtn.textContent = "Yes";
-
           if (err.code === "auth/requires-recent-login") {
             alert("For security, please log out and log back in before deleting your account.");
           } else {
@@ -294,7 +243,7 @@
         }
       });
     } catch (err) {
-      console.error("Delete account module load error:", err);
+      console.error("Profile module load error:", err);
     }
   </script>
 

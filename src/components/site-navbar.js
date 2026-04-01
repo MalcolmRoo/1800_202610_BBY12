@@ -80,13 +80,7 @@ class SiteNavbar extends HTMLElement {
 
 customElements.define("site-navbar", SiteNavbar);
 
-// ── Dark Mode Core Logic (runs on every page) ──────────────────────────
-
-function applyDarkMode() {
-  if (localStorage.getItem('darkMode') === 'true') {
-    document.body.classList.add('dark-mode');
-  }
-}
+// ── Dark Mode (toggled from settings page) ──
 
 function toggleDarkMode() {
   const isDark = document.body.classList.toggle('dark-mode');
@@ -101,6 +95,3 @@ function toggleDarkMode() {
 
 // Expose globally so onclick can reach it
 window.__toggleDarkMode = toggleDarkMode;
-
-// Apply on load immediately
-applyDarkMode();
