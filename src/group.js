@@ -1,15 +1,12 @@
-import { db } from "/src/firebaseConfig.js";
-import { auth } from "/src/firebaseConfig.js";
+import { db, auth } from "/src/firebaseConfig.js";
 import {
   doc,
   setDoc,
-  getDoc,
   getDocs,
   updateDoc,
   arrayRemove,
   collection,
   query,
-  limit,
   where,
   orderBy,
   onSnapshot,
@@ -133,7 +130,6 @@ async function postChatMessage(text) {
       timestamp: Date.now(),
       message: text,
     });
-    console.log("[Chat] Saved to Firestore:", { groupID, message: text });
   } catch (error) {
     alert(
       `Error posting message:\n${error.code || ""}\n${error.message || error}`,
@@ -274,10 +270,7 @@ async function fillBuddyCard() {
         const userQuery = query(userCollection, where("userID", "==", uid));
         const userSnap = await getDocs(userQuery);
 
-        if (userSnap.empty) {
-          console.warn("No user found for UID:", uid);
-          continue;
-        }
+        if (userSnap.empty) continue;
 
         userSnap.forEach((userDoc) => {
           const data = userDoc.data();
