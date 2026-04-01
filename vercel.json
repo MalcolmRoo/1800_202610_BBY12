@@ -16,6 +16,6 @@
       "source": "/Slide-Out-Menu/settings",
       "destination": "/Slide-Out-Menu/settings.html"
     },
-    { "source": "/index)", "destination": "/index.html" }
+    { "source": "/((?!api/).*)", "destination": "/home.html" }
   ]
 }
