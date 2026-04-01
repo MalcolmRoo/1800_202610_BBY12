@@ -1,6 +1,5 @@
 {
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/index.html" },
     { "source": "/login", "destination": "/login.html" },
     { "source": "/createGrpForm", "destination": "/createGrpForm.html" },
     { "source": "/group", "destination": "/group.html" },
@@ -15,6 +14,7 @@
     {
       "source": "/Slide-Out-Menu/settings",
       "destination": "/Slide-Out-Menu/settings.html"
-    }
+    },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
