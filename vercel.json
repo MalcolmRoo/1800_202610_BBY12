@@ -1,20 +1,21 @@
 {
+  "cleanUrls": true,
   "rewrites": [
-    { "source": "/login.html", "destination": "/login.html" },
-    { "source": "/createGrpForm.html", "destination": "/createGrpForm.html" },
-    { "source": "/group.html", "destination": "/group.html" },
-    { "source": "/JoinGroup.html", "destination": "/JoinGroup.html" },
-    { "source": "/main.html", "destination": "/main.html" },
-    { "source": "/myGroups.html", "destination": "/myGroups.html" },
-    { "source": "/credits.html", "destination": "/credits.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/createGrpForm", "destination": "/createGrpForm.html" },
+    { "source": "/group", "destination": "/group.html" },
+    { "source": "/JoinGroup", "destination": "/JoinGroup.html" },
+    { "source": "/main", "destination": "/main.html" },
+    { "source": "/myGroups", "destination": "/myGroups.html" },
+    { "source": "/credits", "destination": "/credits.html" },
     {
-      "source": "/Slide-Out-Menu/MyAccount,html",
+      "source": "/Slide-Out-Menu/MyAccount",
       "destination": "/Slide-Out-Menu/MyAccount.html"
     },
     {
-      "source": "/Slide-Out-Menu/settings.html",
+      "source": "/Slide-Out-Menu/settings",
       "destination": "/Slide-Out-Menu/settings.html"
     },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/index)", "destination": "/index.html" }
   ]
 }
