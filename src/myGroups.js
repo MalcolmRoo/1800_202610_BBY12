@@ -1,7 +1,6 @@
 import { db, auth } from "/src/firebaseConfig.js";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { processGroup } from "/src/archiveUtils.js";
 
 const groupCollection = collection(db, "tbGroups");
 
@@ -32,9 +31,9 @@ function formatDates(group) {
   return "";
 }
 
-function createGroupCard(group, isArchived) {
+function createGroupCard(group) {
   var card = document.createElement("div");
-  card.className = "result-card" + (isArchived ? " archived-card" : "");
+  card.className = "result-card";
   var info = document.createElement("div");
   var name = document.createElement("h3");
   name.textContent = group.groupName || "Unnamed Group";
@@ -52,15 +51,9 @@ function createGroupCard(group, isArchived) {
   info.appendChild(tagsLine);
   info.appendChild(memberCount);
   if (dateLine.textContent) info.appendChild(dateLine);
-  if (isArchived) {
-    var archivedLabel = document.createElement("p");
-    archivedLabel.className = "archived-label";
-    archivedLabel.textContent = "📦 Archived";
-    info.appendChild(archivedLabel);
-  }
   var btn = document.createElement("button");
   btn.className = "join-btn";
-  btn.textContent = isArchived ? "View" : "Open";
+  btn.textContent = "Open";
   btn.addEventListener("click", function () {
     localStorage.setItem("group", group.groupID);
     window.location.href = "/group.html";
@@ -87,47 +80,12 @@ async function loadMyGroups(userID) {
       return;
     }
 
-    // ✅ create the arrays
-    var activeGroups = [];
-    var archivedGroups = [];
-
-    // ✅ fill them
-    for (const docSnap of groupSnap.docs) {
-      var group = docSnap.data();
-      var result = await processGroup(group, docSnap.id);
-      if (result === null) continue;
-      if (result.archived) {
-        archivedGroups.push(group);
-      } else {
-        activeGroups.push(group);
-      }
-    }
-
     container.innerHTML = "";
 
-    // Active groups
-    if (activeGroups.length > 0) {
-      activeGroups.forEach(function (group) {
-        container.appendChild(createGroupCard(group, false));
-      });
-    }
-
-    // Archived section
-    if (archivedGroups.length > 0) {
-      var archiveHeader = document.createElement("div");
-      archiveHeader.className = "archive-section-header";
-      archiveHeader.textContent = "Archived Trips";
-      container.appendChild(archiveHeader);
-      archivedGroups.forEach(function (group) {
-        container.appendChild(createGroupCard(group, true));
-      });
-    }
-
-    // nothing found
-    if (activeGroups.length === 0 && archivedGroups.length === 0) {
-      container.innerHTML =
-        "<p style='text-align:center;'>You are not in any groups yet.<br><a href='/JoinGroup.html'>Find a group</a> or <a href='/createGrpForm.html'>create one</a>.</p>";
-    }
+    groupSnap.forEach(function (docSnap) {
+      var group = docSnap.data();
+      container.appendChild(createGroupCard(group));
+    });
   } catch (error) {
     alert(
       "Error loading your groups:\n" +

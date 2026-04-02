@@ -51,8 +51,6 @@ resultsDiv.innerHTML = "<p style='text-align:center;'>Searching...</p>";
     const groups = [];
     querySnapshot.forEach((docSnap) => {
       var data = docSnap.data();
-      // Exclude archived groups from search results
-      if (data.archived) return;
       groups.push({ id: docSnap.id, ...data });
     });
 

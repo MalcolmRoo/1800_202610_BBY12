@@ -50,23 +50,6 @@ body.group-page {
   font-weight: 500;
 }
 
-#archivedBanner {
-  text-align: center;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #f58d06;
-
-  background: rgba(230, 191, 83, 0.349);
-  padding: 8px 1rem;
-  border-bottom: 1px solid rgba(196, 164, 74, 0.25);
-}
-
-body.dark-mode #archivedBanner {
-  color: #d4b44a;
-  background: rgba(196, 164, 74, 0.08);
-  border-bottom-color: rgba(196, 164, 74, 0.15);
-}
-
 /* ── Members initials strip ── */
 #membersStrip {
   display: flex;
