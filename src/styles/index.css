@@ -1,6 +1,10 @@
 /* ── Index / Landing page ── */
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 /* ── Light mode (default) ── */
 body {
@@ -16,16 +20,28 @@ body {
 .bg {
   position: fixed;
   inset: 0;
-  background: linear-gradient(160deg, #bca0e1 0%, #c9b3e8 30%, #d4c0ee 60%, #c0a5e3 100%);
+  background: linear-gradient(
+    160deg,
+    #bca0e1 0%,
+    #c9b3e8 30%,
+    #d4c0ee 60%,
+    #c0a5e3 100%
+  );
   background-size: 400% 400%;
   animation: gradientShift 10s ease infinite;
   z-index: 0;
 }
 
 @keyframes gradientShift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .particles {
@@ -44,20 +60,74 @@ body {
   animation: float linear infinite;
 }
 
-.particle:nth-child(1)  { left: 8%;  width: 5px; height: 5px; animation-duration: 14s; animation-delay: 0s; }
-.particle:nth-child(2)  { left: 20%; width: 3px; height: 3px; animation-duration: 18s; animation-delay: 2s; }
-.particle:nth-child(3)  { left: 35%; animation-duration: 12s; animation-delay: 5s; }
-.particle:nth-child(4)  { left: 50%; width: 5px; height: 5px; animation-duration: 16s; animation-delay: 1s; }
-.particle:nth-child(5)  { left: 65%; width: 3px; height: 3px; animation-duration: 20s; animation-delay: 3s; }
-.particle:nth-child(6)  { left: 80%; animation-duration: 13s; animation-delay: 6s; }
-.particle:nth-child(7)  { left: 92%; width: 5px; height: 5px; animation-duration: 17s; animation-delay: 4s; }
-.particle:nth-child(8)  { left: 42%; width: 3px; height: 3px; animation-duration: 15s; animation-delay: 7s; }
+.particle:nth-child(1) {
+  left: 8%;
+  width: 5px;
+  height: 5px;
+  animation-duration: 14s;
+  animation-delay: 0s;
+}
+.particle:nth-child(2) {
+  left: 20%;
+  width: 3px;
+  height: 3px;
+  animation-duration: 18s;
+  animation-delay: 2s;
+}
+.particle:nth-child(3) {
+  left: 35%;
+  animation-duration: 12s;
+  animation-delay: 5s;
+}
+.particle:nth-child(4) {
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  animation-duration: 16s;
+  animation-delay: 1s;
+}
+.particle:nth-child(5) {
+  left: 65%;
+  width: 3px;
+  height: 3px;
+  animation-duration: 20s;
+  animation-delay: 3s;
+}
+.particle:nth-child(6) {
+  left: 80%;
+  animation-duration: 13s;
+  animation-delay: 6s;
+}
+.particle:nth-child(7) {
+  left: 92%;
+  width: 5px;
+  height: 5px;
+  animation-duration: 17s;
+  animation-delay: 4s;
+}
+.particle:nth-child(8) {
+  left: 42%;
+  width: 3px;
+  height: 3px;
+  animation-duration: 15s;
+  animation-delay: 7s;
+}
 
 @keyframes float {
-  0%   { transform: translateY(110vh) scale(0); opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  0% {
+    transform: translateY(110vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) scale(1);
+    opacity: 0;
+  }
 }
 
 /* ── Hero ── */
@@ -72,8 +142,14 @@ body {
 }
 
 @keyframes fadeUp {
-  0%   { transform: translateY(30px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .logo-frame {
@@ -92,7 +168,7 @@ body {
 }
 
 .logo-ring::before {
-  content: '✈';
+  content: "✈";
   position: absolute;
   top: -10px;
   left: 50%;
@@ -101,7 +177,9 @@ body {
 }
 
 @keyframes spinSlow {
-  100% { transform: rotate(360deg); }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .logo-circle {
@@ -127,7 +205,7 @@ body {
   width: 110px;
   height: 110px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
 }
 
 .hero h1 {
@@ -175,8 +253,9 @@ body {
 
 .footer-note {
   margin-top: 2rem;
-  font-size: 0.8rem;
-  color: #9b7fc7;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #a182d4;
 }
 
 /* ══════════════════════════════════════
@@ -187,7 +266,13 @@ body.dark-mode {
 }
 
 body.dark-mode .bg {
-  background: linear-gradient(160deg, #1a1225 0%, #0f0a1a 30%, #1a1225 60%, #0d0820 100%);
+  background: linear-gradient(
+    160deg,
+    #1a1225 0%,
+    #0f0a1a 30%,
+    #1a1225 60%,
+    #0d0820 100%
+  );
 }
 
 body.dark-mode .particle {
@@ -203,7 +288,7 @@ body.dark-mode .hero .tagline {
 }
 
 body.dark-mode .logo-ring {
-  border-color: rgba(197, 172, 229, 0.2);
+  border-color: rgba(230, 221, 239, 0.167);
 }
 
 body.dark-mode .logo-ring::before {
@@ -228,5 +313,5 @@ body.dark-mode .cta-btn:hover {
 }
 
 body.dark-mode .footer-note {
-  color: #6b4d9a;
+  color: #7959ad;
 }
