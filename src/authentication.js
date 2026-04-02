@@ -7,18 +7,14 @@
 // -------------------------------------------------------------
 
 // Import the initialized Firebase Authentication object
-import { auth } from "/src/firebaseConfig.js";
-import { db } from "/src/firebaseConfig.js";
+import { auth, db } from "/src/firebaseConfig.js";
 import { doc, setDoc } from "firebase/firestore";
-
-// Import specific functions from the Firebase Auth SDK
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   updateProfile,
   onAuthStateChanged,
   signOut,
-  getAuth,
 } from "firebase/auth";
 
 // -------------------------------------------------------------
@@ -35,7 +31,11 @@ import {
 //   await loginUser("user@example.com", "password123");
 // -------------------------------------------------------------
 export async function loginUser(email, password) {
-  return signInWithEmailAndPassword(auth, email, password);
+  const credential = await signInWithEmailAndPassword(auth, email, password);
+  const user = credential.user;
+  localStorage.setItem("userName", user.displayName || "Unknown");
+  localStorage.setItem("userEmail", user.email || "");
+  return credential;
 }
 
 // -------------------------------------------------------------
@@ -64,6 +64,10 @@ export async function signupUser(name, email, password) {
   // Update the user's profile with the display name, NOTE: updateProfile is a built-in Firebase function
   await updateProfile(user, { displayName: name });
 
+  // Cache name and email for instant profile page load
+  localStorage.setItem("userName", name);
+  localStorage.setItem("userEmail", email);
+
   // After creating the user, we can also create a Firestore document for them with default values for country and school.
   // This demonstrates how to link Auth users to Firestore data.
   // Use 'try' 'catch' to handle any errors that might occur during Firestore document creation.
@@ -77,13 +81,7 @@ export async function signupUser(name, email, password) {
       profilePicture: "/images/account.png",
       statusMessage: "Hi, I'm " + name + " and I'm a new travel buddy!",
     });
-    console.log("Firestore user document created successfully!");
   } catch (error) {
-    // Information for debugging: show the error code
-    // In a real app, you might want to show a user-friendly message instead of the raw error.
-    // console.error("Error creating user document in Firestore:", error);
-    // console output may not be seen if redirection to main.html happens
-    // Therefore, we can try "alert".
     alert(
       `Error creating user document:\n${error.code || ""}\n${error.message || error}`,
     );
@@ -102,15 +100,16 @@ export async function signupUser(name, email, password) {
 //   await logoutUser();
 // -------------------------------------------------------------
 
-document
-  .getElementById("LogOutUser")
-  .addEventListener("click", async function (event) {
+var logoutBtn = document.getElementById("LogOutUser");
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async function (event) {
     event.preventDefault();
     localStorage.removeItem("user");
     localStorage.removeItem("profilePic");
     await signOut(auth);
-    window.location.href = "index.html";
+    window.location.href = "/index.html";
   });
+}
 
 // -------------------------------------------------------------
 // checkAuthState()
@@ -141,31 +140,6 @@ export function checkAuthState() {
   });
 }
 
-// -------------------------------------------------------------
-// getCurrentUser()
-// -------------------------------------------------------------
-// Observes changes in the user's authentication state (login/logout)
-// and gets any required information.
-//
-// Usage:
-//  getCurrentUser();
-// -------------------------------------------------------------
-
-function getCurrentUser() {
-  const auth = getAuth();
-  const user = auth.currentUser;
-
-  if (user !== null) {
-    localStorage.setItem("user", user);
-  }
-}
-
-// -------------------------------------------------------------
-// onAuthReady(callback)
-// -------------------------------------------------------------
-// Wrapper for Firebase's onAuthStateChanged()
-// Runs the given callback(user) when Firebase resolves or changes auth state.
-// Useful for showing user info or redirecting after login/logout.
 export function onAuthReady(callback) {
   return onAuthStateChanged(auth, callback);
 }

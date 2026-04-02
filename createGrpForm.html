@@ -31,7 +31,7 @@
 
     <script type="module" src="/src/components/site-navbar.js"></script>
   </head>
-  <body class="createButtonBody" onload="initialize()">
+  <body class="createButtonBody">
     <script>if(localStorage.getItem('darkMode')==='true')document.body.classList.add('dark-mode');</script>
     <div class="wrapper">
       <header id="cbHeader">
@@ -65,6 +65,7 @@
               <input name="end-date" type="date" id="end-date" required />
             </div>
           </div>
+          <p class="date-hint">Tap the calendar icon to pick a date</p>
           <p id="date-error" class="date-error"></p>
         </div>
 
@@ -210,13 +211,13 @@
       <site-navbar></site-navbar>
     </nav>
     <script type="module" src="/src/main.js"></script>
-    <script type="module" src="/src/authentication.js"></script>
     <script type="module" src="/src/createGroup.js"></script>
 
     <script>
       // Set min date to today for both date inputs
       var today = new Date().toISOString().split("T")[0];
       document.getElementById("start-date").setAttribute("min", today);
+      document.getElementById("start-date").value = today;
       document.getElementById("end-date").setAttribute("min", today);
 
       // When start date changes, ensure end date is not before it

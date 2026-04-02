@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { db } from "/src/firebaseConfig.js";
 import { doc, setDoc } from "firebase/firestore";
-import { getSelectedTags } from "/src/tags.js"; // 
+import { getSelectedTags } from "/src/tags.js";
 
 const form = document.getElementById("createGroupForm");
 
@@ -97,6 +97,3 @@ export async function CreateGroup(
     );
   }
 }
-
-export async function DeleteGroup(groupID) {}
-export async function MigrateGroup(newLeader, groupID) {}

@@ -1,5 +1,4 @@
-import { db } from "/src/firebaseConfig.js";
-import { auth } from "/src/firebaseConfig.js";
+import { db, auth } from "/src/firebaseConfig.js";
 import {
   doc,
   getDocs,
