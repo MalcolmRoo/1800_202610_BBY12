@@ -23,6 +23,7 @@ class SiteNavbar extends HTMLElement {
           tabindex="-1"
           id="offcanvasNavbar"
           aria-labelledby="offcanvasNavbarLabel"
+          data-bs-backdrop="false"
         >
           <div class="offcanvas-header">
             <button
@@ -36,37 +37,49 @@ class SiteNavbar extends HTMLElement {
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
               <li class="nav-item">
                 <a class="nav-link" href="/Slide-Out-Menu/MyAccount.html"
-                  ><img src="/images/MyAccount/account.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
+                  ><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rounded float-start navImage" style="padding:3px;">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
                   My Account
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/myGroups.html"
-                  ><img src="/images/buddy.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
+                  ><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rounded float-start navImage" style="padding:3px;">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
                   My Groups
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#"
-                  ><img src="/images/buddy.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
-                  Report an issue
+                <a class="nav-link" href="/report.html"
+                  ><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rounded float-start navImage" style="padding:3px;">
+                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                    <line x1="4" y1="22" x2="4" y2="15"/>
+                  </svg>
+                  Report
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/Slide-Out-Menu/settings.html"
-                  ><img src="/images/Settings-Images/settings.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
+                  ><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rounded float-start navImage" style="padding:3px;">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                  </svg>
                   Settings
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#"
-                  ><img src="/images/buddy.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
-                  Exit App
-                </a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link" href="#" id="LogOutUser"
-                  ><img src="/images/buddy.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
+                  ><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rounded float-start navImage" style="padding:3px;">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                  </svg>
                   Log Out
                 </a>
               </li>
@@ -75,6 +88,34 @@ class SiteNavbar extends HTMLElement {
         </div>
       </nav>
     `;
+
+    // ── Custom backdrop (Bootstrap's breaks inside custom elements) ──
+    var offcanvasEl = this.querySelector('#offcanvasNavbar');
+    var backdrop = document.createElement('div');
+    backdrop.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1040;transition:opacity 0.3s ease;opacity:0;pointer-events:none;';
+    offcanvasEl.parentNode.insertBefore(backdrop, offcanvasEl);
+
+    function showBackdrop() {
+      backdrop.style.opacity = '1';
+      backdrop.style.pointerEvents = 'auto';
+    }
+
+    function hideBackdrop() {
+      backdrop.style.opacity = '0';
+      backdrop.style.pointerEvents = 'none';
+      document.body.classList.remove('modal-open');
+      document.body.style.removeProperty('overflow');
+      document.body.style.removeProperty('padding-right');
+      document.querySelectorAll('.offcanvas-backdrop').forEach(function (el) { el.remove(); });
+    }
+
+    backdrop.addEventListener('click', function () {
+      var instance = bootstrap.Offcanvas.getInstance(offcanvasEl);
+      if (instance) instance.hide();
+    });
+
+    offcanvasEl.addEventListener('show.bs.offcanvas', showBackdrop);
+    offcanvasEl.addEventListener('hidden.bs.offcanvas', hideBackdrop);
   }
 }
 
@@ -86,12 +127,10 @@ function toggleDarkMode() {
   const isDark = document.body.classList.toggle('dark-mode');
   localStorage.setItem('darkMode', isDark);
 
-  // Sync settings page toggle if present
   const settingsToggle = document.getElementById('darkModeToggle');
   if (settingsToggle) {
     settingsToggle.classList.toggle('on', isDark);
   }
 }
 
-// Expose globally so onclick can reach it
 window.__toggleDarkMode = toggleDarkMode;
