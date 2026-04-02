@@ -186,124 +186,79 @@ window.addEventListener("load", function () {
   });
 });
 
-/* ── Load group data and buddy cards ── */
 async function fillBuddyCard() {
-  buddyList.innerHTML = "";
-  try {
-    const groupID = localStorage.getItem("group");
+  const groupID = localStorage.getItem("group");
+  const buddyList = document.getElementById("buddies");
 
-    if (!groupID) {
-      document.getElementById("groupTitle").textContent = "No group found";
-      document.getElementById("destination-text").textContent =
-        "Go join or create a group!";
-      buddyList.innerHTML =
-        "<p style='text-align:center; padding:1rem;'>You are not in a group. <a href='JoinGroup.html'>Find one here.</a></p>";
-      return;
-    }
+  if (!groupID) {
+    document.getElementById("groupTitle").textContent = "No group found";
+    document.getElementById("destination-text").textContent =
+      "Go join or create a group!";
+    buddyList.innerHTML =
+      "<p style='text-align:center; padding:1rem;'>You are not in a group. <a href='JoinGroup.html'>Find one here.</a></p>";
+    return;
+  }
 
-    const groupQuery = query(groupCollection, where("groupID", "==", groupID));
-    const groupSnap = await getDocs(groupQuery);
+  //Listen to the GROUP document first
+  const groupQuery = query(groupCollection, where("groupID", "==", groupID));
 
-    if (groupSnap.empty) {
+  onSnapshot(groupQuery, async (groupSnapshot) => {
+    if (groupSnapshot.empty) {
       alert("Group not found in database.");
       return;
     }
 
-    const groupData = groupSnap.docs[0].data();
-    var docID = groupSnap.docs[0].id;
-
-    // Check archive status
-    var result = await processGroup(groupData, docID);
-    if (result === null) {
-      // Group was deleted (past 30-day archive)
-      localStorage.removeItem("group");
-      document.getElementById("groupTitle").textContent = "Group Deleted";
-      document.getElementById("destination-text").textContent =
-        "This trip has been removed.";
-      buddyList.innerHTML =
-        "<p style='text-align:center; padding:1rem;'>This group no longer exists. <a href='myGroups.html'>Back to My Groups.</a></p>";
-      return;
-    }
-    if (result.archived) {
-      groupArchived = true;
-      document.getElementById("archivedBanner").style.display = "block";
-      var leaveBtn = document.getElementById("leaveGroup");
-      if (leaveBtn) leaveBtn.style.display = "none";
-    }
-
-    document.getElementById("groupTitle").textContent = groupData.groupName;
-    document.getElementById("destination-text").textContent =
-      groupData.destination;
-
-    // Display trip dates
-    var tripDatesEl = document.getElementById("trip-dates");
-    if (groupData.startDate && groupData.endDate) {
-      var start = new Date(groupData.startDate + "T00:00:00");
-      var end = new Date(groupData.endDate + "T00:00:00");
-      var opts = { month: "short", day: "numeric" };
-      tripDatesEl.textContent =
-        start.toLocaleDateString([], opts) +
-        " – " +
-        end.toLocaleDateString([], opts) +
-        ", " +
-        end.getFullYear();
-    } else {
-      tripDatesEl.textContent = "";
-    }
-
+    const groupDoc = groupSnapshot.docs[0];
+    const groupData = groupDoc.data();
     const members = groupData.members || [];
-    // Update the member count pill in the header
-    var countEl = document.getElementById("memberCountText");
-    if (countEl) countEl.textContent = members.length + " Buddies";
-
     const leaderID = groupData.leader;
+
+    // Update UI elements that might change (Member Count, Group Name)
+    document.getElementById("groupTitle").textContent = groupData.groupName;
+    const countEl = document.getElementById("memberCountText");
+    if (countEl) countEl.textContent = members.length + " Buddies";
 
     if (members.length === 0) {
       buddyList.innerHTML = "<p style='text-align:center;'>No members yet.</p>";
       return;
     }
 
-    let buddyListHTML = "";
+    //Create a default card for info to be loaded into
+    const buddyDataMap = new Map();
+    const renderBuddyList = () => {
+      buddyList.innerHTML = members
+        .map(
+          (uid) =>
+            buddyDataMap.get(uid) || `<div class='buddyCard'>Loading...</div>`,
+        )
+        .join("");
+    };
 
-    for (const uid of members) {
-      try {
-        const userQuery = query(userCollection, where("userID", "==", uid));
-        const userSnap = await getDocs(userQuery);
+    //Listen to each member in the UPDATED members array
+    members.forEach((uid) => {
+      const userQuery = query(userCollection, where("userID", "==", uid));
 
-        if (userSnap.empty) continue;
-
+      onSnapshot(userQuery, (userSnap) => {
         userSnap.forEach((userDoc) => {
           const data = userDoc.data();
           const isLeader = uid === leaderID;
 
-          buddyListHTML +=
-            "<div class='buddyCard'>" +
-            "<img class='icon' src='" +
-            (data.profilePicture || "/images/account.png") +
-            "' alt='Buddy profile picture' />" +
-            "<div class='buddyText'>" +
-            "<p class='buddyCardName'>" +
-            (data.name || "Unknown") +
-            (isLeader
-              ? " <span style='position:relative;top:-2px;'>👑</span>"
-              : "") +
-            "</p>" +
-            "<p class='buddyStatus'>" +
-            (data.statusMessage || "") +
-            "</p>" +
-            "</div></div>";
-        });
-      } catch (userError) {
-        console.error("Error fetching user:", uid, userError);
-      }
-    }
+          const html = `
+            <div class='buddyCard'>
+              <img class='icon' src='${data.profilePicture || "/images/account.png"}' />
+              <div class='buddyText'>
+                <p class='buddyCardName'>${data.name || "Unknown"}${isLeader ? " 👑" : ""}</p>
+                <p class='buddyStatus'>${data.statusMessage || ""}</p>
+              </div>
+            </div>`;
 
-    buddyList.innerHTML = buddyListHTML;
-  } catch (error) {
-    alert(
-      `Error loading group:\n${error.code || ""}\n${error.message || error}`,
-    );
-  }
+          buddyDataMap.set(uid, html);
+        });
+        renderBuddyList();
+      });
+    });
+  });
+  //onSnapshot end
 }
 
 /* ── Chat UI helpers ── */
