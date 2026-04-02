@@ -90,7 +90,7 @@ export async function CreateGroup(
       endDate: endDate || "",
     });
     localStorage.setItem("group", randomGID);
-    window.location.href = "group.html";
+    window.location.href = "/group.html";
   } catch (error) {
     alert(
       `Error creating group:\n${error.code || ""}\n${error.message || error}`,

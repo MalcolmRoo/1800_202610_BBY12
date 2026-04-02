@@ -10,7 +10,7 @@ window.addEventListener("load", function () {
     if (user) {
       loadMyGroups(user.uid);
     } else {
-      window.location.href = "index.html";
+      window.location.href = "/index.html";
     }
   });
 });
@@ -64,7 +64,7 @@ function createGroupCard(group, isArchived) {
   btn.textContent = isArchived ? "View" : "Open";
   btn.addEventListener("click", function () {
     localStorage.setItem("group", group.groupID);
-    window.location.href = "group.html";
+    window.location.href = "/group.html";
   });
 
   card.appendChild(info);
@@ -84,26 +84,9 @@ async function loadMyGroups(userID) {
     var groupSnap = await getDocs(groupQuery);
 
     if (groupSnap.empty) {
-      container.innerHTML = "<p style='text-align:center; color:var(--muted);'>You are not in any groups yet.<br><a href='JoinGroup.html'>Find a group</a> or <a href='createGrpForm.html'>create one</a>.</p>";
+      container.innerHTML = "<p style='text-align:center; color:var(--muted);'>You are not in any groups yet.<br><a href='/JoinGroup.html'>Find a group</a> or <a href='/createGrpForm.html'>create one</a>.</p>";
       return;
     }
-
-    // Process each group (archive check + delete check)
-    var activeGroups = [];
-    var archivedGroups = [];
-
-    for (var docSnap of groupSnap.docs) {
-      var group = docSnap.data();
-      var result = await processGroup(group, docSnap.id);
-      if (result === null) continue; // deleted
-      if (result.archived) {
-        archivedGroups.push(result);
-      } else {
-        activeGroups.push(result);
-      }
-    }
-
-    container.innerHTML = "";
 
     // Active groups
     if (activeGroups.length > 0) {
@@ -111,7 +94,7 @@ async function loadMyGroups(userID) {
         container.appendChild(createGroupCard(group, false));
       });
     } else if (archivedGroups.length === 0) {
-      container.innerHTML = "<p style='text-align:center; color:var(--muted);'>You are not in any groups yet.<br><a href='JoinGroup.html'>Find a group</a> or <a href='createGrpForm.html'>create one</a>.</p>";
+      container.innerHTML = "<p style='text-align:center; color:var(--muted);'>You are not in any groups yet.<br><a href='/JoinGroup.html'>Find a group</a> or <a href='/createGrpForm.html'>create one</a>.</p>";
       return;
     }
 

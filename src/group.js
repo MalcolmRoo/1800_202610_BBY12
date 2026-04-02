@@ -167,7 +167,7 @@ document
         await updateDoc(groupDocRef, { members: arrayRemove(user.uid) });
       }
       localStorage.removeItem("group");
-      window.location.href = "main.html";
+      window.location.href = "/main.html";
     } catch (error) {
       alert(
         `Error leaving group:\n${error.code || ""}\n${error.message || error}`,
@@ -181,7 +181,7 @@ window.addEventListener("load", function () {
     if (user) {
       fillBuddyCard();
     } else {
-      window.location.href = "index.html";
+      window.location.href = "/index.html";
     }
   });
 });
@@ -197,7 +197,7 @@ async function fillBuddyCard() {
       document.getElementById("destination-text").textContent =
         "Go join or create a group!";
       buddyList.innerHTML =
-        "<p style='text-align:center; padding:1rem;'>You are not in a group. <a href='JoinGroup.html'>Find one here.</a></p>";
+        "<p style='text-align:center; padding:1rem;'>You are not in a group. <a href='/JoinGroup.html'>Find one here.</a></p>";
       return;
     }
 
@@ -221,7 +221,7 @@ async function fillBuddyCard() {
       document.getElementById("destination-text").textContent =
         "This trip has been removed.";
       buddyList.innerHTML =
-        "<p style='text-align:center; padding:1rem;'>This group no longer exists. <a href='myGroups.html'>Back to My Groups.</a></p>";
+        "<p style='text-align:center; padding:1rem;'>This group no longer exists. <a href='/myGroups.html'>Back to My Groups.</a></p>";
       return;
     }
     if (result.archived) {

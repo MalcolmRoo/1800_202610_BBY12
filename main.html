@@ -39,7 +39,7 @@
             taps++;
             clearTimeout(timer);
             if (taps >= 5) {
-              window.location.href = "credits.html";
+              window.location.href = "/credits.html";
               return;
             }
             timer = setTimeout(function () { taps = 0; }, 3000);
@@ -49,21 +49,21 @@
       <div class="mainButtons">
         <button
           class="mainScreenButton"
-          onclick="window.location.href = 'createGrpForm.html'"
+          onclick="window.location.href = '/createGrpForm.html'"
         >
           <span class="btnIcon">➕</span>
           <span class="btnLabel">Create Group</span>
         </button>
         <button
           class="mainScreenButton"
-          onclick="window.location.href = 'JoinGroup.html'"
+          onclick="window.location.href = '/JoinGroup.html'"
         >
           <span class="btnIcon">🔍</span>
           <span class="btnLabel">Join Group</span>
         </button>
         <button
           class="mainScreenButton"
-          onclick="window.location.href = 'myGroups.html'"
+          onclick="window.location.href = '/myGroups.html'"
         >
           <span class="btnIcon">👥</span>
           <span class="btnLabel">My Groups</span>
