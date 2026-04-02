@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Report — Travel Buddies</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/styles/report.css" />
+  </head>
+
+  <body class="reportBody">
+    <script>if(localStorage.getItem('darkMode')==='true')document.body.classList.add('dark-mode');</script>
+
+    <div class="wrapper">
+      <button class="report-close" onclick="window.location.href='/main.html'">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+          <line x1="6" y1="6" x2="18" y2="18"/>
+          <line x1="18" y1="6" x2="6" y2="18"/>
+        </svg>
+      </button>
+      <header id="reportHeader">
+        <h1>Report</h1>
+        <p class="report-subtitle">Help us keep Travel Buddies safe</p>
+      </header>
+
+      <div class="report-card">
+        <form id="reportForm" novalidate>
+          <div class="mb-3">
+            <label class="report-label" for="reportType">What are you reporting?</label>
+            <select id="reportType" class="form-control report-select">
+              <option value="user">Report a user</option>
+              <option value="group">Report a group</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="report-label" for="reportTarget">Name / ID of user or group</label>
+            <input
+              type="text"
+              id="reportTarget"
+              class="form-control report-input"
+              placeholder="e.g. John Doe or Weekend Hikers"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="report-label" for="reportReason">Reason</label>
+            <select id="reportReason" class="form-control report-select">
+              <option value="harassment">Harassment</option>
+              <option value="spam">Spam</option>
+              <option value="inappropriate">Inappropriate content</option>
+              <option value="fake">Fake profile / group</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="report-label" for="reportDesc">Details</label>
+            <textarea
+              id="reportDesc"
+              class="form-control report-textarea"
+              rows="4"
+              placeholder="Describe what happened..."
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="report-submit-btn w-100" id="reportSubmitBtn">
+            Submit Report
+          </button>
+        </form>
+
+        <div class="report-success d-none" id="reportSuccess">
+          <div class="report-success-icon">&#10003;</div>
+          <h3>Report submitted</h3>
+          <p>Thank you. Our team will review it.</p>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/report.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

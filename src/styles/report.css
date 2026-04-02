@@ -1,0 +1,297 @@
+/* ── Report page ── */
+
+body.reportBody {
+  background: linear-gradient(160deg, #bca0e1 0%, #c9b3e8 100%);
+  font-family: "DM Sans", sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 18px 40px;
+  margin: 0;
+  transition: background 0.3s, color 0.3s;
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+}
+
+.report-close {
+  position: absolute;
+  top: -8px;
+  right: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.report-close:hover {
+  opacity: 0.7;
+}
+
+#reportHeader {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#reportHeader h1 {
+  font-family: "Syne", sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #3d2066;
+  margin: 0;
+}
+
+.report-close {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.report-close:hover {
+  opacity: 0.7;
+}
+
+.report-subtitle {
+  font-size: 0.95rem;
+  color: #6b4280;
+  margin: 4px 0 0;
+}
+
+/* ── Card ── */
+.report-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(123, 94, 160, 0.12);
+  border-radius: 20px;
+  padding: 28px 24px;
+  width: 100%;
+  box-shadow:
+    0 0 60px rgba(123, 94, 160, 0.08),
+    0 4px 24px rgba(0, 0, 0, 0.06);
+  animation: fadeUp 0.8s ease-out;
+}
+
+@keyframes fadeUp {
+  0%   { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.report-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #6b4280;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.report-select,
+.report-input {
+  border: 1.5px solid rgba(123, 94, 160, 0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.7);
+  color: #3d2066;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.report-select::placeholder,
+.report-input::placeholder {
+  color: #9b7fc7;
+}
+
+.report-select:focus,
+.report-input:focus {
+  border-color: #7b5ea0;
+  box-shadow: 0 0 0 3px rgba(123, 94, 160, 0.12);
+  background: #fff;
+  outline: none;
+}
+
+.report-textarea {
+  border: 1.5px solid rgba(123, 94, 160, 0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.7);
+  color: #3d2066;
+  resize: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.report-textarea::placeholder {
+  color: #9b7fc7;
+}
+
+.report-textarea:focus {
+  border-color: #7b5ea0;
+  box-shadow: 0 0 0 3px rgba(123, 94, 160, 0.12);
+  background: #fff;
+  outline: none;
+}
+
+.report-submit-btn {
+  font-family: "Syne", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+  background: linear-gradient(135deg, #7b5ea0, #6a4f8e);
+  border: none;
+  border-radius: 14px;
+  padding: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(123, 94, 160, 0.35);
+  transition: all 0.25s ease;
+}
+
+.report-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(123, 94, 160, 0.45);
+  color: #fff;
+}
+
+.report-submit-btn:active {
+  transform: translateY(0);
+}
+
+/* ── Success state ── */
+.report-success {
+  text-align: center;
+  padding: 20px 0;
+  animation: fadeUp 0.5s ease-out;
+}
+
+.report-success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7b5ea0, #9b7fc7);
+  color: #fff;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+}
+
+.report-success h3 {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  color: #3d2066;
+  margin: 0 0 4px;
+  font-size: 1.2rem;
+}
+
+.report-success p {
+  color: #6b4280;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ── Validation ── */
+.report-input.invalid,
+.report-textarea.invalid {
+  border-color: #dc3545;
+}
+
+/* ══════════════════════════════════════
+   DARK MODE
+   ══════════════════════════════════════ */
+body.dark-mode.reportBody {
+  background: linear-gradient(160deg, #1a1225 0%, #0f0a1a 100%);
+  color: #e0d4f5;
+}
+
+body.dark-mode.reportBody #reportHeader h1 {
+  color: #e0d4f5;
+}
+
+body.dark-mode.reportBody .report-subtitle {
+  color: #a890cc;
+}
+
+body.dark-mode.reportBody .report-card {
+  background: rgba(26, 18, 40, 0.85);
+  border-color: rgba(197, 172, 229, 0.15);
+  box-shadow:
+    0 0 60px rgba(123, 94, 160, 0.12),
+    0 0 120px rgba(123, 94, 160, 0.04);
+}
+
+body.dark-mode.reportBody .report-label {
+  color: #a890cc;
+}
+
+body.dark-mode.reportBody .report-select,
+body.dark-mode.reportBody .report-input {
+  background: rgba(15, 10, 26, 0.6);
+  border-color: rgba(197, 172, 229, 0.15);
+  color: #e0d4f5;
+}
+
+body.dark-mode.reportBody .report-select::placeholder,
+body.dark-mode.reportBody .report-input::placeholder {
+  color: #6b4d9a;
+}
+
+body.dark-mode.reportBody .report-select:focus,
+body.dark-mode.reportBody .report-input:focus {
+  border-color: #c5ace5;
+  box-shadow: 0 0 0 3px rgba(197, 172, 229, 0.15);
+  background: rgba(15, 10, 26, 0.8);
+}
+
+body.dark-mode.reportBody .report-textarea {
+  background: rgba(15, 10, 26, 0.6);
+  border-color: rgba(197, 172, 229, 0.15);
+  color: #e0d4f5;
+}
+
+body.dark-mode.reportBody .report-textarea::placeholder {
+  color: #6b4d9a;
+}
+
+body.dark-mode.reportBody .report-textarea:focus {
+  border-color: #c5ace5;
+  box-shadow: 0 0 0 3px rgba(197, 172, 229, 0.15);
+  background: rgba(15, 10, 26, 0.8);
+}
+
+body.dark-mode.reportBody .report-submit-btn {
+  background: linear-gradient(135deg, #3d2b60, #2e1f4a);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode.reportBody .report-submit-btn:hover {
+  background: linear-gradient(135deg, #4f3d73, #3d2b60);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode.reportBody .report-success-icon {
+  background: linear-gradient(135deg, #4f3d73, #3d2b60);
+}
+
+body.dark-mode.reportBody .report-success h3 {
+  color: #e0d4f5;
+}
+
+body.dark-mode.reportBody .report-success p {
+  color: #a890cc;
+}
+
+body.dark-mode.reportBody .report-input.invalid,
+body.dark-mode.reportBody .report-textarea.invalid {
+  border-color: #ea868f;
+}
