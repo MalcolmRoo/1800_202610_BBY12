@@ -12,9 +12,6 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { processGroup } from "/src/archiveUtils.js";
-
-var groupArchived = false;
 
 const userCollection = collection(db, "tbUsers");
 const groupCollection = collection(db, "tbGroups");
@@ -38,10 +35,8 @@ document.getElementById("tabChat").addEventListener("click", function () {
   setTimeout(function () {
     var msgs = document.getElementById("chatMessages");
     if (msgs) msgs.scrollTop = msgs.scrollHeight;
-    if (!groupArchived) {
-      var input = document.getElementById("chatInput");
-      if (input) input.focus();
-    }
+    var input = document.getElementById("chatInput");
+    if (input) input.focus();
   }, 50);
 });
 
@@ -53,12 +48,6 @@ function createOrUpdateChat() {
   const chatDiv = document.getElementById("chatMessages");
   const groupID = localStorage.getItem("group");
   const subCollection = "chat";
-
-  // Hide input row if archived
-  var inputRow = document.getElementById("chatInputRow");
-  if (inputRow) {
-    inputRow.style.display = groupArchived ? "none" : "flex";
-  }
 
   //Clear chat to remove dublicates
   chatDiv.innerHTML = "<div class='chat-date-divider'>Top</div>";
@@ -141,11 +130,6 @@ async function postChatMessage(text) {
 document
   .getElementById("leaveGroup")
   .addEventListener("click", async function () {
-    if (groupArchived) {
-      alert("You cannot leave an archived trip.");
-      return;
-    }
-
     const confirmed = confirm("Are you sure you want to leave this group?");
     if (!confirmed) return;
 
@@ -167,7 +151,7 @@ document
         await updateDoc(groupDocRef, { members: arrayRemove(user.uid) });
       }
       localStorage.removeItem("group");
-      window.location.href = "main.html";
+      window.location.href = "/main.html";
     } catch (error) {
       alert(
         `Error leaving group:\n${error.code || ""}\n${error.message || error}`,
@@ -181,7 +165,7 @@ window.addEventListener("load", function () {
     if (user) {
       fillBuddyCard();
     } else {
-      window.location.href = "index.html";
+      window.location.href = "/index.html";
     }
   });
 });
@@ -353,8 +337,6 @@ function appendChatBubble({
 
 /* ── Send message — saves to Firestore + shows bubble ── */
 function sendChatMessage() {
-  if (groupArchived) return;
-
   const input = document.getElementById("chatInput");
   if (!input) return;
   const text = input.value.trim();

@@ -133,7 +133,7 @@ export function checkAuthState() {
         localStorage.setItem("user", user.uid);
       } else {
         if (!window.location.pathname.endsWith("login.html")) {
-          window.location.href = "index.html";
+          window.location.href = "/index.html";
         }
       }
     }

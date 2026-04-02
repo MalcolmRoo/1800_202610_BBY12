@@ -35,7 +35,7 @@ class SiteNavbar extends HTMLElement {
           <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
               <li class="nav-item">
-                <a class="nav-link" href="Slide-Out-Menu/MyAccount.html"
+                <a class="nav-link" href="/Slide-Out-Menu/MyAccount.html"
                   ><img src="/images/MyAccount/account.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
                   My Account
                 </a>
@@ -53,7 +53,7 @@ class SiteNavbar extends HTMLElement {
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="Slide-Out-Menu/settings.html"
+                <a class="nav-link" href="/Slide-Out-Menu/settings.html"
                   ><img src="/images/Settings-Images/settings.png" width="30" height="30" class="rounded float-start navImage" alt="..."/>
                   Settings
                 </a>

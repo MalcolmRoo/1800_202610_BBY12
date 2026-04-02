@@ -51,8 +51,6 @@ resultsDiv.innerHTML = "<p style='text-align:center;'>Searching...</p>";
     const groups = [];
     querySnapshot.forEach((docSnap) => {
       var data = docSnap.data();
-      // Exclude archived groups from search results
-      if (data.archived) return;
       groups.push({ id: docSnap.id, ...data });
     });
 
@@ -144,7 +142,7 @@ async function joinGroup(firestoreDocID, groupID) {
     localStorage.setItem("group", groupID);
 
     // Redirect to the group page
-    window.location.href = "group.html";
+    window.location.href = "/group.html";
   } catch (error) {
     alert(
       `Error joining group: \n${error.code || ""}\n${error.message || error}`,
