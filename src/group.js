@@ -12,9 +12,6 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { processGroup } from "/src/archiveUtils.js";
-
-var groupArchived = false;
 
 const userCollection = collection(db, "tbUsers");
 const groupCollection = collection(db, "tbGroups");
@@ -38,10 +35,8 @@ document.getElementById("tabChat").addEventListener("click", function () {
   setTimeout(function () {
     var msgs = document.getElementById("chatMessages");
     if (msgs) msgs.scrollTop = msgs.scrollHeight;
-    if (!groupArchived) {
-      var input = document.getElementById("chatInput");
-      if (input) input.focus();
-    }
+    var input = document.getElementById("chatInput");
+    if (input) input.focus();
   }, 50);
 });
 
@@ -53,12 +48,6 @@ function createOrUpdateChat() {
   const chatDiv = document.getElementById("chatMessages");
   const groupID = localStorage.getItem("group");
   const subCollection = "chat";
-
-  // Hide input row if archived
-  var inputRow = document.getElementById("chatInputRow");
-  if (inputRow) {
-    inputRow.style.display = groupArchived ? "none" : "flex";
-  }
 
   //Clear chat to remove dublicates
   chatDiv.innerHTML = "<div class='chat-date-divider'>Top</div>";
@@ -141,11 +130,6 @@ async function postChatMessage(text) {
 document
   .getElementById("leaveGroup")
   .addEventListener("click", async function () {
-    if (groupArchived) {
-      alert("You cannot leave an archived trip.");
-      return;
-    }
-
     const confirmed = confirm("Are you sure you want to leave this group?");
     if (!confirmed) return;
 
@@ -210,26 +194,6 @@ async function fillBuddyCard() {
     }
 
     const groupData = groupSnap.docs[0].data();
-    var docID = groupSnap.docs[0].id;
-
-    // Check archive status
-    var result = await processGroup(groupData, docID);
-    if (result === null) {
-      // Group was deleted (past 30-day archive)
-      localStorage.removeItem("group");
-      document.getElementById("groupTitle").textContent = "Group Deleted";
-      document.getElementById("destination-text").textContent =
-        "This trip has been removed.";
-      buddyList.innerHTML =
-        "<p style='text-align:center; padding:1rem;'>This group no longer exists. <a href='/myGroups.html'>Back to My Groups.</a></p>";
-      return;
-    }
-    if (result.archived) {
-      groupArchived = true;
-      document.getElementById("archivedBanner").style.display = "block";
-      var leaveBtn = document.getElementById("leaveGroup");
-      if (leaveBtn) leaveBtn.style.display = "none";
-    }
 
     document.getElementById("groupTitle").textContent = groupData.groupName;
     document.getElementById("destination-text").textContent =
@@ -398,8 +362,6 @@ function appendChatBubble({
 
 /* ── Send message — saves to Firestore + shows bubble ── */
 function sendChatMessage() {
-  if (groupArchived) return;
-
   const input = document.getElementById("chatInput");
   if (!input) return;
   const text = input.value.trim();
