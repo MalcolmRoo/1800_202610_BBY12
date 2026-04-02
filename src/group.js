@@ -185,7 +185,7 @@ window.addEventListener("load", function () {
     if (user) {
       fillBuddyCard();
     } else {
-      window.location.href = "index.html";
+      window.location.href = "home.html";
     }
   });
 });

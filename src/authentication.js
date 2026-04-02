@@ -109,7 +109,7 @@ document
     localStorage.removeItem("user");
     localStorage.removeItem("profilePic");
     await signOut(auth);
-    window.location.href = "index.html";
+    window.location.href = "home.html";
   });
 
 // -------------------------------------------------------------
@@ -129,12 +129,12 @@ document
 // -------------------------------------------------------------
 export function checkAuthState() {
   onAuthStateChanged(auth, (user) => {
-    if (!window.location.pathname.endsWith("index.html")) {
+    if (!window.location.pathname.endsWith("home.html")) {
       if (user) {
         localStorage.setItem("user", user.uid);
       } else {
         if (!window.location.pathname.endsWith("login.html")) {
-          window.location.href = "index.html";
+          window.location.href = "home.html";
         }
       }
     }
