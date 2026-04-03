@@ -1,4 +1,5 @@
 class SiteNavbar extends HTMLElement {
+  // Makes the footer nav-bar as a componet for easier implementation, in the future.
   connectedCallback() {
     this.innerHTML = `
       <nav class="navbar fixed-bottom">
@@ -90,47 +91,64 @@ class SiteNavbar extends HTMLElement {
     `;
 
     // ── Custom backdrop (Bootstrap's breaks inside custom elements) ──
-    var offcanvasEl = this.querySelector('#offcanvasNavbar');
-    var backdrop = document.createElement('div');
-    backdrop.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1040;transition:opacity 0.3s ease;opacity:0;pointer-events:none;';
+    // grabs the offcanvas(slide out menu) element from navbar.
+    var offcanvasEl = this.querySelector("#offcanvasNavbar");
+    var backdrop = document.createElement("div");
+
+    backdrop.style.cssText =
+      "position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1040;transition:opacity 0.3s ease;opacity:0;pointer-events:none;";
+    //inserting the backdrop into page
     offcanvasEl.parentNode.insertBefore(backdrop, offcanvasEl);
 
+    // Makes the backdrop visible and lets it receive click events
     function showBackdrop() {
-      backdrop.style.opacity = '1';
-      backdrop.style.pointerEvents = 'auto';
+      backdrop.style.opacity = "1";
+      backdrop.style.pointerEvents = "auto";
     }
 
+    // Hides the backdrop and cleans up any leftover Bootstrap styling/elements
+    // that Bootstrap adds to the body when a menu opens
     function hideBackdrop() {
-      backdrop.style.opacity = '0';
-      backdrop.style.pointerEvents = 'none';
-      document.body.classList.remove('modal-open');
-      document.body.style.removeProperty('overflow');
-      document.body.style.removeProperty('padding-right');
-      document.querySelectorAll('.offcanvas-backdrop').forEach(function (el) { el.remove(); });
+      backdrop.style.opacity = "0";
+      backdrop.style.pointerEvents = "none";
+      document.body.classList.remove("modal-open");
+      document.body.style.removeProperty("overflow");
+      document.body.style.removeProperty("padding-right");
+      document.querySelectorAll(".offcanvas-backdrop").forEach(function (el) {
+        el.remove();
+      });
     }
 
-    backdrop.addEventListener('click', function () {
+    //closes the slide out , when clicked.
+    backdrop.addEventListener("click", function () {
       var instance = bootstrap.Offcanvas.getInstance(offcanvasEl);
       if (instance) instance.hide();
     });
 
-    offcanvasEl.addEventListener('show.bs.offcanvas', showBackdrop);
-    offcanvasEl.addEventListener('hidden.bs.offcanvas', hideBackdrop);
+    // When the menu starts opening → show the dark backdrop
+    offcanvasEl.addEventListener("show.bs.offcanvas", showBackdrop);
+    offcanvasEl.addEventListener("hidden.bs.offcanvas", hideBackdrop);
   }
 }
 
 customElements.define("site-navbar", SiteNavbar);
 
-// ── Dark Mode (toggled from settings page) ──
+// ── ------Dark Mode (toggled from settings page)----- ──
 
+// Toggles dark mode on or off when called
 function toggleDarkMode() {
-  const isDark = document.body.classList.toggle('dark-mode');
-  localStorage.setItem('darkMode', isDark);
+  const isDark = document.body.classList.toggle("dark-mode");
 
-  const settingsToggle = document.getElementById('darkModeToggle');
+  //saves the darkmode preferance to local Storage .
+  localStorage.setItem("darkMode", isDark);
+
+  const settingsToggle = document.getElementById("darkModeToggle");
   if (settingsToggle) {
-    settingsToggle.classList.toggle('on', isDark);
+    //visially updates the toggle button
+    settingsToggle.classList.toggle("on", isDark);
   }
 }
 
+// Expose toggleDarkMode globally so the settings page button can call it
+// (needed because this file is a module and functions aren't global by default)!!
 window.__toggleDarkMode = toggleDarkMode;

@@ -17,7 +17,7 @@ const userCollection = collection(db, "tbUsers");
 const groupCollection = collection(db, "tbGroups");
 const buddyList = document.getElementById("buddies");
 
-/* ── Tab switching (Buddies ↔ Chat) ── */
+/* ── This helps Tab switching (Buddies ↔ Chat) ── */
 document.getElementById("tabBuddies").addEventListener("click", function () {
   document.getElementById("buddiesScrollable").style.display = "block";
   document.getElementById("chat").style.display = "none";
@@ -43,7 +43,6 @@ document.getElementById("tabChat").addEventListener("click", function () {
 /* This function checks to see if a chat sub-document
 exists, if it does refreshes the existing chat box, if not
 creates a new sub-document for the chat. */
-
 function createOrUpdateChat() {
   const chatDiv = document.getElementById("chatMessages");
   const groupID = localStorage.getItem("group");
@@ -95,7 +94,7 @@ function createOrUpdateChat() {
       });
     });
 
-    // Auto-scroll to bottom on new message
+    // Auto-scroll to bottom on new message!!!
     chatDiv.scrollTop = chatDiv.scrollHeight;
   });
 
@@ -148,6 +147,7 @@ document
       const groupSnap = await getDocs(groupQuery);
       if (!groupSnap.empty) {
         const groupDocRef = doc(db, "tbGroups", groupSnap.docs[0].id);
+        // arrayRemove safely removes only this user's UID from the members array
         await updateDoc(groupDocRef, { members: arrayRemove(user.uid) });
       }
       localStorage.removeItem("group");
@@ -159,7 +159,10 @@ document
     }
   });
 
-/* ── Auth guard ── */
+/* ── Auth guard ──
+   Waits for Firebase Auth to resolve before loading the page.
+   This prevents a race condition where group data loads before
+   the user is confirmed as logged in */
 window.addEventListener("load", function () {
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -186,6 +189,9 @@ async function fillBuddyCard() {
   //Listen to the GROUP document first
   const groupQuery = query(groupCollection, where("groupID", "==", groupID));
 
+  // ── onSnapshot on the GROUP document ──
+  // Unlike getDocs (one-time fetch), onSnapshot listens in real time.
+  // So if someone joins or leaves, the buddy list updates automatically
   onSnapshot(groupQuery, async (groupSnapshot) => {
     if (groupSnapshot.empty) {
       alert("Group not found in database.");
@@ -210,6 +216,8 @@ async function fillBuddyCard() {
     //Create a default card for info to be loaded into
     const buddyDataMap = new Map();
     const renderBuddyList = () => {
+      // Render cards in the same order as the members array.
+      // Shows "Loading..." placeholder until that user's data arrives
       buddyList.innerHTML = members
         .map(
           (uid) =>
@@ -219,6 +227,9 @@ async function fillBuddyCard() {
     };
 
     //Listen to each member in the UPDATED members array
+    // ── onSnapshot on each MEMBER's user document ──
+    // Each member gets their own real-time listener so if someone
+    // updates their name/picture/status, it reflects instantly
     members.forEach((uid) => {
       const userQuery = query(userCollection, where("userID", "==", uid));
 
@@ -246,6 +257,8 @@ async function fillBuddyCard() {
 }
 
 /* ── Chat UI helpers ── */
+
+// Returns the current time formatted as HH:MM for chat bubble timestamps
 function getTimeLabel() {
   return new Date().toLocaleTimeString([], {
     hour: "2-digit",
@@ -254,11 +267,13 @@ function getTimeLabel() {
 }
 
 // this function gives the date of chats on top of em
+// when the date changes between messages
 function addDateDividerIfNeeded(timestamp) {
   const chatMessages = document.getElementById("chatMessages");
   const msgDate = new Date(timestamp);
   const dateKey = msgDate.toDateString();
 
+  // Check if the last divider already matches this date — if so, skip
   const dividers = chatMessages.querySelectorAll(".chat-date-divider");
   const last = dividers[dividers.length - 1];
   if (last && last.dataset.date === dateKey) return;
@@ -267,6 +282,7 @@ function addDateDividerIfNeeded(timestamp) {
   const yesterday = new Date();
   yesterday.setDate(now.getDate() - 1);
 
+  // Pick a today and yesterday label instead of showing a raw date
   let label;
   if (dateKey === now.toDateString()) label = "Today";
   else if (dateKey === yesterday.toDateString()) label = "Yesterday";
@@ -284,6 +300,8 @@ function addDateDividerIfNeeded(timestamp) {
   chatMessages.appendChild(divider);
 }
 
+// Builds and appends a single chat bubble to the chat window.
+// "mine" bubbles appear on the right, others on the left
 function appendChatBubble({
   text,
   senderName,
@@ -300,6 +318,7 @@ function appendChatBubble({
   const row = document.createElement("div");
   row.className = "chat-msg-row" + (isMine ? " mine" : "");
 
+  // Avatar circle showing the sender's initial
   const avatarEl = document.createElement("div");
   avatarEl.className = "chat-avatar-msg";
   avatarEl.style.background = color || "#7b5ea0";
@@ -332,6 +351,8 @@ function appendChatBubble({
   row.appendChild(avatarEl);
   row.appendChild(body);
   chatMessages.appendChild(row);
+
+  // Auto-scroll to the latest message
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
@@ -352,11 +373,12 @@ function sendChatMessage() {
   input.value = "";
   input.style.height = "auto";
 }
-
+//send on button click
 document
   .getElementById("chatSendBtn")
   ?.addEventListener("click", sendChatMessage);
 
+//sends on key (Shift +enter adds a new line instead !)
 document.getElementById("chatInput")?.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
@@ -364,6 +386,7 @@ document.getElementById("chatInput")?.addEventListener("keydown", (e) => {
   }
 });
 
+// Auto-grow the textarea as the user types, up to a max height of 90px
 document.getElementById("chatInput")?.addEventListener("input", function () {
   this.style.height = "auto";
   this.style.height = Math.min(this.scrollHeight, 90) + "px";

@@ -1,6 +1,6 @@
 // tags.js
 
-// ⭐ Add or remove tags here — this is the only place you need to edit
+// Add or remove tags here = this is the only place you need to edit
 const MASTER_TAGS = [
   { id: "chatty", label: "Chatty", emoji: "💬" },
   { id: "quiet", label: "Quiet", emoji: "🤫" },
@@ -12,6 +12,7 @@ const MASTER_TAGS = [
   { id: "tourists", label: "tourists", emoji: "🏖️" },
 ];
 
+// Tracks which tags the user currently has checked
 let selectedTags = [];
 
 // Shows checkboxes on the page — pass in the container div's id
@@ -20,6 +21,7 @@ export function loadTags(containerID) {
   container.innerHTML = "";
 
   MASTER_TAGS.forEach((tag) => {
+    // Hidden checkbox — the label is what the user actually clicks
     const input = document.createElement("input");
     input.type = "checkbox";
     input.className = "tag-option";
@@ -32,10 +34,12 @@ export function loadTags(containerID) {
     label.htmlFor = "tag-" + tag.id;
     label.textContent = `${tag.emoji} ${tag.label}`;
 
+    // Keep selectedTags in sync whenever a checkbox is checked or unchecked
     input.addEventListener("change", () => {
       if (input.checked) {
         selectedTags.push(tag.id);
       } else {
+        // Remove this tag from the array without affecting the others
         selectedTags = selectedTags.filter((id) => id !== tag.id);
       }
     });
