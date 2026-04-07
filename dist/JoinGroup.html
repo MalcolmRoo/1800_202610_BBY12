@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <title>Join a Group</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/assets/JoinGroup-BBAzOIin.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="/assets/index.esm-BJQM1dIy.js">
+    <link rel="modulepreload" crossorigin href="/assets/index.esm-BNa8l8Q-.js">
+    <link rel="modulepreload" crossorigin href="/assets/index.esm-BEy272F9.js">
+    <link rel="modulepreload" crossorigin href="/assets/firebaseConfig-DsgvlZTV.js">
+    <link rel="modulepreload" crossorigin href="/assets/style-DbLdHO40.js">
+    <link rel="modulepreload" crossorigin href="/assets/site-navbar-BH1o0s9n.js">
+    <link rel="modulepreload" crossorigin href="/assets/tags-DbpKe13F.js">
+    <link rel="stylesheet" crossorigin href="/assets/style-B6ZfhFp8.css">
+    <link rel="stylesheet" crossorigin href="/assets/joinGroup-Dzph3_Vq.css">
+  </head>
+  <body class="joinGroupBody" onload="initialize()">
+    <script>if(localStorage.getItem('darkMode')==='true')document.body.classList.add('dark-mode');</script>
+    <div class="wrapper">
+      <header id="jgHeader">
+        <h1 id="jgH1">Find your<br /><span id="spncolor">Buddy Group</span></h1>
+      </header>
+
+      <form class="card" id="joinGroupForm">
+        <!-- Destination Search -->
+        <!-- API key: AIzaSyC4BrEVNK9X9ZYsMJdnrwJgzRxu8loh4U8-->
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyC4BrEVNK9X9ZYsMJdnrwJgzRxu8loh4U8&loading=async"></script>
+        <script>
+          var autocomplete;
+          function initialize() {
+            autocomplete = new google.maps.places.Autocomplete(
+              /** @type {HTMLInputElement} */ (
+                document.getElementById("destination-input")
+              ),
+              { types: ["geocode"] },
+            );
+            google.maps.event.addListener(
+              autocomplete,
+              "place_changed",
+              function () {},
+            );
+          }
+        </script>
+        <div class="field">
+          <label class="jgLabel">Where are you headed?</label>
+          <input
+            name="destination-input"
+            type="text"
+            id="destination-input"
+            placeholder="address / street / location"
+            required=""
+          />
+        </div>
+
+        <!-- Trip Vibe Tags -->
+        <div class="field">
+          <label id="cbLable">Trip Vibe (pick all that apply)</label>
+          <div id="tag-container"></div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="submit-btn">Search 🔍</button>
+      </form>
+
+      <!-- Results appear here after search -->
+      <div id="results"></div>
+    </div>
+
+    <site-navbar></site-navbar>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
