@@ -52,6 +52,7 @@
       </div>
       <input type="file" id="picInput" accept="image/*" hidden />
       <p class="profile-name" id="profileName"></p>
+      <p class="profile-status" id="profileStatus"></p>
       <p class="profile-email" id="profileEmail"></p>
     </div>
 
@@ -84,60 +85,583 @@
         // Name and email
         document.getElementById("profileName").textContent =
           localStorage.getItem("userName") || "Username";
+        document.getElementById("profileStatus").textContent =
+          localStorage.getItem("userStatus") || "No status set";
         document.getElementById("profileEmail").textContent =
           localStorage.getItem("userEmail") || "user@email.com";
       })();
     </script>
 
-    <div class="account-item">
+    <div class="account-item" id="editProfileBtn">
       <span>👤 Edit Profile</span>
       <span class="account-arrow">›</span>
     </div>
-    <div class="account-item">
+    <div class="account-dropdown" id="editProfileDropdown">
+      <div class="dropdown-content">
+        <div class="form-group">
+          <label for="editDisplayNameInput">DISPLAY NAME</label>
+          <input type="text" id="editDisplayNameInput" class="form-control" placeholder="Enter display name" />
+          <span class="error-message" id="displayNameError"></span>
+        </div>
+        <div class="form-group">
+          <label for="editUsernameInput">CHANGE STATUS</label>
+          <input type="text" id="editUsernameInput" class="form-control" placeholder="Enter status" />
+          <span class="error-message" id="usernameError"></span>
+        </div>
+        <div class="dropdown-buttons">
+          <button class="dropdown-btn dropdown-btn-cancel" id="editCancelBtn">Cancel</button>
+          <button class="dropdown-btn dropdown-btn-save" id="editSaveBtn">Save Changes</button>
+        </div>
+      </div>
+    </div>
+    <div class="account-item" id="changePasswordBtn">
       <span>🔒 Change Password</span>
       <span class="account-arrow">›</span>
     </div>
-    <div class="account-item">
+    <div class="account-dropdown" id="changePasswordDropdown">
+      <div class="dropdown-content">
+        <div class="form-group">
+          <label for="currentPasswordInput">CURRENT PASSWORD</label>
+          <input type="password" id="currentPasswordInput" class="form-control" placeholder="Enter current password" />
+          <span class="error-message" id="currentPasswordError"></span>
+        </div>
+        <div class="form-group">
+          <label for="newPasswordInput">NEW PASSWORD</label>
+          <input type="password" id="newPasswordInput" class="form-control" placeholder="Enter new password" />
+          <span class="error-message" id="newPasswordError"></span>
+        </div>
+        <div class="form-group">
+          <label for="confirmPasswordInput">CONFIRM PASSWORD</label>
+          <input type="password" id="confirmPasswordInput" class="form-control" placeholder="Confirm new password" />
+          <span class="error-message" id="confirmPasswordError"></span>
+        </div>
+        <div class="dropdown-buttons">
+          <button class="dropdown-btn dropdown-btn-cancel" id="passwordCancelBtn">Cancel</button>
+          <button class="dropdown-btn dropdown-btn-save" id="passwordSaveBtn">Update Password</button>
+        </div>
+      </div>
+    </div>
+    <div class="account-item" id="changeEmailBtn">
       <span>📧 Change Email</span>
       <span class="account-arrow">›</span>
+    </div>
+    <div class="account-dropdown" id="changeEmailDropdown">
+      <div class="dropdown-content">
+        <div class="form-group">
+          <label for="currentEmailPasswordInput">CURRENT PASSWORD</label>
+          <input type="password" id="currentEmailPasswordInput" class="form-control" placeholder="Enter current password" />
+          <span class="error-message" id="emailPasswordError"></span>
+        </div>
+        <div class="form-group">
+          <label for="newEmailInput">NEW EMAIL</label>
+          <input type="email" id="newEmailInput" class="form-control" placeholder="Enter new email" />
+          <span class="error-message" id="newEmailError"></span>
+        </div>
+        <div class="dropdown-buttons">
+          <button class="dropdown-btn dropdown-btn-cancel" id="emailCancelBtn">Cancel</button>
+          <button class="dropdown-btn dropdown-btn-save" id="emailSaveBtn">Update Email</button>
+        </div>
+      </div>
     </div>
     <div class="account-item" id="deleteAccountBtn">
       <span>🗑️ Delete Account</span>
       <span class="account-arrow">›</span>
     </div>
-
-    <!-- Delete Account Confirmation Modal -->
-    <div class="modal-overlay" id="deleteModal">
-      <div class="modal-card">
-        <p class="modal-text">Are you sure you want to delete your account?</p>
-        <div class="modal-buttons">
-          <button class="modal-btn modal-btn-no" id="deleteNo">No</button>
-          <button class="modal-btn modal-btn-yes" id="deleteYes">Yes</button>
+    <div class="account-dropdown" id="deleteAccountDropdown">
+      <div class="dropdown-content">
+        <p class="delete-warning">Are you sure you want to delete your account? This action cannot be undone.</p>
+        <div class="form-group">
+          <label for="deletePasswordInput">ENTER PASSWORD TO CONFIRM</label>
+          <input type="password" id="deletePasswordInput" class="form-control" placeholder="Enter your password" />
+          <span class="error-message" id="deletePasswordError"></span>
+        </div>
+        <div class="dropdown-buttons">
+          <button class="dropdown-btn dropdown-btn-cancel" id="deleteCancelBtn">Cancel</button>
+          <button class="dropdown-btn dropdown-btn-danger" id="deleteConfirmBtn">Delete Account</button>
         </div>
       </div>
     </div>
 
+    <!-- Success Toast -->
+    <div class="toast" id="successToast">
+      <span class="toast-icon">✓</span>
+      <span class="toast-message">Profile updated successfully!</span>
+    </div>
+
     <script>
-      // ── Delete Account UI logic ──
+      // ── Delete Account Dropdown logic ──
       (function () {
         var deleteBtn = document.getElementById("deleteAccountBtn");
-        var modal = document.getElementById("deleteModal");
-        var noBtn = document.getElementById("deleteNo");
-        var yesBtn = document.getElementById("deleteYes");
+        var deleteDropdown = document.getElementById("deleteAccountDropdown");
+        var deleteArrow = deleteBtn.querySelector('.account-arrow');
+        var deletePasswordInput = document.getElementById("deletePasswordInput");
+        var deletePasswordError = document.getElementById("deletePasswordError");
+        var deleteCancelBtn = document.getElementById("deleteCancelBtn");
+        var deleteConfirmBtn = document.getElementById("deleteConfirmBtn");
 
-        deleteBtn.addEventListener("click", function () {
-          modal.classList.add("show");
-        });
+        function closeDropdown() {
+          deleteDropdown.classList.remove("show");
+          deleteArrow.classList.remove("rotated");
+          deletePasswordError.textContent = "";
+          deletePasswordInput.classList.remove("input-error");
+          deletePasswordInput.value = "";
+        }
 
-        noBtn.addEventListener("click", function () {
-          modal.classList.remove("show");
-        });
-
-        // Close modal when clicking the backdrop
-        modal.addEventListener("click", function (e) {
-          if (e.target === modal) {
-            modal.classList.remove("show");
+        deleteBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (deleteDropdown.classList.contains("show")) {
+            closeDropdown();
+          } else {
+            deleteDropdown.classList.add("show");
+            deleteArrow.classList.add("rotated");
           }
+        });
+
+        deleteCancelBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          closeDropdown();
+        });
+
+        document.addEventListener("click", function (e) {
+          if (!deleteDropdown.contains(e.target) && !deleteBtn.contains(e.target)) {
+            if (deleteDropdown.classList.contains("show")) {
+              closeDropdown();
+            }
+          }
+        });
+
+        deleteConfirmBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          deletePasswordError.textContent = "";
+          deletePasswordInput.classList.remove("input-error");
+          
+          var password = deletePasswordInput.value;
+          if (!password) {
+            deletePasswordError.textContent = "Password is required to delete account";
+            deletePasswordInput.classList.add("input-error");
+            return;
+          }
+
+          deleteConfirmBtn.disabled = true;
+          deleteConfirmBtn.textContent = "Deleting...";
+
+          setTimeout(function() {
+            deleteConfirmBtn.disabled = false;
+            deleteConfirmBtn.textContent = "Delete Account";
+            alert("Account deletion is simulated for demo.");
+            closeDropdown();
+          }, 500);
+        });
+      })();
+    </script>
+    <script>
+      // ── Edit Profile Dropdown logic ──
+      (function () {
+        var editBtn = document.getElementById("editProfileBtn");
+        var dropdown = document.getElementById("editProfileDropdown");
+        var arrow = editBtn.querySelector('.account-arrow');
+        var statusInput = document.getElementById("editUsernameInput");
+        var displayNameInput = document.getElementById("editDisplayNameInput");
+        var statusError = document.getElementById("usernameError");
+        var displayNameError = document.getElementById("displayNameError");
+        var cancelBtn = document.getElementById("editCancelBtn");
+        var saveBtn = document.getElementById("editSaveBtn");
+        var toast = document.getElementById("successToast");
+        var unsavedModal = document.getElementById("unsavedChangesModal");
+        var unsavedNo = document.getElementById("unsavedNo");
+        var unsavedYes = document.getElementById("unsavedYes");
+
+        var originalStatus = "";
+        var originalDisplayName = "";
+        var hasUnsavedChanges = false;
+        var pendingClose = false;
+
+        function getOriginalValues() {
+          originalStatus = localStorage.getItem("userStatus") || "";
+          originalDisplayName = document.getElementById("profileName").textContent || localStorage.getItem("userName") || "";
+        }
+
+        function checkForChanges() {
+          var currentStatus = statusInput.value.trim();
+          var currentDisplayName = displayNameInput.value.trim();
+          hasUnsavedChanges = (currentStatus !== originalStatus || currentDisplayName !== originalDisplayName);
+        }
+
+        function clearErrors() {
+          statusError.textContent = "";
+          displayNameError.textContent = "";
+          statusInput.classList.remove("input-error");
+          displayNameInput.classList.remove("input-error");
+        }
+
+        function closeDropdown(discard) {
+          if (discard || !hasUnsavedChanges) {
+            dropdown.classList.remove("show");
+            arrow.classList.remove("rotated");
+            clearErrors();
+            hasUnsavedChanges = false;
+          } else {
+            pendingClose = true;
+            unsavedModal.classList.add("show");
+          }
+        }
+
+        function openDropdown() {
+          getOriginalValues();
+          statusInput.value = originalStatus;
+          displayNameInput.value = originalDisplayName;
+          clearErrors();
+          hasUnsavedChanges = false;
+          dropdown.classList.add("show");
+          arrow.classList.add("rotated");
+        }
+
+        function showSuccess() {
+          toast.classList.add("show");
+          setTimeout(function() {
+            toast.classList.remove("show");
+          }, 3000);
+        }
+
+        function refreshDisplay() {
+          var newDisplayName = displayNameInput.value.trim();
+          if (newDisplayName) {
+            document.getElementById("profileName").textContent = newDisplayName;
+            localStorage.setItem("userName", newDisplayName);
+          }
+          var newStatus = statusInput.value.trim();
+          if (newStatus) {
+            document.getElementById("profileStatus").textContent = newStatus;
+            localStorage.setItem("userStatus", newStatus);
+          }
+          window.dispatchEvent(new CustomEvent("profileUpdated", { 
+            detail: { name: newDisplayName, status: newStatus } 
+          }));
+          getOriginalValues();
+          hasUnsavedChanges = false;
+        }
+
+        editBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (dropdown.classList.contains("show")) {
+            closeDropdown(false);
+          } else {
+            openDropdown();
+          }
+        });
+
+        cancelBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          closeDropdown(false);
+        });
+
+        statusInput.addEventListener("input", checkForChanges);
+        displayNameInput.addEventListener("input", checkForChanges);
+
+        document.addEventListener("click", function (e) {
+          if (!dropdown.contains(e.target) && !editBtn.contains(e.target)) {
+            if (dropdown.classList.contains("show")) {
+              closeDropdown(false);
+            }
+          }
+        });
+
+        unsavedNo.addEventListener("click", function (e) {
+          e.stopPropagation();
+          unsavedModal.classList.remove("show");
+          pendingClose = false;
+        });
+
+        unsavedYes.addEventListener("click", function (e) {
+          e.stopPropagation();
+          unsavedModal.classList.remove("show");
+          if (pendingClose) {
+            dropdown.classList.remove("show");
+            arrow.classList.remove("rotated");
+            clearErrors();
+            hasUnsavedChanges = false;
+            pendingClose = false;
+          }
+        });
+
+        unsavedModal.addEventListener("click", function (e) {
+          if (e.target === unsavedModal) {
+            unsavedModal.classList.remove("show");
+            pendingClose = false;
+          }
+        });
+
+        saveBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          clearErrors();
+          var status = statusInput.value.trim();
+          var displayName = displayNameInput.value.trim();
+          var isValid = true;
+
+          if (!status) {
+            statusError.textContent = "Status is required";
+            statusInput.classList.add("input-error");
+            isValid = false;
+          }
+
+          if (!displayName) {
+            displayNameError.textContent = "Display name is required";
+            displayNameInput.classList.add("input-error");
+            isValid = false;
+          }
+
+          if (!isValid) return;
+
+          saveBtn.disabled = true;
+          saveBtn.textContent = "Saving...";
+
+          setTimeout(function() {
+            refreshDisplay();
+            dropdown.classList.remove("show");
+            arrow.classList.remove("rotated");
+            saveBtn.disabled = false;
+            saveBtn.textContent = "Save Changes";
+            showSuccess();
+          }, 500);
+        });
+      })();
+    </script>
+    <script>
+      // ── Change Password Dropdown logic ──
+      (function () {
+        var passwordBtn = document.getElementById("changePasswordBtn");
+        var passwordDropdown = document.getElementById("changePasswordDropdown");
+        var passwordArrow = passwordBtn.querySelector('.account-arrow');
+        var currentPasswordInput = document.getElementById("currentPasswordInput");
+        var newPasswordInput = document.getElementById("newPasswordInput");
+        var confirmPasswordInput = document.getElementById("confirmPasswordInput");
+        var currentPasswordError = document.getElementById("currentPasswordError");
+        var newPasswordError = document.getElementById("newPasswordError");
+        var confirmPasswordError = document.getElementById("confirmPasswordError");
+        var passwordCancelBtn = document.getElementById("passwordCancelBtn");
+        var passwordSaveBtn = document.getElementById("passwordSaveBtn");
+        var toast = document.getElementById("successToast");
+
+        var hasUnsavedChanges = false;
+
+        function checkForChanges() {
+          hasUnsavedChanges = (currentPasswordInput.value || newPasswordInput.value || confirmPasswordInput.value);
+        }
+
+        function clearErrors() {
+          currentPasswordError.textContent = "";
+          newPasswordError.textContent = "";
+          confirmPasswordError.textContent = "";
+          currentPasswordInput.classList.remove("input-error");
+          newPasswordInput.classList.remove("input-error");
+          confirmPasswordInput.classList.remove("input-error");
+        }
+
+        function closeDropdown() {
+          passwordDropdown.classList.remove("show");
+          passwordArrow.classList.remove("rotated");
+          clearErrors();
+          currentPasswordInput.value = "";
+          newPasswordInput.value = "";
+          confirmPasswordInput.value = "";
+          hasUnsavedChanges = false;
+        }
+
+        function showSuccess() {
+          toast.classList.add("show");
+          setTimeout(function() {
+            toast.classList.remove("show");
+          }, 3000);
+        }
+
+        function showPasswordError(msg) {
+          toast.querySelector('.toast-message').textContent = msg;
+          toast.classList.add("show");
+          setTimeout(function() {
+            toast.classList.remove("show");
+            toast.querySelector('.toast-message').textContent = "Profile updated successfully!";
+          }, 3000);
+        }
+
+        passwordBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (passwordDropdown.classList.contains("show")) {
+            closeDropdown();
+          } else {
+            passwordDropdown.classList.add("show");
+            passwordArrow.classList.add("rotated");
+          }
+        });
+
+        passwordCancelBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          closeDropdown();
+        });
+
+        [currentPasswordInput, newPasswordInput, confirmPasswordInput].forEach(function(input) {
+          input.addEventListener("input", checkForChanges);
+        });
+
+        document.addEventListener("click", function (e) {
+          if (!passwordDropdown.contains(e.target) && !passwordBtn.contains(e.target)) {
+            if (passwordDropdown.classList.contains("show")) {
+              closeDropdown();
+            }
+          }
+        });
+
+        passwordSaveBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          clearErrors();
+          var currentPwd = currentPasswordInput.value;
+          var newPwd = newPasswordInput.value;
+          var confirmPwd = confirmPasswordInput.value;
+          var isValid = true;
+
+          if (!currentPwd) {
+            currentPasswordError.textContent = "Current password is required";
+            currentPasswordInput.classList.add("input-error");
+            isValid = false;
+          }
+
+          if (!newPwd) {
+            newPasswordError.textContent = "New password is required";
+            newPasswordInput.classList.add("input-error");
+            isValid = false;
+          } else if (newPwd.length < 6) {
+            newPasswordError.textContent = "Password must be at least 6 characters";
+            newPasswordInput.classList.add("input-error");
+            isValid = false;
+          }
+
+          if (!confirmPwd) {
+            confirmPasswordError.textContent = "Please confirm your password";
+            confirmPasswordInput.classList.add("input-error");
+            isValid = false;
+          } else if (newPwd !== confirmPwd) {
+            confirmPasswordError.textContent = "Passwords do not match";
+            confirmPasswordInput.classList.add("input-error");
+            isValid = false;
+          }
+
+          if (!isValid) return;
+
+          passwordSaveBtn.disabled = true;
+          passwordSaveBtn.textContent = "Updating...";
+
+          setTimeout(function() {
+            closeDropdown();
+            passwordSaveBtn.disabled = false;
+            passwordSaveBtn.textContent = "Update Password";
+            showSuccess();
+          }, 500);
+        });
+      })();
+    </script>
+    <script>
+      // ── Change Email Dropdown logic ──
+      (function () {
+        var emailBtn = document.getElementById("changeEmailBtn");
+        var emailDropdown = document.getElementById("changeEmailDropdown");
+        var emailArrow = emailBtn.querySelector('.account-arrow');
+        var currentEmailPasswordInput = document.getElementById("currentEmailPasswordInput");
+        var newEmailInput = document.getElementById("newEmailInput");
+        var emailPasswordError = document.getElementById("emailPasswordError");
+        var newEmailError = document.getElementById("newEmailError");
+        var emailCancelBtn = document.getElementById("emailCancelBtn");
+        var emailSaveBtn = document.getElementById("emailSaveBtn");
+        var toast = document.getElementById("successToast");
+
+        var hasUnsavedChanges = false;
+
+        function checkForChanges() {
+          hasUnsavedChanges = (currentEmailPasswordInput.value || newEmailInput.value);
+        }
+
+        function clearErrors() {
+          emailPasswordError.textContent = "";
+          newEmailError.textContent = "";
+          currentEmailPasswordInput.classList.remove("input-error");
+          newEmailInput.classList.remove("input-error");
+        }
+
+        function closeDropdown() {
+          emailDropdown.classList.remove("show");
+          emailArrow.classList.remove("rotated");
+          clearErrors();
+          currentEmailPasswordInput.value = "";
+          newEmailInput.value = "";
+          hasUnsavedChanges = false;
+        }
+
+        function showSuccess() {
+          toast.classList.add("show");
+          setTimeout(function() {
+            toast.classList.remove("show");
+          }, 3000);
+        }
+
+        emailBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (emailDropdown.classList.contains("show")) {
+            closeDropdown();
+          } else {
+            emailDropdown.classList.add("show");
+            emailArrow.classList.add("rotated");
+          }
+        });
+
+        emailCancelBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          closeDropdown();
+        });
+
+        [currentEmailPasswordInput, newEmailInput].forEach(function(input) {
+          input.addEventListener("input", checkForChanges);
+        });
+
+        document.addEventListener("click", function (e) {
+          if (!emailDropdown.contains(e.target) && !emailBtn.contains(e.target)) {
+            if (emailDropdown.classList.contains("show")) {
+              closeDropdown();
+            }
+          }
+        });
+
+        emailSaveBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          clearErrors();
+          var currentPwd = currentEmailPasswordInput.value;
+          var newEmail = newEmailInput.value.trim();
+          var isValid = true;
+
+          if (!currentPwd) {
+            emailPasswordError.textContent = "Password is required";
+            currentEmailPasswordInput.classList.add("input-error");
+            isValid = false;
+          }
+
+          if (!newEmail) {
+            newEmailError.textContent = "New email is required";
+            newEmailInput.classList.add("input-error");
+            isValid = false;
+          } else if (!newEmail.includes("@")) {
+            newEmailError.textContent = "Please enter a valid email";
+            newEmailInput.classList.add("input-error");
+            isValid = false;
+          }
+
+          if (!isValid) return;
+
+          emailSaveBtn.disabled = true;
+          emailSaveBtn.textContent = "Updating...";
+
+          setTimeout(function() {
+            closeDropdown();
+            emailSaveBtn.disabled = false;
+            emailSaveBtn.textContent = "Update Email";
+            showSuccess();
+          }, 500);
         });
       })();
     </script>
@@ -289,6 +813,18 @@
               doc(db, "tbUsers", user.uid),
               {
                 profilePicture: e.detail,
+              },
+              { merge: true },
+            );
+          });
+
+          // Save profile updates (name/status) to Firestore when changed
+          window.addEventListener("profileUpdated", function (e) {
+            setDoc(
+              doc(db, "tbUsers", user.uid),
+              {
+                name: e.detail.name,
+                statusMessage: e.detail.status,
               },
               { merge: true },
             );

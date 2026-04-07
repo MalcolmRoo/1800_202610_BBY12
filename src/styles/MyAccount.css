@@ -99,6 +99,13 @@ body.dark-mode .profile-pic-overlay:hover {
   margin: 0 0 4px;
 }
 
+.profile-status {
+  font-size: 14px;
+  color: #c5ace5;
+  margin: 0 0 8px;
+  font-style: italic;
+}
+
 .profile-email {
   font-size: 14px;
   color: #c5ace5;
@@ -129,6 +136,189 @@ body.dark-mode .profile-pic-overlay:hover {
 .account-arrow {
   font-size: 24px;
   color: rgba(255, 255, 255, 0.7);
+  transition: transform 0.3s ease;
+}
+
+.account-arrow.rotated {
+  transform: rotate(90deg);
+}
+
+.account-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  cursor: pointer;
+}
+
+.account-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  cursor: pointer;
+}
+
+.account-dropdown {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+  background: rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  margin: 0 20px;
+  border-radius: 0 0 16px 16px;
+}
+
+.account-dropdown.show {
+  max-height: 500px;
+  opacity: 1;
+  padding: 16px 20px;
+  margin: 0 20px 10px 20px;
+}
+
+.dropdown-content {
+  padding: 16px 20px;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #c5ace5;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 15px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.form-control:focus {
+  border-color: #e0d4f5;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.form-control.input-error {
+  border-color: #e74c3c;
+}
+
+.error-message {
+  display: block;
+  font-size: 12px;
+  color: #e74c3c;
+  margin-top: 4px;
+}
+
+.dropdown-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.dropdown-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s, background 0.2s;
+}
+
+.dropdown-btn:active {
+  transform: scale(0.96);
+}
+
+.dropdown-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dropdown-btn-cancel {
+  background: #4a3a6b;
+  color: white;
+}
+
+.dropdown-btn-cancel:hover {
+  background: #5c4a80;
+}
+
+.dropdown-btn-save {
+  background: #7b5ea0;
+  color: white;
+}
+
+.dropdown-btn-save:hover {
+  background: #8b6fb0;
+}
+
+.dropdown-btn-danger {
+  background: #dc3545;
+  color: white;
+}
+
+.dropdown-btn-danger:hover {
+  background: #c82333;
+}
+
+.delete-warning {
+  color: #e74c3c;
+  font-size: 14px;
+  margin: 0 0 16px 0;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: linear-gradient(135deg, #4a3a6b, #6a4a9a);
+  color: white;
+  padding: 14px 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid #c5ace5;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.toast-icon {
+  font-size: 18px;
+  color: #4ade80;
+}
+
+.toast-message {
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .account-icon {
@@ -281,6 +471,10 @@ body.dark-mode .profile-name {
   color: #e0d4f5;
 }
 
+body.dark-mode .profile-status {
+  color: #c5ace5;
+}
+
 body.dark-mode .navbar {
   background-color: #1a1030;
 }
@@ -296,4 +490,85 @@ body.dark-mode .modal-btn-no {
 
 body.dark-mode .modal-btn-no:hover {
   background: #3d2b60;
+}
+
+body.dark-mode .dropdown-container .account-item-header {
+  background: transparent;
+}
+
+body.dark-mode .account-dropdown {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+body.dark-mode .form-control {
+  border-color: rgba(197, 172, 229, 0.4);
+  background: rgba(30, 21, 48, 0.6);
+  color: #e0d4f5;
+}
+
+body.dark-mode .form-control:focus {
+  border-color: #7b5ea0;
+  background: rgba(30, 21, 48, 0.8);
+}
+
+body.dark-mode .form-control::placeholder {
+  color: rgba(197, 172, 229, 0.4);
+}
+
+body.dark-mode .form-control.input-error {
+  border-color: #e74c3c;
+}
+
+body.dark-mode .error-message {
+  color: #e74c3c;
+}
+
+body.dark-mode .dropdown-btn-cancel {
+  background: #2e1f4a;
+}
+
+body.dark-mode .dropdown-btn-cancel:hover {
+  background: #3d2b60;
+}
+
+body.dark-mode .dropdown-btn-save {
+  background: #3d2b60;
+}
+
+body.dark-mode .dropdown-btn-save:hover {
+  background: #4d3b70;
+}
+
+body.dark-mode .dropdown-btn-danger {
+  background: #a71d2a;
+}
+
+body.dark-mode .dropdown-btn-danger:hover {
+  background: #c9302c;
+}
+
+body.dark-mode .toast {
+  background: linear-gradient(135deg, #1a1030, #2e1f4a);
+  border-color: rgba(197, 172, 229, 0.3);
+}
+
+body.dark-mode .modal-card {
+  background: linear-gradient(135deg, #1e1530, #2e1f4a);
+}
+
+body.dark-mode .modal-text {
+  color: #e0d4f5;
+}
+
+body.dark-mode .modal-btn-no {
+  background: #2e1f4a;
+  color: white;
+}
+
+body.dark-mode .modal-btn-yes {
+  background: #c9302c;
+}
+
+body.dark-mode .modal-btn-yes:hover {
+  background: #d94338;
 }
