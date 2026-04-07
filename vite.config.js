@@ -17,6 +17,7 @@ export default defineConfig({
         group: resolve(__dirname, "group.html"),
         MyAccount: resolve(__dirname, "Slide-Out-Menu/MyAccount.html"),
         settings: resolve(__dirname, "Slide-Out-Menu/settings.html"),
+        repot: resolve(__dirname, "report.html"),
       },
     },
   },
