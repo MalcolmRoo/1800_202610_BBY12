@@ -8,7 +8,7 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="/assets/MyAccount-DeFuxzFi.js"></script>
+    <script type="module" crossorigin src="/assets/MyAccount-C9lMHftc.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
     <link rel="modulepreload" crossorigin href="/assets/site-navbar-BH1o0s9n.js">
     <link rel="stylesheet" crossorigin href="/assets/MyAccount-Dj2-ZTfZ.css">
@@ -18,6 +18,22 @@
       // applies the dark-mode when its toggle is on!
       if (localStorage.getItem("darkMode") === "true")
         document.body.classList.add("dark-mode");
+
+      function closeEmailDropdown() {
+        var dropdown = document.getElementById("changeEmailDropdown");
+        var btn = document.getElementById("changeEmailBtn");
+        var arrow = btn ? btn.querySelector('.account-arrow') : null;
+        if (dropdown) dropdown.classList.remove("show");
+        if (arrow) arrow.classList.remove("rotated");
+        var passwordInput = document.getElementById("currentEmailPasswordInput");
+        var emailInput = document.getElementById("newEmailInput");
+        var passwordError = document.getElementById("emailPasswordError");
+        var emailError = document.getElementById("newEmailError");
+        if (passwordInput) { passwordInput.value = ""; passwordInput.classList.remove("input-error"); }
+        if (emailInput) { emailInput.value = ""; emailInput.classList.remove("input-error"); }
+        if (passwordError) passwordError.textContent = "";
+        if (emailError) emailError.textContent = "";
+      }
     </script>
 
     <div class="account-header">
@@ -89,7 +105,7 @@
         document.getElementById("profileName").textContent =
           localStorage.getItem("userName") || "Username";
         document.getElementById("profileStatus").textContent =
-          localStorage.getItem("userStatus") || "No status set";
+          localStorage.getItem("userStatus") || "Travel buddy";
         document.getElementById("profileEmail").textContent =
           localStorage.getItem("userEmail") || "user@email.com";
       })();
@@ -108,7 +124,7 @@
         </div>
         <div class="form-group">
           <label for="editUsernameInput">CHANGE STATUS</label>
-          <input type="text" id="editUsernameInput" class="form-control" placeholder="Enter status" />
+          <input type="text" id="editUsernameInput" class="form-control" placeholder="Travel buddy" />
           <span class="error-message" id="usernameError"></span>
         </div>
         <div class="dropdown-buttons">
@@ -161,7 +177,7 @@
           <span class="error-message" id="newEmailError"></span>
         </div>
         <div class="dropdown-buttons">
-          <button class="dropdown-btn dropdown-btn-cancel" id="emailCancelBtn">Cancel</button>
+          <button class="dropdown-btn dropdown-btn-cancel" id="emailCancelBtn" onclick="closeEmailDropdown()">Cancel</button>
           <button class="dropdown-btn dropdown-btn-save" id="emailSaveBtn">Update Email</button>
         </div>
       </div>
@@ -191,11 +207,19 @@
       <span class="toast-message">Profile updated successfully!</span>
     </div>
 
+    <!-- Email Verification Toast -->
+    <div class="toast" id="emailVerificationToast">
+      <span class="toast-icon">✉</span>
+      <span class="toast-message">A verification link has been sent to your email</span>
+    </div>
+
     <script>
       // ── Delete Account Dropdown logic ──
       (function () {
         var deleteBtn = document.getElementById("deleteAccountBtn");
         var deleteDropdown = document.getElementById("deleteAccountDropdown");
+        if (!deleteBtn || !deleteDropdown) return;
+        
         var deleteArrow = deleteBtn.querySelector('.account-arrow');
         var deletePasswordInput = document.getElementById("deletePasswordInput");
         var deletePasswordError = document.getElementById("deletePasswordError");
@@ -203,58 +227,81 @@
         var deleteConfirmBtn = document.getElementById("deleteConfirmBtn");
 
         function closeDropdown() {
-          deleteDropdown.classList.remove("show");
-          deleteArrow.classList.remove("rotated");
-          deletePasswordError.textContent = "";
-          deletePasswordInput.classList.remove("input-error");
-          deletePasswordInput.value = "";
+          if (deleteDropdown) {
+            deleteDropdown.classList.remove("show");
+          }
+          if (deleteArrow) {
+            deleteArrow.classList.remove("rotated");
+          }
+          if (deletePasswordError) {
+            deletePasswordError.textContent = "";
+          }
+          if (deletePasswordInput) {
+            deletePasswordInput.classList.remove("input-error");
+            deletePasswordInput.value = "";
+          }
         }
 
-        deleteBtn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          if (deleteDropdown.classList.contains("show")) {
-            closeDropdown();
-          } else {
-            deleteDropdown.classList.add("show");
-            deleteArrow.classList.add("rotated");
-          }
-        });
+        if (deleteBtn) {
+          deleteBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (deleteDropdown.classList.contains("show")) {
+              closeDropdown();
+            } else {
+              deleteDropdown.classList.add("show");
+              if (deleteArrow) deleteArrow.classList.add("rotated");
+            }
+          });
+        }
 
-        deleteCancelBtn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          closeDropdown();
-        });
+        if (deleteCancelBtn) {
+          deleteCancelBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            closeDropdown();
+          });
+        }
 
         document.addEventListener("click", function (e) {
-          if (!deleteDropdown.contains(e.target) && !deleteBtn.contains(e.target)) {
+          if (deleteDropdown && !deleteDropdown.contains(e.target) && deleteBtn && !deleteBtn.contains(e.target)) {
             if (deleteDropdown.classList.contains("show")) {
               closeDropdown();
             }
           }
         });
 
-        deleteConfirmBtn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          deletePasswordError.textContent = "";
-          deletePasswordInput.classList.remove("input-error");
-          
-          var password = deletePasswordInput.value;
-          if (!password) {
-            deletePasswordError.textContent = "Password is required to delete account";
-            deletePasswordInput.classList.add("input-error");
-            return;
-          }
+        if (deleteConfirmBtn) {
+          deleteConfirmBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (deletePasswordError) {
+              deletePasswordError.textContent = "";
+            }
+            if (deletePasswordInput) {
+              deletePasswordInput.classList.remove("input-error");
+            }
+            
+            var password = deletePasswordInput ? deletePasswordInput.value : "";
+            if (!password) {
+              if (deletePasswordError) {
+                deletePasswordError.textContent = "Password is required to delete account";
+              }
+              if (deletePasswordInput) {
+                deletePasswordInput.classList.add("input-error");
+              }
+              return;
+            }
 
-          deleteConfirmBtn.disabled = true;
-          deleteConfirmBtn.textContent = "Deleting...";
+            deleteConfirmBtn.disabled = true;
+            deleteConfirmBtn.textContent = "Deleting...";
 
-          setTimeout(function() {
-            deleteConfirmBtn.disabled = false;
-            deleteConfirmBtn.textContent = "Delete Account";
-            alert("Account deletion is simulated for demo.");
-            closeDropdown();
-          }, 500);
-        });
+            // Simulated delete for demo
+            setTimeout(function() {
+              deleteConfirmBtn.disabled = false;
+              deleteConfirmBtn.textContent = "Delete Account";
+              alert("Account deletion is simulated for demo.");
+              closeDropdown();
+            }, 500);
+          });
+        }
       })();
     </script>
     <script>
@@ -262,6 +309,8 @@
       (function () {
         var editBtn = document.getElementById("editProfileBtn");
         var dropdown = document.getElementById("editProfileDropdown");
+        if (!editBtn || !dropdown) return;
+        
         var arrow = editBtn.querySelector('.account-arrow');
         var statusInput = document.getElementById("editUsernameInput");
         var displayNameInput = document.getElementById("editDisplayNameInput");
@@ -280,153 +329,217 @@
         var pendingClose = false;
 
         function getOriginalValues() {
+          var profileNameEl = document.getElementById("profileName");
           originalStatus = localStorage.getItem("userStatus") || "";
-          originalDisplayName = document.getElementById("profileName").textContent || localStorage.getItem("userName") || "";
+          originalDisplayName = (profileNameEl ? profileNameEl.textContent : "") || localStorage.getItem("userName") || "";
         }
 
         function checkForChanges() {
-          var currentStatus = statusInput.value.trim();
-          var currentDisplayName = displayNameInput.value.trim();
+          var currentStatus = statusInput ? statusInput.value.trim() : "";
+          var currentDisplayName = displayNameInput ? displayNameInput.value.trim() : "";
           hasUnsavedChanges = (currentStatus !== originalStatus || currentDisplayName !== originalDisplayName);
         }
 
         function clearErrors() {
-          statusError.textContent = "";
-          displayNameError.textContent = "";
-          statusInput.classList.remove("input-error");
-          displayNameInput.classList.remove("input-error");
+          if (statusError) statusError.textContent = "";
+          if (displayNameError) displayNameError.textContent = "";
+          if (statusInput) statusInput.classList.remove("input-error");
+          if (displayNameInput) displayNameInput.classList.remove("input-error");
         }
 
         function closeDropdown(discard) {
           if (discard || !hasUnsavedChanges) {
-            dropdown.classList.remove("show");
-            arrow.classList.remove("rotated");
+            if (dropdown) dropdown.classList.remove("show");
+            if (arrow) arrow.classList.remove("rotated");
             clearErrors();
             hasUnsavedChanges = false;
           } else {
-            pendingClose = true;
-            unsavedModal.classList.add("show");
+            if (unsavedModal) {
+              pendingClose = true;
+              unsavedModal.classList.add("show");
+            }
           }
         }
 
         function openDropdown() {
           getOriginalValues();
-          statusInput.value = originalStatus;
-          displayNameInput.value = originalDisplayName;
+          if (statusInput) statusInput.value = originalStatus;
+          if (displayNameInput) displayNameInput.value = originalDisplayName;
           clearErrors();
           hasUnsavedChanges = false;
-          dropdown.classList.add("show");
-          arrow.classList.add("rotated");
+          if (dropdown) dropdown.classList.add("show");
+          if (arrow) arrow.classList.add("rotated");
         }
 
         function showSuccess() {
-          toast.classList.add("show");
-          setTimeout(function() {
-            toast.classList.remove("show");
-          }, 3000);
+          if (toast) {
+            toast.classList.add("show");
+            setTimeout(function() {
+              toast.classList.remove("show");
+            }, 3000);
+          }
         }
 
         function refreshDisplay() {
-          var newDisplayName = displayNameInput.value.trim();
-          if (newDisplayName) {
-            document.getElementById("profileName").textContent = newDisplayName;
+          var newDisplayName = displayNameInput ? displayNameInput.value.trim() : "";
+          var profileNameEl = document.getElementById("profileName");
+          var profileStatusEl = document.getElementById("profileStatus");
+          if (newDisplayName && profileNameEl) {
+            profileNameEl.textContent = newDisplayName;
             localStorage.setItem("userName", newDisplayName);
           }
-          var newStatus = statusInput.value.trim();
-          if (newStatus) {
-            document.getElementById("profileStatus").textContent = newStatus;
+          var newStatus = statusInput ? statusInput.value.trim() : "";
+          if (newStatus && profileStatusEl) {
+            profileStatusEl.textContent = newStatus;
             localStorage.setItem("userStatus", newStatus);
           }
-          window.dispatchEvent(new CustomEvent("profileUpdated", { 
-            detail: { name: newDisplayName, status: newStatus } 
-          }));
           getOriginalValues();
           hasUnsavedChanges = false;
         }
 
-        editBtn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          if (dropdown.classList.contains("show")) {
+        if (editBtn) {
+          editBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (dropdown && dropdown.classList.contains("show")) {
+              closeDropdown(false);
+            } else {
+              openDropdown();
+            }
+          });
+        }
+
+        if (cancelBtn) {
+          cancelBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
             closeDropdown(false);
-          } else {
-            openDropdown();
-          }
-        });
+          });
+        }
 
-        cancelBtn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          closeDropdown(false);
-        });
-
-        statusInput.addEventListener("input", checkForChanges);
-        displayNameInput.addEventListener("input", checkForChanges);
+        if (statusInput) {
+          statusInput.addEventListener("input", checkForChanges);
+        }
+        if (displayNameInput) {
+          displayNameInput.addEventListener("input", checkForChanges);
+        }
 
         document.addEventListener("click", function (e) {
-          if (!dropdown.contains(e.target) && !editBtn.contains(e.target)) {
+          if (dropdown && !dropdown.contains(e.target) && editBtn && !editBtn.contains(e.target)) {
             if (dropdown.classList.contains("show")) {
               closeDropdown(false);
             }
           }
         });
 
-        unsavedNo.addEventListener("click", function (e) {
-          e.stopPropagation();
-          unsavedModal.classList.remove("show");
-          pendingClose = false;
-        });
+        if (unsavedNo) {
+          unsavedNo.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (unsavedModal) unsavedModal.classList.remove("show");
+            pendingClose = false;
+          });
+        }
 
-        unsavedYes.addEventListener("click", function (e) {
-          e.stopPropagation();
-          unsavedModal.classList.remove("show");
-          if (pendingClose) {
-            dropdown.classList.remove("show");
-            arrow.classList.remove("rotated");
+        if (unsavedYes) {
+          unsavedYes.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (unsavedModal) unsavedModal.classList.remove("show");
+            if (pendingClose) {
+              if (dropdown) dropdown.classList.remove("show");
+              if (arrow) arrow.classList.remove("rotated");
+              clearErrors();
+              hasUnsavedChanges = false;
+              pendingClose = false;
+            }
+          });
+        }
+
+        if (unsavedModal) {
+          unsavedModal.addEventListener("click", function (e) {
+            if (e.target === unsavedModal) {
+              unsavedModal.classList.remove("show");
+              pendingClose = false;
+            }
+          });
+        }
+
+        if (saveBtn) {
+          saveBtn.addEventListener("click", function (e) {
+            console.log("Save button clicked!");
+            e.stopPropagation();
             clearErrors();
-            hasUnsavedChanges = false;
-            pendingClose = false;
-          }
-        });
+            var status = statusInput ? statusInput.value.trim() : "";
+            var displayName = displayNameInput ? displayNameInput.value.trim() : "";
+            console.log("status:", status, "displayName:", displayName);
+            var isValid = true;
 
-        unsavedModal.addEventListener("click", function (e) {
-          if (e.target === unsavedModal) {
-            unsavedModal.classList.remove("show");
-            pendingClose = false;
-          }
-        });
+            if (!status) {
+              if (statusError) {
+                statusError.textContent = "Status is required";
+                statusError.classList.add("error-message");
+              }
+              if (statusInput) statusInput.classList.add("input-error");
+              isValid = false;
+            }
 
-        saveBtn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          clearErrors();
-          var status = statusInput.value.trim();
-          var displayName = displayNameInput.value.trim();
-          var isValid = true;
+            if (!displayName) {
+              if (displayNameError) {
+                displayNameError.textContent = "Display name is required";
+                displayNameError.classList.add("error-message");
+              }
+              if (displayNameInput) displayNameInput.classList.add("input-error");
+              isValid = false;
+            }
 
-          if (!status) {
-            statusError.textContent = "Status is required";
-            statusInput.classList.add("input-error");
-            isValid = false;
-          }
+            console.log("isValid:", isValid);
+            if (!isValid) return;
 
-          if (!displayName) {
-            displayNameError.textContent = "Display name is required";
-            displayNameInput.classList.add("input-error");
-            isValid = false;
-          }
-
-          if (!isValid) return;
-
-          saveBtn.disabled = true;
-          saveBtn.textContent = "Saving...";
-
-          setTimeout(function() {
-            refreshDisplay();
-            dropdown.classList.remove("show");
-            arrow.classList.remove("rotated");
-            saveBtn.disabled = false;
-            saveBtn.textContent = "Save Changes";
+            console.log("Proceeding with save...");
+            var newDisplayName = displayName;
+            var newStatus = status;
+            
+            // Update UI immediately
+            var profileNameEl = document.getElementById("profileName");
+            var profileStatusEl = document.getElementById("profileStatus");
+            if (profileNameEl) profileNameEl.textContent = newDisplayName;
+            if (profileStatusEl) profileStatusEl.textContent = newStatus;
+            localStorage.setItem("userName", newDisplayName);
+            localStorage.setItem("userStatus", newStatus);
+            
+            // Save to Firebase - Firestore and Auth
+            var fb = window.__firebaseAuth;
+            console.log("fb:", fb);
+            var user = fb ? fb.auth.currentUser : null;
+            console.log("user:", user);
+            
+            if (user && fb && fb.db) {
+              console.log("Saving to Firestore...");
+              // Save to Firestore tbUsers collection
+              fb.setDoc(fb.doc(fb.db, "tbUsers", user.uid), {
+                name: newDisplayName,
+                statusMessage: newStatus
+              }, { merge: true }).then(function() {
+                console.log("Firestore save success");
+              }).catch(function(err) {
+                console.error("Firestore save error:", err);
+              });
+              
+              // Update Firebase Auth profile
+              if (fb.updateProfile) {
+                fb.updateProfile(user, { displayName: newDisplayName }).catch(function(err) {
+                  console.error("Auth update error:", err);
+                });
+              }
+            }
+            
+            // Dispatch event for real-time UI updates across the app
+            window.dispatchEvent(new CustomEvent("profileUpdated", { 
+              detail: { name: newDisplayName, status: newStatus } 
+            }));
+            
+            if (dropdown) dropdown.classList.remove("show");
+            if (arrow) arrow.classList.remove("rotated");
             showSuccess();
-          }, 500);
-        });
+          });
+        }
       })();
     </script>
     <script>
@@ -434,6 +547,8 @@
       (function () {
         var passwordBtn = document.getElementById("changePasswordBtn");
         var passwordDropdown = document.getElementById("changePasswordDropdown");
+        if (!passwordBtn || !passwordDropdown) return;
+        
         var passwordArrow = passwordBtn.querySelector('.account-arrow');
         var currentPasswordInput = document.getElementById("currentPasswordInput");
         var newPasswordInput = document.getElementById("newPasswordInput");
@@ -448,117 +563,149 @@
         var hasUnsavedChanges = false;
 
         function checkForChanges() {
-          hasUnsavedChanges = (currentPasswordInput.value || newPasswordInput.value || confirmPasswordInput.value);
+          hasUnsavedChanges = (currentPasswordInput && currentPasswordInput.value) || (newPasswordInput && newPasswordInput.value) || (confirmPasswordInput && confirmPasswordInput.value);
         }
 
         function clearErrors() {
-          currentPasswordError.textContent = "";
-          newPasswordError.textContent = "";
-          confirmPasswordError.textContent = "";
-          currentPasswordInput.classList.remove("input-error");
-          newPasswordInput.classList.remove("input-error");
-          confirmPasswordInput.classList.remove("input-error");
+          if (currentPasswordError) currentPasswordError.textContent = "";
+          if (newPasswordError) newPasswordError.textContent = "";
+          if (confirmPasswordError) confirmPasswordError.textContent = "";
+          if (currentPasswordInput) currentPasswordInput.classList.remove("input-error");
+          if (newPasswordInput) newPasswordInput.classList.remove("input-error");
+          if (confirmPasswordInput) confirmPasswordInput.classList.remove("input-error");
         }
 
         function closeDropdown() {
-          passwordDropdown.classList.remove("show");
-          passwordArrow.classList.remove("rotated");
+          if (passwordDropdown) passwordDropdown.classList.remove("show");
+          if (passwordArrow) passwordArrow.classList.remove("rotated");
           clearErrors();
-          currentPasswordInput.value = "";
-          newPasswordInput.value = "";
-          confirmPasswordInput.value = "";
+          if (currentPasswordInput) currentPasswordInput.value = "";
+          if (newPasswordInput) newPasswordInput.value = "";
+          if (confirmPasswordInput) confirmPasswordInput.value = "";
           hasUnsavedChanges = false;
         }
 
         function showSuccess() {
-          toast.classList.add("show");
-          setTimeout(function() {
-            toast.classList.remove("show");
-          }, 3000);
-        }
-
-        function showPasswordError(msg) {
-          toast.querySelector('.toast-message').textContent = msg;
-          toast.classList.add("show");
-          setTimeout(function() {
-            toast.classList.remove("show");
-            toast.querySelector('.toast-message').textContent = "Profile updated successfully!";
-          }, 3000);
-        }
-
-        passwordBtn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          if (passwordDropdown.classList.contains("show")) {
-            closeDropdown();
-          } else {
-            passwordDropdown.classList.add("show");
-            passwordArrow.classList.add("rotated");
+          if (toast) {
+            toast.classList.add("show");
+            setTimeout(function() {
+              toast.classList.remove("show");
+            }, 3000);
           }
-        });
+        }
 
-        passwordCancelBtn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          closeDropdown();
-        });
+        if (passwordBtn) {
+          passwordBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (passwordDropdown.classList.contains("show")) {
+              closeDropdown();
+            } else {
+              passwordDropdown.classList.add("show");
+              if (passwordArrow) passwordArrow.classList.add("rotated");
+            }
+          });
+        }
 
-        [currentPasswordInput, newPasswordInput, confirmPasswordInput].forEach(function(input) {
-          input.addEventListener("input", checkForChanges);
-        });
+        if (passwordCancelBtn) {
+          passwordCancelBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            closeDropdown();
+          });
+        }
+
+        if (currentPasswordInput) currentPasswordInput.addEventListener("input", checkForChanges);
+        if (newPasswordInput) newPasswordInput.addEventListener("input", checkForChanges);
+        if (confirmPasswordInput) confirmPasswordInput.addEventListener("input", checkForChanges);
 
         document.addEventListener("click", function (e) {
-          if (!passwordDropdown.contains(e.target) && !passwordBtn.contains(e.target)) {
+          if (passwordDropdown && !passwordDropdown.contains(e.target) && passwordBtn && !passwordBtn.contains(e.target)) {
             if (passwordDropdown.classList.contains("show")) {
               closeDropdown();
             }
           }
         });
 
-        passwordSaveBtn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          clearErrors();
-          var currentPwd = currentPasswordInput.value;
-          var newPwd = newPasswordInput.value;
-          var confirmPwd = confirmPasswordInput.value;
-          var isValid = true;
+        if (passwordSaveBtn) {
+          passwordSaveBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            clearErrors();
+            var currentPwd = currentPasswordInput ? currentPasswordInput.value : "";
+            var newPwd = newPasswordInput ? newPasswordInput.value : "";
+            var confirmPwd = confirmPasswordInput ? confirmPasswordInput.value : "";
+            var isValid = true;
 
-          if (!currentPwd) {
-            currentPasswordError.textContent = "Current password is required";
-            currentPasswordInput.classList.add("input-error");
-            isValid = false;
-          }
+            if (!currentPwd) {
+              if (currentPasswordError) currentPasswordError.textContent = "Current password is required";
+              if (currentPasswordInput) currentPasswordInput.classList.add("input-error");
+              isValid = false;
+            }
 
-          if (!newPwd) {
-            newPasswordError.textContent = "New password is required";
-            newPasswordInput.classList.add("input-error");
-            isValid = false;
-          } else if (newPwd.length < 6) {
-            newPasswordError.textContent = "Password must be at least 6 characters";
-            newPasswordInput.classList.add("input-error");
-            isValid = false;
-          }
+            if (!newPwd) {
+              if (newPasswordError) newPasswordError.textContent = "New password is required";
+              if (newPasswordInput) newPasswordInput.classList.add("input-error");
+              isValid = false;
+            } else if (newPwd.length < 6) {
+              if (newPasswordError) newPasswordError.textContent = "Password must be at least 6 characters";
+              if (newPasswordInput) newPasswordInput.classList.add("input-error");
+              isValid = false;
+            }
 
-          if (!confirmPwd) {
-            confirmPasswordError.textContent = "Please confirm your password";
-            confirmPasswordInput.classList.add("input-error");
-            isValid = false;
-          } else if (newPwd !== confirmPwd) {
-            confirmPasswordError.textContent = "Passwords do not match";
-            confirmPasswordInput.classList.add("input-error");
-            isValid = false;
-          }
+            if (!confirmPwd) {
+              if (confirmPasswordError) confirmPasswordError.textContent = "Please confirm your password";
+              if (confirmPasswordInput) confirmPasswordInput.classList.add("input-error");
+              isValid = false;
+            } else if (newPwd !== confirmPwd) {
+              if (confirmPasswordError) confirmPasswordError.textContent = "Passwords do not match";
+              if (confirmPasswordInput) confirmPasswordInput.classList.add("input-error");
+              isValid = false;
+            }
 
-          if (!isValid) return;
+            if (!isValid) return;
 
-          passwordSaveBtn.disabled = true;
-          passwordSaveBtn.textContent = "Updating...";
+            passwordSaveBtn.disabled = true;
+            passwordSaveBtn.textContent = "Updating...";
 
-          setTimeout(function() {
-            closeDropdown();
-            passwordSaveBtn.disabled = false;
-            passwordSaveBtn.textContent = "Update Password";
-            showSuccess();
-          }, 500);
-        });
+            // Use Firebase to update password
+            var fb = window.__firebaseAuth;
+            if (fb && fb.auth && fb.db) {
+              var user = fb.auth.currentUser;
+              if (user && fb.EmailAuthProvider && fb.reauthenticateWithCredential && fb.updatePassword) {
+                var credential = fb.EmailAuthProvider.credential(user.email, currentPwd);
+                fb.reauthenticateWithCredential(user, credential).then(function() {
+                  return fb.updatePassword(user, newPwd);
+                }).then(function() {
+                  closeDropdown();
+                  passwordSaveBtn.disabled = false;
+                  passwordSaveBtn.textContent = "Update Password";
+                  showSuccess();
+                }).catch(function(err) {
+                  if (err.code === "auth/wrong-password") {
+                    if (currentPasswordError) currentPasswordError.textContent = "Current password is incorrect";
+                    if (currentPasswordInput) currentPasswordInput.classList.add("input-error");
+                  } else {
+                    alert("Error updating password: " + err.message);
+                  }
+                  passwordSaveBtn.disabled = false;
+                  passwordSaveBtn.textContent = "Update Password";
+                });
+              } else {
+                setTimeout(function() {
+                  closeDropdown();
+                  passwordSaveBtn.disabled = false;
+                  passwordSaveBtn.textContent = "Update Password";
+                  showSuccess();
+                }, 500);
+              }
+            } else {
+              setTimeout(function() {
+                closeDropdown();
+                passwordSaveBtn.disabled = false;
+                passwordSaveBtn.textContent = "Update Password";
+                showSuccess();
+              }, 500);
+            }
+          });
+        }
       })();
     </script>
     <script>
@@ -566,6 +713,8 @@
       (function () {
         var emailBtn = document.getElementById("changeEmailBtn");
         var emailDropdown = document.getElementById("changeEmailDropdown");
+        if (!emailBtn || !emailDropdown) return;
+        
         var emailArrow = emailBtn.querySelector('.account-arrow');
         var currentEmailPasswordInput = document.getElementById("currentEmailPasswordInput");
         var newEmailInput = document.getElementById("newEmailInput");
@@ -578,94 +727,159 @@
         var hasUnsavedChanges = false;
 
         function checkForChanges() {
-          hasUnsavedChanges = (currentEmailPasswordInput.value || newEmailInput.value);
+          hasUnsavedChanges = (currentEmailPasswordInput && currentEmailPasswordInput.value) || (newEmailInput && newEmailInput.value);
         }
 
         function clearErrors() {
-          emailPasswordError.textContent = "";
-          newEmailError.textContent = "";
-          currentEmailPasswordInput.classList.remove("input-error");
-          newEmailInput.classList.remove("input-error");
+          if (emailPasswordError) emailPasswordError.textContent = "";
+          if (newEmailError) newEmailError.textContent = "";
+          if (currentEmailPasswordInput) currentEmailPasswordInput.classList.remove("input-error");
+          if (newEmailInput) newEmailInput.classList.remove("input-error");
         }
 
         function closeDropdown() {
-          emailDropdown.classList.remove("show");
-          emailArrow.classList.remove("rotated");
+          if (emailDropdown) emailDropdown.classList.remove("show");
+          if (emailArrow) emailArrow.classList.remove("rotated");
           clearErrors();
-          currentEmailPasswordInput.value = "";
-          newEmailInput.value = "";
+          if (currentEmailPasswordInput) currentEmailPasswordInput.value = "";
+          if (newEmailInput) newEmailInput.value = "";
           hasUnsavedChanges = false;
         }
 
         function showSuccess() {
-          toast.classList.add("show");
-          setTimeout(function() {
-            toast.classList.remove("show");
-          }, 3000);
+          if (toast) {
+            toast.classList.add("show");
+            setTimeout(function() {
+              toast.classList.remove("show");
+            }, 3000);
+          }
         }
 
-        emailBtn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          if (emailDropdown.classList.contains("show")) {
+        if (emailBtn) {
+          emailBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (emailDropdown.classList.contains("show")) {
+              closeDropdown();
+            } else {
+              emailDropdown.classList.add("show");
+              if (emailArrow) emailArrow.classList.add("rotated");
+            }
+          });
+        }
+
+        if (emailCancelBtn) {
+          emailCancelBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
             closeDropdown();
-          } else {
-            emailDropdown.classList.add("show");
-            emailArrow.classList.add("rotated");
-          }
-        });
+          });
+        }
 
-        emailCancelBtn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          closeDropdown();
-        });
-
-        [currentEmailPasswordInput, newEmailInput].forEach(function(input) {
-          input.addEventListener("input", checkForChanges);
-        });
+        if (currentEmailPasswordInput) currentEmailPasswordInput.addEventListener("input", checkForChanges);
+        if (newEmailInput) newEmailInput.addEventListener("input", checkForChanges);
 
         document.addEventListener("click", function (e) {
-          if (!emailDropdown.contains(e.target) && !emailBtn.contains(e.target)) {
+          if (emailDropdown && !emailDropdown.contains(e.target) && emailBtn && !emailBtn.contains(e.target)) {
             if (emailDropdown.classList.contains("show")) {
               closeDropdown();
             }
           }
         });
 
-        emailSaveBtn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          clearErrors();
-          var currentPwd = currentEmailPasswordInput.value;
-          var newEmail = newEmailInput.value.trim();
-          var isValid = true;
+        if (emailSaveBtn) {
+          emailSaveBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            clearErrors();
+            var currentPwd = currentEmailPasswordInput ? currentEmailPasswordInput.value : "";
+            var newEmail = newEmailInput ? newEmailInput.value.trim() : "";
+            var isValid = true;
 
-          if (!currentPwd) {
-            emailPasswordError.textContent = "Password is required";
-            currentEmailPasswordInput.classList.add("input-error");
-            isValid = false;
-          }
+            if (!currentPwd) {
+              if (emailPasswordError) emailPasswordError.textContent = "Password is required";
+              if (currentEmailPasswordInput) currentEmailPasswordInput.classList.add("input-error");
+              isValid = false;
+            }
 
-          if (!newEmail) {
-            newEmailError.textContent = "New email is required";
-            newEmailInput.classList.add("input-error");
-            isValid = false;
-          } else if (!newEmail.includes("@")) {
-            newEmailError.textContent = "Please enter a valid email";
-            newEmailInput.classList.add("input-error");
-            isValid = false;
-          }
+            if (!newEmail) {
+              if (newEmailError) newEmailError.textContent = "New email is required";
+              if (newEmailInput) newEmailInput.classList.add("input-error");
+              isValid = false;
+            } else if (!newEmail.includes("@")) {
+              if (newEmailError) newEmailError.textContent = "Please enter a valid email";
+              if (newEmailInput) newEmailInput.classList.add("input-error");
+              isValid = false;
+            }
 
-          if (!isValid) return;
+            if (!isValid) return;
 
-          emailSaveBtn.disabled = true;
-          emailSaveBtn.textContent = "Updating...";
+            emailSaveBtn.disabled = true;
+            emailSaveBtn.textContent = "Sending...";
 
-          setTimeout(function() {
-            closeDropdown();
-            emailSaveBtn.disabled = false;
-            emailSaveBtn.textContent = "Update Email";
-            showSuccess();
-          }, 500);
-        });
+            var fb = window.__firebaseAuth;
+            if (fb && fb.auth && fb.db) {
+              var user = fb.auth.currentUser;
+              if (user && fb.EmailAuthProvider && fb.reauthenticateWithCredential && fb.verifyBeforeUpdateEmail) {
+                var credential = fb.EmailAuthProvider.credential(user.email, currentPwd);
+                fb.reauthenticateWithCredential(user, credential).then(function() {
+                  return fb.verifyBeforeUpdateEmail(user, newEmail);
+                }).then(function() {
+                  closeDropdown();
+                  emailSaveBtn.disabled = false;
+                  emailSaveBtn.textContent = "Update Email";
+                  var verificationToast = document.getElementById("emailVerificationToast");
+                  if (verificationToast) {
+                    var verificationMessage = verificationToast.querySelector(".toast-message");
+                    if (verificationMessage) verificationMessage.textContent = "A verification link has been sent to " + newEmail;
+                    verificationToast.classList.add("show");
+                    setTimeout(function() {
+                      verificationToast.classList.remove("show");
+                    }, 5000);
+                  }
+                }).catch(function(err) {
+                  emailSaveBtn.disabled = false;
+                  emailSaveBtn.textContent = "Update Email";
+                  if (err.code === "auth/wrong-password") {
+                    if (emailPasswordError) emailPasswordError.textContent = "Current password is incorrect";
+                    if (currentEmailPasswordInput) currentEmailPasswordInput.classList.add("input-error");
+                  } else if (err.code === "auth/email-already-in-use") {
+                    if (newEmailError) newEmailError.textContent = "This email is already in use";
+                    if (newEmailInput) newEmailInput.classList.add("input-error");
+                  } else if (err.code === "auth/invalid-email") {
+                    if (newEmailError) newEmailError.textContent = "Invalid email address";
+                    if (newEmailInput) newEmailInput.classList.add("input-error");
+                  } else {
+                    alert("Error: " + err.message);
+                  }
+                });
+              } else {
+                closeDropdown();
+                emailSaveBtn.disabled = false;
+                emailSaveBtn.textContent = "Update Email";
+                var verificationToast = document.getElementById("emailVerificationToast");
+                if (verificationToast) {
+                  var verificationMessage = verificationToast.querySelector(".toast-message");
+                  if (verificationMessage) verificationMessage.textContent = "A verification link has been sent to " + newEmail;
+                  verificationToast.classList.add("show");
+                  setTimeout(function() {
+                    verificationToast.classList.remove("show");
+                  }, 5000);
+                }
+              }
+            } else {
+              closeDropdown();
+              emailSaveBtn.disabled = false;
+              emailSaveBtn.textContent = "Update Email";
+              var verificationToast = document.getElementById("emailVerificationToast");
+              if (verificationToast) {
+                var verificationMessage = verificationToast.querySelector(".toast-message");
+                if (verificationMessage) verificationMessage.textContent = "A verification link has been sent to " + newEmail;
+                verificationToast.classList.add("show");
+                setTimeout(function() {
+                  verificationToast.classList.remove("show");
+                }, 5000);
+              }
+            }
+          });
+        }
       })();
     </script>
     <script>

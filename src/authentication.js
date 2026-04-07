@@ -106,6 +106,9 @@ if (logoutBtn) {
     event.preventDefault();
     localStorage.removeItem("user");
     localStorage.removeItem("profilePic");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userStatus");
+    localStorage.removeItem("userEmail");
     await signOut(auth);
     window.location.href = "/index.html";
   });
