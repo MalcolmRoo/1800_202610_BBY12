@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
+    <title>Plan Your Trip</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google Maps — define initialize() BEFORE the script loads -->
+    <script>
+      function initialize() {
+        var autocomplete = new google.maps.places.Autocomplete(
+          document.getElementById("destinations-list"),
+          { types: ["geocode"] },
+        );
+        autocomplete.addListener("place_changed", function () {
+          var place = autocomplete.getPlace();
+          console.log("Place selected:", place.formatted_address);
+        });
+      }
+    </script>
+
+    <!-- Google Maps loads and calls initialize() automatically via callback -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4BrEVNK9X9ZYsMJdnrwJgzRxu8loh4U8&libraries=places&callback=initialize&loading=async"></script>
+
+    <script type="module" crossorigin src="/assets/createGrpForm-C6sS3Kry.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="/assets/index.esm-BJQM1dIy.js">
+    <link rel="modulepreload" crossorigin href="/assets/index.esm-BNa8l8Q-.js">
+    <link rel="modulepreload" crossorigin href="/assets/index.esm-BEy272F9.js">
+    <link rel="modulepreload" crossorigin href="/assets/firebaseConfig-DsgvlZTV.js">
+    <link rel="modulepreload" crossorigin href="/assets/style-DbLdHO40.js">
+    <link rel="modulepreload" crossorigin href="/assets/site-navbar-BH1o0s9n.js">
+    <link rel="modulepreload" crossorigin href="/assets/tags-DbpKe13F.js">
+    <link rel="stylesheet" crossorigin href="/assets/style-B6ZfhFp8.css">
+    <link rel="stylesheet" crossorigin href="/assets/createGrpForm-TF2Hlcg4.css">
+  </head>
+  <body class="createButtonBody">
+    <script>if(localStorage.getItem('darkMode')==='true')document.body.classList.add('dark-mode');</script>
+    <div class="wrapper">
+      <header id="cbHeader">
+        <h1 id="cbH1">Create your<br /><span>Buddy Group</span></h1>
+      </header>
+      <form class="form-sections" id="createGroupForm">
+        <!-- Group Name -->
+        <div class="field">
+          <label for="group-name" id="cbLable">Group Name</label>
+          <input
+            name="group-name"
+            type="text"
+            id="group-name"
+            placeholder="e.g. Summer Squad"
+            required
+          />
+        </div>
+
+        <!-- API key: AIzaSyC4BrEVNK9X9ZYsMJdnrwJgzRxu8loh4U8-->
+
+        <!-- Trip Dates -->
+        <div class="field">
+          <label id="cbLable">Trip Dates</label>
+          <div class="date-row">
+            <div class="date-col">
+              <label for="start-date" class="date-sub-label">Start</label>
+              <input name="start-date" type="date" id="start-date" required />
+            </div>
+            <div class="date-col">
+              <label for="end-date" class="date-sub-label">End</label>
+              <input name="end-date" type="date" id="end-date" required />
+            </div>
+          </div>
+          <p class="date-hint">Tap the calendar icon to pick a date</p>
+          <p id="date-error" class="date-error"></p>
+        </div>
+
+        <!-- Destinations -->
+        <div class="field">
+          <label id="cbLable">Destinations</label>
+
+          <div>
+            <input
+              name="destinations-list"
+              id="destinations-list"
+              placeholder="Search your destination"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <!-- Max Group Size -->
+        <div class="field">
+          <label for="range4" id="cbLable">Max Group Size</label>
+          <input
+            name="maxBuddies"
+            type="range"
+            class="form-range"
+            min="2"
+            max="12"
+            value="2"
+            id="range4"
+          />
+          <output for="range4" id="rangeValue" aria-hidden="true"></output>
+
+          <script>
+            const rangeInput = document.getElementById("range4");
+            const rangeOutput = document.getElementById("rangeValue");
+            rangeOutput.textContent = rangeInput.value;
+            rangeInput.addEventListener("input", function () {
+              rangeOutput.textContent = this.value;
+            });
+          </script>
+        </div>
+
+        <!-- Tags -->
+        <div class="field">
+          <label id="cbLable">Trip Vibe (Pick all that apply)</label>
+          <div id="tag-container"></div>
+        </div>
+
+        <!-- Travel Method -->
+        <div class="field">
+          <label id="cbLable">Travel Method</label>
+          <div class="travel-grid">
+            <input
+              type="radio"
+              class="travel-radio"
+              id="travel-drive"
+              name="travel-method"
+              value="drive"
+            />
+            <label id="cbLable" class="travel-card" for="travel-drive">
+              <span class="icon">🚗</span> Drive
+            </label>
+
+            <input
+              type="radio"
+              class="travel-radio"
+              id="travel-train"
+              name="travel-method"
+              value="skyTrain"
+            />
+            <label id="cbLable" class="travel-card" for="travel-train">
+              <span class="icon">🚆</span> SkyTrain
+            </label>
+
+            <input
+              type="radio"
+              class="travel-radio"
+              id="travel-bus"
+              name="travel-method"
+              value="bus"
+            />
+            <label id="cbLable" class="travel-card" for="travel-bus">
+              <span class="icon">🚌</span> Bus
+            </label>
+
+            <input
+              type="radio"
+              class="travel-radio"
+              id="travel-boat"
+              name="travel-method"
+              value="boat"
+            />
+            <label id="cbLable" class="travel-card" for="travel-boat">
+              <span class="icon">🚢</span> Boat
+            </label>
+
+            <input
+              type="radio"
+              class="travel-radio"
+              id="travel-mix"
+              name="travel-method"
+              value="mix"
+            />
+            <label id="cbLable" class="travel-card" for="travel-mix">
+              <span class="icon">🗺️</span> Mixed
+            </label>
+          </div>
+        </div>
+
+        <!-- Visibility -->
+        <div class="field">
+          <label id="cbLable">Who can join?</label>
+          <div class="visibility-row">
+            <input
+              type="radio"
+              class="vis-radio"
+              id="vis-open"
+              name="visibility"
+              value="open"
+              checked
+            />
+            <label id="cbLable" class="vis-label" for="vis-open">
+              🌍 <span>Open — Anyone can join</span>
+            </label>
+
+            <input
+              type="radio"
+              class="vis-radio"
+              id="vis-private"
+              name="visibility"
+              value="private"
+            />
+            <label id="cbLable" class="vis-label" for="vis-private">
+              🔒 <span>Private — Invite only</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="submit-btn">Create Trip →</button>
+      </form>
+    </div>
+    <nav>
+      <site-navbar></site-navbar>
+    </nav>
+
+    <script>
+      // Set min date to today for both date inputs
+      var today = new Date().toISOString().split("T")[0];
+      document.getElementById("start-date").setAttribute("min", today);
+      document.getElementById("start-date").value = today;
+      document.getElementById("end-date").setAttribute("min", today);
+
+      // When start date changes, ensure end date is not before it
+      document.getElementById("start-date").addEventListener("change", function () {
+        document.getElementById("end-date").setAttribute("min", this.value);
+        if (document.getElementById("end-date").value && document.getElementById("end-date").value < this.value) {
+          document.getElementById("end-date").value = this.value;
+        }
+      });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -12,15 +12,12 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { processGroup } from "/src/archiveUtils.js";
-
-var groupArchived = false;
 
 const userCollection = collection(db, "tbUsers");
 const groupCollection = collection(db, "tbGroups");
 const buddyList = document.getElementById("buddies");
 
-/* ── Tab switching (Buddies ↔ Chat) ── */
+/* ── This helps Tab switching (Buddies ↔ Chat) ── */
 document.getElementById("tabBuddies").addEventListener("click", function () {
   document.getElementById("buddiesScrollable").style.display = "block";
   document.getElementById("chat").style.display = "none";
@@ -38,27 +35,18 @@ document.getElementById("tabChat").addEventListener("click", function () {
   setTimeout(function () {
     var msgs = document.getElementById("chatMessages");
     if (msgs) msgs.scrollTop = msgs.scrollHeight;
-    if (!groupArchived) {
-      var input = document.getElementById("chatInput");
-      if (input) input.focus();
-    }
+    var input = document.getElementById("chatInput");
+    if (input) input.focus();
   }, 50);
 });
 
 /* This function checks to see if a chat sub-document
 exists, if it does refreshes the existing chat box, if not
 creates a new sub-document for the chat. */
-
 function createOrUpdateChat() {
   const chatDiv = document.getElementById("chatMessages");
   const groupID = localStorage.getItem("group");
   const subCollection = "chat";
-
-  // Hide input row if archived
-  var inputRow = document.getElementById("chatInputRow");
-  if (inputRow) {
-    inputRow.style.display = groupArchived ? "none" : "flex";
-  }
 
   //Clear chat to remove dublicates
   chatDiv.innerHTML = "<div class='chat-date-divider'>Top</div>";
@@ -106,7 +94,7 @@ function createOrUpdateChat() {
       });
     });
 
-    // Auto-scroll to bottom on new message
+    // Auto-scroll to bottom on new message!!!
     chatDiv.scrollTop = chatDiv.scrollHeight;
   });
 
@@ -141,11 +129,6 @@ async function postChatMessage(text) {
 document
   .getElementById("leaveGroup")
   .addEventListener("click", async function () {
-    if (groupArchived) {
-      alert("You cannot leave an archived trip.");
-      return;
-    }
-
     const confirmed = confirm("Are you sure you want to leave this group?");
     if (!confirmed) return;
 
@@ -164,10 +147,11 @@ document
       const groupSnap = await getDocs(groupQuery);
       if (!groupSnap.empty) {
         const groupDocRef = doc(db, "tbGroups", groupSnap.docs[0].id);
+        // arrayRemove safely removes only this user's UID from the members array
         await updateDoc(groupDocRef, { members: arrayRemove(user.uid) });
       }
       localStorage.removeItem("group");
-      window.location.href = "main.html";
+      window.location.href = "/main.html";
     } catch (error) {
       alert(
         `Error leaving group:\n${error.code || ""}\n${error.message || error}`,
@@ -175,138 +159,106 @@ document
     }
   });
 
-/* ── Auth guard ── */
+/* ── Auth guard ──
+   Waits for Firebase Auth to resolve before loading the page.
+   This prevents a race condition where group data loads before
+   the user is confirmed as logged in */
 window.addEventListener("load", function () {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       fillBuddyCard();
     } else {
-      window.location.href = "index.html";
+      window.location.href = "/index.html";
     }
   });
 });
 
-/* ── Load group data and buddy cards ── */
 async function fillBuddyCard() {
-  buddyList.innerHTML = "";
-  try {
-    const groupID = localStorage.getItem("group");
+  const groupID = localStorage.getItem("group");
+  const buddyList = document.getElementById("buddies");
 
-    if (!groupID) {
-      document.getElementById("groupTitle").textContent = "No group found";
-      document.getElementById("destination-text").textContent =
-        "Go join or create a group!";
-      buddyList.innerHTML =
-        "<p style='text-align:center; padding:1rem;'>You are not in a group. <a href='JoinGroup.html'>Find one here.</a></p>";
-      return;
-    }
+  if (!groupID) {
+    document.getElementById("groupTitle").textContent = "No group found";
+    document.getElementById("destination-text").textContent =
+      "Go join or create a group!";
+    buddyList.innerHTML =
+      "<p style='text-align:center; padding:1rem;'>You are not in a group. <a href='JoinGroup.html'>Find one here.</a></p>";
+    return;
+  }
 
-    const groupQuery = query(groupCollection, where("groupID", "==", groupID));
-    const groupSnap = await getDocs(groupQuery);
+  //Listen to the GROUP document first
+  const groupQuery = query(groupCollection, where("groupID", "==", groupID));
 
-    if (groupSnap.empty) {
+  // ── onSnapshot on the GROUP document ──
+  // Unlike getDocs (one-time fetch), onSnapshot listens in real time.
+  // So if someone joins or leaves, the buddy list updates automatically
+  onSnapshot(groupQuery, async (groupSnapshot) => {
+    if (groupSnapshot.empty) {
       alert("Group not found in database.");
       return;
     }
 
-    const groupData = groupSnap.docs[0].data();
-    var docID = groupSnap.docs[0].id;
-
-    // Check archive status
-    var result = await processGroup(groupData, docID);
-    if (result === null) {
-      // Group was deleted (past 30-day archive)
-      localStorage.removeItem("group");
-      document.getElementById("groupTitle").textContent = "Group Deleted";
-      document.getElementById("destination-text").textContent =
-        "This trip has been removed.";
-      buddyList.innerHTML =
-        "<p style='text-align:center; padding:1rem;'>This group no longer exists. <a href='myGroups.html'>Back to My Groups.</a></p>";
-      return;
-    }
-    if (result.archived) {
-      groupArchived = true;
-      document.getElementById("archivedBanner").style.display = "block";
-      var leaveBtn = document.getElementById("leaveGroup");
-      if (leaveBtn) leaveBtn.style.display = "none";
-    }
-
-    document.getElementById("groupTitle").textContent = groupData.groupName;
-    document.getElementById("destination-text").textContent =
-      groupData.destination;
-
-    // Display trip dates
-    var tripDatesEl = document.getElementById("trip-dates");
-    if (groupData.startDate && groupData.endDate) {
-      var start = new Date(groupData.startDate + "T00:00:00");
-      var end = new Date(groupData.endDate + "T00:00:00");
-      var opts = { month: "short", day: "numeric" };
-      tripDatesEl.textContent =
-        start.toLocaleDateString([], opts) +
-        " – " +
-        end.toLocaleDateString([], opts) +
-        ", " +
-        end.getFullYear();
-    } else {
-      tripDatesEl.textContent = "";
-    }
-
+    const groupDoc = groupSnapshot.docs[0];
+    const groupData = groupDoc.data();
     const members = groupData.members || [];
-    // Update the member count pill in the header
-    var countEl = document.getElementById("memberCountText");
-    if (countEl) countEl.textContent = members.length + " Buddies";
-
     const leaderID = groupData.leader;
+
+    // Update UI elements that might change (Member Count, Group Name)
+    document.getElementById("groupTitle").textContent = groupData.groupName;
+    const countEl = document.getElementById("memberCountText");
+    if (countEl) countEl.textContent = members.length + " Buddies";
 
     if (members.length === 0) {
       buddyList.innerHTML = "<p style='text-align:center;'>No members yet.</p>";
       return;
     }
 
-    let buddyListHTML = "";
+    //Create a default card for info to be loaded into
+    const buddyDataMap = new Map();
+    const renderBuddyList = () => {
+      // Render cards in the same order as the members array.
+      // Shows "Loading..." placeholder until that user's data arrives
+      buddyList.innerHTML = members
+        .map(
+          (uid) =>
+            buddyDataMap.get(uid) || `<div class='buddyCard'>Loading...</div>`,
+        )
+        .join("");
+    };
 
-    for (const uid of members) {
-      try {
-        const userQuery = query(userCollection, where("userID", "==", uid));
-        const userSnap = await getDocs(userQuery);
+    //Listen to each member in the UPDATED members array
+    // ── onSnapshot on each MEMBER's user document ──
+    // Each member gets their own real-time listener so if someone
+    // updates their name/picture/status, it reflects instantly
+    members.forEach((uid) => {
+      const userQuery = query(userCollection, where("userID", "==", uid));
 
-        if (userSnap.empty) continue;
-
+      onSnapshot(userQuery, (userSnap) => {
         userSnap.forEach((userDoc) => {
           const data = userDoc.data();
           const isLeader = uid === leaderID;
 
-          buddyListHTML +=
-            "<div class='buddyCard'>" +
-            "<img class='icon' src='" +
-            (data.profilePicture || "/images/account.png") +
-            "' alt='Buddy profile picture' />" +
-            "<div class='buddyText'>" +
-            "<p class='buddyCardName'>" +
-            (data.name || "Unknown") +
-            (isLeader
-              ? " <span style='position:relative;top:-2px;'>👑</span>"
-              : "") +
-            "</p>" +
-            "<p class='buddyStatus'>" +
-            (data.statusMessage || "") +
-            "</p>" +
-            "</div></div>";
-        });
-      } catch (userError) {
-        console.error("Error fetching user:", uid, userError);
-      }
-    }
+          const html = `
+            <div class='buddyCard'>
+              <img class='icon' src='${data.profilePicture || "/images/account.png"}' />
+              <div class='buddyText'>
+                <p class='buddyCardName'>${data.name || "Unknown"}${isLeader ? " 👑" : ""}</p>
+                <p class='buddyStatus'>${data.statusMessage || ""}</p>
+              </div>
+            </div>`;
 
-    buddyList.innerHTML = buddyListHTML;
-  } catch (error) {
-    alert(
-      `Error loading group:\n${error.code || ""}\n${error.message || error}`,
-    );
-  }
+          buddyDataMap.set(uid, html);
+        });
+        renderBuddyList();
+      });
+    });
+  });
+  //onSnapshot end
 }
 
 /* ── Chat UI helpers ── */
+
+// Returns the current time formatted as HH:MM for chat bubble timestamps
 function getTimeLabel() {
   return new Date().toLocaleTimeString([], {
     hour: "2-digit",
@@ -315,11 +267,13 @@ function getTimeLabel() {
 }
 
 // this function gives the date of chats on top of em
+// when the date changes between messages
 function addDateDividerIfNeeded(timestamp) {
   const chatMessages = document.getElementById("chatMessages");
   const msgDate = new Date(timestamp);
   const dateKey = msgDate.toDateString();
 
+  // Check if the last divider already matches this date — if so, skip
   const dividers = chatMessages.querySelectorAll(".chat-date-divider");
   const last = dividers[dividers.length - 1];
   if (last && last.dataset.date === dateKey) return;
@@ -328,6 +282,7 @@ function addDateDividerIfNeeded(timestamp) {
   const yesterday = new Date();
   yesterday.setDate(now.getDate() - 1);
 
+  // Pick a today and yesterday label instead of showing a raw date
   let label;
   if (dateKey === now.toDateString()) label = "Today";
   else if (dateKey === yesterday.toDateString()) label = "Yesterday";
@@ -345,6 +300,8 @@ function addDateDividerIfNeeded(timestamp) {
   chatMessages.appendChild(divider);
 }
 
+// Builds and appends a single chat bubble to the chat window.
+// "mine" bubbles appear on the right, others on the left
 function appendChatBubble({
   text,
   senderName,
@@ -361,6 +318,7 @@ function appendChatBubble({
   const row = document.createElement("div");
   row.className = "chat-msg-row" + (isMine ? " mine" : "");
 
+  // Avatar circle showing the sender's initial
   const avatarEl = document.createElement("div");
   avatarEl.className = "chat-avatar-msg";
   avatarEl.style.background = color || "#7b5ea0";
@@ -393,13 +351,13 @@ function appendChatBubble({
   row.appendChild(avatarEl);
   row.appendChild(body);
   chatMessages.appendChild(row);
+
+  // Auto-scroll to the latest message
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
 /* ── Send message — saves to Firestore + shows bubble ── */
 function sendChatMessage() {
-  if (groupArchived) return;
-
   const input = document.getElementById("chatInput");
   if (!input) return;
   const text = input.value.trim();
@@ -415,11 +373,12 @@ function sendChatMessage() {
   input.value = "";
   input.style.height = "auto";
 }
-
+//send on button click
 document
   .getElementById("chatSendBtn")
   ?.addEventListener("click", sendChatMessage);
 
+//sends on key (Shift +enter adds a new line instead !)
 document.getElementById("chatInput")?.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
@@ -427,6 +386,7 @@ document.getElementById("chatInput")?.addEventListener("keydown", (e) => {
   }
 });
 
+// Auto-grow the textarea as the user types, up to a max height of 90px
 document.getElementById("chatInput")?.addEventListener("input", function () {
   this.style.height = "auto";
   this.style.height = Math.min(this.scrollHeight, 90) + "px";

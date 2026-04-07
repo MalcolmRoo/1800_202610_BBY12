@@ -1,60 +1,59 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>My BCIT Project</title>
-    <meta name="comp1800 template" content="My 1800 App" />
+    <title>Travel Buddies</title>
+    <meta name="travelbuddies" content="Travel Buddies — Share your journeys" />
 
-    <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="/src/styles/style.css" />
-    <!-- Scripts -->
-    <script type="module" src="/src/components/site-navbar.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles/index.css" />
   </head>
 
-  <body class="mainBackground">
+  <body>
     <script>
       if (localStorage.getItem("darkMode") === "true")
         document.body.classList.add("dark-mode");
     </script>
-    <!------------------------------>
-    <!-- Your HTML Layout go here -->
-    <!------------------------------>
-    <div class="container py-4">
-      <!-- Welcome Msg and Signup button Start-->
-      <div class="p-5 mb-4 rounded-3 textBubble">
-        <div class="container-fluid py-5">
-          <h1 class="display-5 fw-bold"><b>Travel Buddies!</b></h1>
-          <p class="col-md-8 fs-4">
-            Have you ever felt lonely travelling or wanna share your travels?
-            <b>Become a Travel Buddy today</b>, and get ready for loads of
-            exciting experiences!
-          </p>
-          <button
-            onclick="window.location.href = 'login.html'"
-            type="button"
-            class="btn btn-lg"
-            style="background-color: #7b5ea0; color: #ffffff"
-          >
-            Login/Signup
-          </button>
-        </div>
-      </div>
-      <!--Welcome Msg and Singup button End-->
+
+    <div class="bg"></div>
+
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
     </div>
 
-    <site-navbar></site-navbar>
+    <div class="hero">
+      <div class="logo-frame">
+        <div class="logo-ring"></div>
+        <div class="logo-circle">
+          <img src="/images/carpool.png" alt="Travel Buddies" />
+        </div>
+      </div>
 
-    <!---------------------------------------------->
-    <!-- Your own JavaScript functions go here    -->
-    <!---------------------------------------------->
+      <h1>Travel Buddies</h1>
+      <p class="tagline">Where every journey becomes a shared adventure</p>
 
-    <!-- Link to scripts of your own -->
-    <script type="module" src="/src/main.js"></script>
+      <button class="cta-btn" onclick="window.location.href = '/login.html'">
+        Get Started
+      </button>
+
+      <p class="footer-note">Find your travel crew today</p>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

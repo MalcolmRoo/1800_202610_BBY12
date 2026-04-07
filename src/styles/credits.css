@@ -1,0 +1,259 @@
+/* ── Credits / Easter Egg page ── */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── Light mode (default) ── */
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "DM Sans", sans-serif;
+  overflow: hidden;
+  background: #f0eaf7;
+}
+
+.bg {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #e8dff5, #f0eaf7, #ede4f8, #f5f0fa);
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
+  z-index: 0;
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.particles {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(123, 94, 160, 0.2);
+  border-radius: 50%;
+  animation: float linear infinite;
+}
+
+.particle:nth-child(1)  { left: 10%; animation-duration: 12s; animation-delay: 0s; width: 3px; height: 3px; }
+.particle:nth-child(2)  { left: 25%; animation-duration: 15s; animation-delay: 2s; }
+.particle:nth-child(3)  { left: 40%; animation-duration: 10s; animation-delay: 4s; width: 5px; height: 5px; }
+.particle:nth-child(4)  { left: 55%; animation-duration: 14s; animation-delay: 1s; }
+.particle:nth-child(5)  { left: 70%; animation-duration: 11s; animation-delay: 3s; width: 3px; height: 3px; }
+.particle:nth-child(6)  { left: 85%; animation-duration: 13s; animation-delay: 5s; }
+.particle:nth-child(7)  { left: 15%; animation-duration: 16s; animation-delay: 6s; width: 5px; height: 5px; }
+.particle:nth-child(8)  { left: 60%; animation-duration: 9s;  animation-delay: 2s; }
+.particle:nth-child(9)  { left: 35%; animation-duration: 17s; animation-delay: 4s; width: 3px; height: 3px; }
+.particle:nth-child(10) { left: 80%; animation-duration: 12s; animation-delay: 1s; }
+
+@keyframes float {
+  0%   { transform: translateY(110vh) scale(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+/* ── Card ── */
+.credits-card {
+  position: relative;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(123, 94, 160, 0.15);
+  border-radius: 28px;
+  padding: 48px 36px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow:
+    0 0 60px rgba(123, 94, 160, 0.08),
+    0 4px 24px rgba(0, 0, 0, 0.06);
+  animation: cardIn 0.8s ease-out;
+}
+
+@keyframes cardIn {
+  0%   { transform: scale(0.8) translateY(40px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.secret-emoji {
+  font-size: 56px;
+  margin-bottom: 16px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.15); }
+}
+
+.credits-card h1 {
+  font-family: "Syne", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #7b5ea0, #9b7fc7, #7b5ea0);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s ease infinite;
+  margin-bottom: 6px;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #7b5ea0;
+  margin-bottom: 28px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid rgba(123, 94, 160, 0.15);
+  margin: 0 0 24px;
+}
+
+/* Team members */
+.team-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+}
+
+.team-list li {
+  font-family: "Syne", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #4a3568;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(123, 94, 160, 0.1);
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards;
+}
+
+.team-list li:last-child { border-bottom: none; }
+.team-list li:nth-child(1) { animation-delay: 0.3s; }
+.team-list li:nth-child(2) { animation-delay: 0.45s; }
+.team-list li:nth-child(3) { animation-delay: 0.6s; }
+.team-list li:nth-child(4) { animation-delay: 0.75s; }
+
+@keyframes fadeUp {
+  0%   { transform: translateY(12px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.tag {
+  display: inline-block;
+  font-family: "DM Sans", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: #7b5ea0;
+  background: rgba(123, 94, 160, 0.1);
+  border-radius: 999px;
+  padding: 3px 10px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.footer-text {
+  font-size: 13px;
+  color: #9b7fc7;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.back-btn {
+  background: rgba(123, 94, 160, 0.1);
+  border: 1.5px solid rgba(123, 94, 160, 0.25);
+  border-radius: 14px;
+  color: #7b5ea0;
+  font-family: "Syne", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 36px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background: rgba(123, 94, 160, 0.18);
+  border-color: rgba(123, 94, 160, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ══════════════════════════════════════
+   DARK MODE
+   ══════════════════════════════════════ */
+body.dark-mode {
+  background: #0f0a1a;
+}
+
+body.dark-mode .bg {
+  background: linear-gradient(135deg, #1a0a2e, #0f0a1a, #1a1225, #0d0820);
+}
+
+body.dark-mode .particle {
+  background: rgba(197, 172, 229, 0.4);
+}
+
+body.dark-mode .credits-card {
+  background: rgba(26, 18, 40, 0.85);
+  border-color: rgba(197, 172, 229, 0.2);
+  box-shadow:
+    0 0 60px rgba(123, 94, 160, 0.15),
+    0 0 120px rgba(123, 94, 160, 0.05);
+}
+
+body.dark-mode .credits-card h1 {
+  background: linear-gradient(135deg, #c5ace5, #9b7fc7, #c5ace5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.dark-mode .subtitle {
+  color: #a890cc;
+}
+
+body.dark-mode .divider {
+  border-top-color: rgba(197, 172, 229, 0.15);
+}
+
+body.dark-mode .team-list li {
+  color: #e0d4f5;
+  border-bottom-color: rgba(197, 172, 229, 0.08);
+}
+
+body.dark-mode .tag {
+  color: #a890cc;
+  background: rgba(197, 172, 229, 0.1);
+}
+
+body.dark-mode .footer-text {
+  color: #6b4d9a;
+}
+
+body.dark-mode .back-btn {
+  background: rgba(197, 172, 229, 0.12);
+  border-color: rgba(197, 172, 229, 0.25);
+  color: #c5ace5;
+}
+
+body.dark-mode .back-btn:hover {
+  background: rgba(197, 172, 229, 0.2);
+  border-color: rgba(197, 172, 229, 0.4);
+}
