@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
 
     <title>Plan Your Trip</title>
     <link
@@ -27,7 +30,7 @@
     <!-- Google Maps loads and calls initialize() automatically via callback -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4BrEVNK9X9ZYsMJdnrwJgzRxu8loh4U8&libraries=places&callback=initialize&loading=async"></script>
 
-    <script type="module" crossorigin src="/assets/createGrpForm-B9xwWNmD.js"></script>
+    <script type="module" crossorigin src="/assets/createGrpForm-EUP-bBQi.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/preload-helper-DD1OZmLC.js">
     <link rel="modulepreload" crossorigin href="/assets/index.esm-Bp8vrwc4.js">
     <link rel="modulepreload" crossorigin href="/assets/index.esm-CykD-uT-.js">
@@ -35,16 +38,16 @@
     <link rel="modulepreload" crossorigin href="/assets/firebaseConfig-CCwdxgwm.js">
     <link rel="modulepreload" crossorigin href="/assets/style-DyLkJ0vG.js">
     <link rel="modulepreload" crossorigin href="/assets/site-navbar-BH1o0s9n.js">
-    <link rel="modulepreload" crossorigin href="/assets/tags-DbpKe13F.js">
+    <link rel="modulepreload" crossorigin href="/assets/tags-C8qF6Y12.js">
     <link rel="modulepreload" crossorigin href="/assets/darkMode-DTn21Di-.js">
     <link rel="stylesheet" crossorigin href="/assets/style-B6ZfhFp8.css">
     <link rel="stylesheet" crossorigin href="/assets/createGrpForm-TF2Hlcg4.css">
   </head>
   <body class="createButtonBody">
     <script>
-      (function() {
-        if (localStorage.getItem('darkMode') === 'true') {
-          document.body.classList.add('dark-mode');
+      (function () {
+        if (localStorage.getItem("darkMode") === "true") {
+          document.body.classList.add("dark-mode");
         }
       })();
     </script>
@@ -234,12 +237,17 @@
       document.getElementById("end-date").setAttribute("min", today);
 
       // When start date changes, ensure end date is not before it
-      document.getElementById("start-date").addEventListener("change", function () {
-        document.getElementById("end-date").setAttribute("min", this.value);
-        if (document.getElementById("end-date").value && document.getElementById("end-date").value < this.value) {
-          document.getElementById("end-date").value = this.value;
-        }
-      });
+      document
+        .getElementById("start-date")
+        .addEventListener("change", function () {
+          document.getElementById("end-date").setAttribute("min", this.value);
+          if (
+            document.getElementById("end-date").value &&
+            document.getElementById("end-date").value < this.value
+          ) {
+            document.getElementById("end-date").value = this.value;
+          }
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

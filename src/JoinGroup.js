@@ -128,7 +128,8 @@ function populateResults(groups) {
       info.appendChild(dateLine);
     }
 
-    // Join button - adds user to this group's members array in Firestore    const joinBtn = document.createElement("button");
+    // Join button - adds user to this group's members array in Firestore
+    const joinBtn = document.createElement("button");
     joinBtn.className = "join-btn";
     joinBtn.textContent = "Join";
     joinBtn.addEventListener("click", () => joinGroup(group.id, group.groupID));
