@@ -8,12 +8,13 @@ body.group-page {
   flex-direction: column !important;
   justify-content: flex-start !important;
   align-items: stretch !important;
-  height: 90vh !important;
-  max-height: 90vh !important;
-  overflow: scroll !important;
+  min-height: 90vh !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: visible !important;
   margin: 0;
   padding: 0;
-  padding-bottom: 9vh !important;
+  padding-bottom: 7vh !important;
   background: linear-gradient(
     160deg,
     var(--purple-bg-start) 0%,
