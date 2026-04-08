@@ -151,7 +151,7 @@ body.group-page {
   flex-direction: column;
   flex: 1;
   min-height: 0; /* critical for flex overflow */
-  overflow: hidden;
+  overflow: scroll;
   background: var(--purple-card);
   border-radius: 0%;
 }
