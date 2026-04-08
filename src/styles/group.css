@@ -10,9 +10,10 @@ body.group-page {
   align-items: stretch !important;
   height: 90vh !important;
   max-height: 90vh !important;
-  overflow: hidden !important;
+  overflow: scroll !important;
   margin: 0;
   padding: 0;
+  padding-bottom: 9vh !important;
   background: linear-gradient(
     160deg,
     var(--purple-bg-start) 0%,
@@ -383,10 +384,6 @@ body.group-page {
 
 .bubble-new {
   animation: bubbleIn 0.22s ease forwards;
-}
-
-body.group-page {
-  padding-bottom: 9vh !important;
 }
 
 /* ── Hide avatar circle ── */
