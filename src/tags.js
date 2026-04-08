@@ -10,6 +10,8 @@ const MASTER_TAGS = [
   { id: "neuro-diverse", label: "neuro diverse", emoji: "🧠" },
   { id: "locals", label: "Locals", emoji: "🏠" },
   { id: "tourists", label: "tourists", emoji: "🏖️" },
+  { id: "seniors", label: "seniors", emoji: "👨‍🦳" },
+  { id: "pet-friendly", label: "Pet-friendly", emoji: "🐕" },
 ];
 
 // Tracks which tags the user currently has checked
