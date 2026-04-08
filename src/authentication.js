@@ -130,14 +130,15 @@ if (logoutBtn) {
 //   checkAuthState();
 // -------------------------------------------------------------
 export function checkAuthState() {
+  const path = window.location.pathname;
+  const isAuthPage = path === '/' || path === '/index.html' || path === '/login' || path === '/login.html';
+  
   onAuthStateChanged(auth, (user) => {
-    if (!window.location.pathname.endsWith("index.html")) {
+    if (!isAuthPage) {
       if (user) {
         localStorage.setItem("user", user.uid);
       } else {
-        if (!window.location.pathname.endsWith("login.html")) {
-          window.location.href = "/index.html";
-        }
+        window.location.href = "/index.html";
       }
     }
   });
