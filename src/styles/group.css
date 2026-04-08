@@ -8,8 +8,8 @@ body.group-page {
   flex-direction: column !important;
   justify-content: flex-start !important;
   align-items: stretch !important;
-  height: 100vh !important;
-  max-height: 100vh !important;
+  height: 90vh !important;
+  max-height: 90vh !important;
   overflow: hidden !important;
   margin: 0;
   padding: 0;
@@ -386,7 +386,7 @@ body.group-page {
 }
 
 body.group-page {
-  padding-bottom: 4rem !important;
+  padding-bottom: 9vh !important;
 }
 
 /* ── Hide avatar circle ── */
