@@ -1,5 +1,4 @@
 {
-  "$schema": "https://open-next.js.org/schema.json",
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
