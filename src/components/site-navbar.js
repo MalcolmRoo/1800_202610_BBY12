@@ -133,6 +133,39 @@ class SiteNavbar extends HTMLElement {
 
 customElements.define("site-navbar", SiteNavbar);
 
+// ── Dark Mode sync ──
+
+// Apply dark mode immediately when navbar loads
+(function() {
+  try {
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+  } catch (e) {}
+})();
+
+// Listen for dark mode changes from other pages
+window.addEventListener('darkModeChanged', function(e) {
+  try {
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  } catch (e) {}
+});
+
+// Listen for storage changes (from other tabs/windows)
+window.addEventListener('storage', function(e) {
+  if (e.key === 'darkMode') {
+    if (e.newValue === 'true') {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  }
+});
+
 // ── ------Dark Mode (toggled from settings page)----- ──
 
 // Toggles dark mode on or off when called

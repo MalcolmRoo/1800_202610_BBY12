@@ -5,6 +5,7 @@ import { defineConfig } from "vite";
 import { resolve } from "path";
 
 export default defineConfig({
+  publicDir: "home",
   build: {
     rollupOptions: {
       input: {

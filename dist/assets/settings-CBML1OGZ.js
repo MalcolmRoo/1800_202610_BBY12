@@ -1,0 +1,1 @@
+import"./preload-helper-DD1OZmLC.js";import{i as o,g as s,s as a}from"./darkMode-CSVF0UhF.js";o().then(()=>{const t=document.getElementById("darkModeToggle");t&&(s()&&t.classList.add("on"),t.addEventListener("click",async function(){const e=document.body.classList.toggle("dark-mode");await a(e),this.classList.toggle("on",e)}))});
