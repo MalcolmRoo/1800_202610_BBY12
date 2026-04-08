@@ -151,7 +151,7 @@ body.group-page {
   flex-direction: column;
   flex: 1;
   min-height: 0; /* critical for flex overflow */
-  overflow: scroll;
+  overflow: hidden;
   background: var(--purple-card);
   border-radius: 0%;
 }
@@ -386,7 +386,7 @@ body.group-page {
 }
 
 body.group-page {
-  padding-bottom: 80px !important;
+  padding-bottom: 4rem !important;
 }
 
 /* ── Hide avatar circle ── */
