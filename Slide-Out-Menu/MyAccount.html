@@ -290,13 +290,53 @@
             deleteConfirmBtn.disabled = true;
             deleteConfirmBtn.textContent = "Deleting...";
 
-            // Simulated delete for demo
-            setTimeout(function() {
-              deleteConfirmBtn.disabled = false;
-              deleteConfirmBtn.textContent = "Delete Account";
-              alert("Account deletion is simulated for demo.");
-              closeDropdown();
-            }, 500);
+            // Use existing Firebase functions
+            (async function() {
+              try {
+                var fb = window.__firebaseAuth;
+                if (!fb || !fb.auth || !fb.db) {
+                  alert('Firebase not initialized');
+                  deleteConfirmBtn.disabled = false;
+                  deleteConfirmBtn.textContent = "Delete Account";
+                  return;
+                }
+
+                var user = fb.auth.currentUser;
+                if (!user) {
+                  alert('Please log in to delete your account');
+                  deleteConfirmBtn.disabled = false;
+                  deleteConfirmBtn.textContent = "Delete Account";
+                  return;
+                }
+
+                var password = deletePasswordInput ? deletePasswordInput.value : "";
+                
+                // Reauthenticate
+                var credential = fb.EmailAuthProvider.credential(user.email, password);
+                await fb.reauthenticateWithCredential(user, credential);
+
+                // Delete Firestore document
+                await fb.deleteDoc(fb.doc(fb.db, 'tbUsers', user.uid));
+
+                // Delete auth user
+                await fb.deleteUser(user);
+
+                // Clear localStorage and redirect
+                localStorage.clear();
+                window.location.href = '/index.html';
+              } catch (err) {
+                deleteConfirmBtn.disabled = false;
+                deleteConfirmBtn.textContent = "Delete Account";
+                if (err.code === 'auth/wrong-password') {
+                  if (deletePasswordError) deletePasswordError.textContent = "Incorrect password";
+                  if (deletePasswordInput) deletePasswordInput.classList.add("input-error");
+                } else if (err.code === 'auth/requires-recent-login') {
+                  alert('For security, please log out and log back in before deleting your account.');
+                } else {
+                  alert('Error deleting account: ' + err.message);
+                }
+              }
+            })();
           });
         }
       })();

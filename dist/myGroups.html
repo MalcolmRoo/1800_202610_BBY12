@@ -9,19 +9,26 @@
       href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="/assets/myGroups-CqfESsgK.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
-    <link rel="modulepreload" crossorigin href="/assets/index.esm-BJQM1dIy.js">
-    <link rel="modulepreload" crossorigin href="/assets/index.esm-BNa8l8Q-.js">
-    <link rel="modulepreload" crossorigin href="/assets/index.esm-BEy272F9.js">
-    <link rel="modulepreload" crossorigin href="/assets/firebaseConfig-DsgvlZTV.js">
-    <link rel="modulepreload" crossorigin href="/assets/style-D0D0b7Ml.js">
+    <script type="module" crossorigin src="/assets/myGroups-D-Gjj_Xb.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/preload-helper-DD1OZmLC.js">
+    <link rel="modulepreload" crossorigin href="/assets/index.esm-Bp8vrwc4.js">
+    <link rel="modulepreload" crossorigin href="/assets/index.esm-CykD-uT-.js">
+    <link rel="modulepreload" crossorigin href="/assets/index.esm-5ssIax0J.js">
+    <link rel="modulepreload" crossorigin href="/assets/firebaseConfig-CCwdxgwm.js">
+    <link rel="modulepreload" crossorigin href="/assets/style-DyLkJ0vG.js">
     <link rel="modulepreload" crossorigin href="/assets/site-navbar-BH1o0s9n.js">
+    <link rel="modulepreload" crossorigin href="/assets/darkMode-DTn21Di-.js">
     <link rel="stylesheet" crossorigin href="/assets/style-B6ZfhFp8.css">
     <link rel="stylesheet" crossorigin href="/assets/joinGroup-Dzph3_Vq.css">
   </head>
   <body class="joinGroupBody">
-    <script>if(localStorage.getItem('darkMode')==='true')document.body.classList.add('dark-mode');</script>
+    <script>
+      (function() {
+        if (localStorage.getItem('darkMode') === 'true') {
+          document.body.classList.add('dark-mode');
+        }
+      })();
+    </script>
     <div class="wrapper">
       <header id="jgHeader">
         <h1 id="jgH1">My <span id="spncolor">Groups</span></h1>
@@ -32,7 +39,7 @@
     </div>
 
     <site-navbar></site-navbar>
-
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
