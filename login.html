@@ -12,7 +12,14 @@
   </head>
 
   <body>
-    <script>if(localStorage.getItem('darkMode')==='true')document.body.classList.add('dark-mode');</script>
+    <script>
+      // Quick localStorage load for immediate UI
+      (function() {
+        if (localStorage.getItem('darkMode') === 'true') {
+          document.body.classList.add('dark-mode');
+        }
+      })();
+    </script>
 
     <div class="bg"></div>
 
@@ -108,6 +115,10 @@
 
     <script type="module" src="/src/main.js"></script>
     <script type="module" src="/src/loginSignup.js"></script>
+    <script type="module">
+      import { initDarkMode } from '/src/darkMode.js';
+      initDarkMode();
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
