@@ -163,6 +163,22 @@ class SiteNavbar extends HTMLElement {
         }
       } catch (e) {}
     });
+
+    // Handle bfcache - when page is restored from back-forward cache
+    window.addEventListener('pageshow', function(event) {
+      // Check if offcanvas is currently open and sync dark mode
+      if (offcanvasEl.classList.contains('show')) {
+        try {
+          if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            offcanvasEl.classList.add('dark-mode');
+          } else {
+            document.body.classList.remove('dark-mode');
+            offcanvasEl.classList.remove('dark-mode');
+          }
+        } catch (e) {}
+      }
+    });
   }
 }
 
