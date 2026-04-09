@@ -137,7 +137,17 @@ class SiteNavbar extends HTMLElement {
         }
       } catch (e) {}
     });
-    offcanvasEl.addEventListener("hidden.bs.offcanvas", hideBackdrop);
+    offcanvasEl.addEventListener("hidden.bs.offcanvas", function() {
+      hideBackdrop();
+      // Safari fix: when closing sidebar, sync dark mode to main page
+      try {
+        if (localStorage.getItem('darkMode') === 'true') {
+          document.body.classList.add('dark-mode');
+        } else {
+          document.body.classList.remove('dark-mode');
+        }
+      } catch (e) {}
+    });
   }
 }
 
