@@ -480,12 +480,12 @@ body.dark-mode .mainSubtitle {
 }
 
 body.dark-mode #offcanvasNavbar {
-  background: linear-gradient(160deg, #1a1225, #2a1d40);
+  background: linear-gradient(160deg, #1a1225, #2a1d40) !important;
 }
 
 body.dark-mode .nav-item {
-  background: linear-gradient(135deg, #2e1f4a, #3d2b60);
-  border-left-color: #3d2b60;
+  background: linear-gradient(135deg, #2e1f4a, #3d2b60) !important;
+  border-left-color: #3d2b60 !important;
 }
 
 body.dark-mode .nav-item:hover {

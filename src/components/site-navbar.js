@@ -125,8 +125,18 @@ class SiteNavbar extends HTMLElement {
       if (instance) instance.hide();
     });
 
-    // When the menu starts opening → show the dark backdrop
-    offcanvasEl.addEventListener("show.bs.offcanvas", showBackdrop);
+    // When the menu starts opening → show the dark backdrop + sync dark mode
+    offcanvasEl.addEventListener("show.bs.offcanvas", function() {
+      showBackdrop();
+      // Safari fix: check localStorage directly when offcanvas opens
+      try {
+        if (localStorage.getItem('darkMode') === 'true') {
+          document.body.classList.add('dark-mode');
+        } else {
+          document.body.classList.remove('dark-mode');
+        }
+      } catch (e) {}
+    });
     offcanvasEl.addEventListener("hidden.bs.offcanvas", hideBackdrop);
   }
 }
