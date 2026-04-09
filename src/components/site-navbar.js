@@ -132,8 +132,10 @@ class SiteNavbar extends HTMLElement {
       try {
         if (localStorage.getItem('darkMode') === 'true') {
           document.body.classList.add('dark-mode');
+          offcanvasEl.classList.add('dark-mode');
         } else {
           document.body.classList.remove('dark-mode');
+          offcanvasEl.classList.remove('dark-mode');
         }
       } catch (e) {}
     });
@@ -154,8 +156,10 @@ class SiteNavbar extends HTMLElement {
       try {
         if (localStorage.getItem('darkMode') === 'true') {
           document.body.classList.add('dark-mode');
+          offcanvasEl.classList.add('dark-mode');
         } else {
           document.body.classList.remove('dark-mode');
+          offcanvasEl.classList.remove('dark-mode');
         }
       } catch (e) {}
     });
