@@ -268,7 +268,8 @@ body.group-page {
   align-items: center;
   gap: 0.5rem;
   padding: 0.65rem 0.8rem 0.75rem;
-  padding-bottom: calc(0.9rem + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  /* padding-bottom: 1.5rem !important; */
   background: linear-gradient(
     180deg,
     var(--purple-panel-end) 0%,
