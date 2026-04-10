@@ -153,7 +153,6 @@ input[type="date"] {
   font-size: 16px;
   padding: 14px 16px;
   padding-right: 40px;
-  padding-left: 12px;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
   width: 100%;
