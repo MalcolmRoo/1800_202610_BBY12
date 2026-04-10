@@ -354,10 +354,11 @@ function appendChatBubble({
   const row = document.createElement("div");
   row.className = "chat-msg-row" + (isMine ? " mine" : "");
 
-  // Avatar - show profile picture or fallback to initial circle
+  // Avatar - show profile picture only if custom, otherwise show initials
   const avatarEl = document.createElement("div");
   avatarEl.className = "chat-avatar-msg";
-  if (profilePicture) {
+  // Only show image if user has set a custom profile picture (not the default)
+  if (profilePicture && profilePicture !== "/images/account.png") {
     const img = document.createElement("img");
     img.src = profilePicture;
     img.className = "chat-avatar-img";

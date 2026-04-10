@@ -275,12 +275,7 @@ body.group-page {
   align-items: center;
   gap: 0.5rem;
   padding: 0.65rem 0.8rem 0.75rem;
-<<<<<<< Updated upstream
-  padding-bottom: calc(1.9rem + env(safe-area-inset-bottom, 0px));
-  /* padding-bottom: 1.5rem !important; */
-=======
   padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
->>>>>>> Stashed changes
   background: linear-gradient(
     180deg,
     var(--purple-panel-end) 0%,
