@@ -131,6 +131,7 @@ body.group-page {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 0.5rem 1rem;
+  padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px));
   min-height: 0; /* critical for flex overflow scroll */
   scrollbar-width: thin;
   scrollbar-color: rgba(197, 172, 229, 0.45) transparent;
@@ -284,8 +285,8 @@ body.group-page {
   );
   flex-shrink: 0;
   position: fixed;
-  bottom: 87px;
-  bottom: calc(87px + env(safe-area-inset-bottom, 0px));
+  bottom: 85px;
+  bottom: calc(85px + env(safe-area-inset-bottom, 0px));
   left: 0;
   right: 0;
   z-index: 100;
