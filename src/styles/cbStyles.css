@@ -145,13 +145,14 @@ input[type="date"] {
   color: var(--text-color);
   font-family: "DM Sans", sans-serif;
   font-size: 15px;
-  padding: 14px 16px;
+  padding: 12px 14px;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   width: 100%;
   box-sizing: border-box;
-  min-height: 50px;
-  text-align: center;
+  color-scheme: light;
 }
 
 input[type="date"]:focus {
@@ -452,11 +453,10 @@ body.dark-mode input[type="search"]::placeholder {
 }
 
 body.dark-mode input[type="date"] {
-  background: rgba(15, 10, 26, 0.8);
-  border-color: rgba(197, 172, 229, 0.2);
+  background: #150f25;
+  border-color: rgba(197, 172, 229, 0.15);
   color: #e0d4f5;
-  min-height: 50px;
-  text-align: center;
+  color-scheme: dark;
 }
 
 body.dark-mode .date-sub-label {
