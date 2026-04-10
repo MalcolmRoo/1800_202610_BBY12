@@ -354,14 +354,12 @@ function appendChatBubble({
   const row = document.createElement("div");
   row.className = "chat-msg-row" + (isMine ? " mine" : "");
 
-  // Avatar - show profile picture only if custom, otherwise show initials
+  // Avatar - show profile picture if set, otherwise show initials
   const avatarEl = document.createElement("div");
   avatarEl.className = "chat-avatar-msg";
-  // Show custom picture only if it's a data URL (localStorage) OR not the default path
-  // The default is "/images/account.png" - if it's different, show it
-  const isCustomPicture = profilePicture && 
-    (profilePicture.startsWith("data:") || profilePicture !== "/images/account.png");
-  if (isCustomPicture) {
+  // Show picture if profilePicture exists and is not the default placeholder
+  const showPfp = profilePicture && profilePicture !== "/images/account.png";
+  if (showPfp) {
     const img = document.createElement("img");
     img.src = profilePicture;
     img.className = "chat-avatar-img";
