@@ -220,13 +220,10 @@
     <script type="module" src="/src/createGroup.js"></script>
 
     <script>
-      // Set min date to today for both date inputs
       var today = new Date().toISOString().split("T")[0];
       document.getElementById("start-date").setAttribute("min", today);
-      document.getElementById("start-date").value = today;
       document.getElementById("end-date").setAttribute("min", today);
 
-      // When start date changes, ensure end date is not before it
       document.getElementById("start-date").addEventListener("change", function () {
         document.getElementById("end-date").setAttribute("min", this.value);
         if (document.getElementById("end-date").value && document.getElementById("end-date").value < this.value) {
