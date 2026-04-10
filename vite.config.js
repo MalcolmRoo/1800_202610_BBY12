@@ -18,6 +18,7 @@ export default defineConfig({
         MyAccount: resolve(__dirname, "Slide-Out-Menu/MyAccount.html"),
         settings: resolve(__dirname, "Slide-Out-Menu/settings.html"),
         report: resolve(__dirname, "report.html"),
+        credits: resolve(__dirname, "credits.html"),
       },
     },
   },
