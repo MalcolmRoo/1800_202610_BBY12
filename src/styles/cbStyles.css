@@ -120,7 +120,6 @@ input[type="search"]::placeholder {
 .date-row {
   display: flex;
   gap: 40px;
-  padding: 0 4px;
 }
 
 .date-col {
@@ -129,10 +128,6 @@ input[type="search"]::placeholder {
   flex-direction: column;
   gap: 6px;
   min-width: 0;
-}
-
-.date-col:first-child {
-  margin-left: -8px;
 }
 
 .date-sub-label {
