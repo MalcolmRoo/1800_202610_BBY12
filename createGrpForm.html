@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" href="/src/styles/cbStyles.css" />
     <link rel="stylesheet" href="/src/styles/style.css" />
 
@@ -64,11 +66,11 @@
           <div class="date-row">
             <div class="date-col">
               <label for="start-date" class="date-sub-label">Start</label>
-              <input name="start-date" type="date" id="start-date" required />
+              <input name="start-date" type="text" id="start-date" placeholder="YYYY-MM-DD" required />
             </div>
             <div class="date-col">
               <label for="end-date" class="date-sub-label">End</label>
-              <input name="end-date" type="date" id="end-date" required />
+              <input name="end-date" type="text" id="end-date" placeholder="YYYY-MM-DD" required />
             </div>
           </div>
           <p class="date-hint">Tap the calendar icon to pick a date</p>
@@ -220,17 +222,28 @@
     <script type="module" src="/src/createGroup.js"></script>
 
     <script>
-      // Set min date to today for both date inputs
-      var today = new Date().toISOString().split("T")[0];
-      document.getElementById("start-date").setAttribute("min", today);
-      document.getElementById("start-date").value = today;
-      document.getElementById("end-date").setAttribute("min", today);
+      var today = new Date();
+      var todayStr = today.toISOString().split("T")[0];
 
-      // When start date changes, ensure end date is not before it
+      flatpickr("#start-date", {
+        minDate: todayStr,
+        defaultDate: todayStr,
+        dateFormat: "Y-m-d",
+        disableMobile: true
+      });
+
+      flatpickr("#end-date", {
+        minDate: todayStr,
+        dateFormat: "Y-m-d",
+        disableMobile: true
+      });
+
       document.getElementById("start-date").addEventListener("change", function () {
-        document.getElementById("end-date").setAttribute("min", this.value);
-        if (document.getElementById("end-date").value && document.getElementById("end-date").value < this.value) {
-          document.getElementById("end-date").value = this.value;
+        document.getElementById("end-date")._flatpickr.set("minDate", this.value);
+        var endDate = document.getElementById("end-date")._flatpickr.selectedDates[0];
+        var startDate = new Date(this.value);
+        if (endDate && endDate < startDate) {
+          document.getElementById("end-date")._flatpickr.setDate(this.value);
         }
       });
     </script>
