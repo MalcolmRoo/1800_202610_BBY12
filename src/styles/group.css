@@ -283,8 +283,8 @@ body.group-page {
   );
   flex-shrink: 0;
   position: fixed;
-  bottom: 60px;
-  bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+  bottom: 125px;
+  bottom: calc(125px + env(safe-area-inset-bottom, 0px));
   left: 0;
   right: 0;
   z-index: 100;
