@@ -17,6 +17,9 @@ const userCollection = collection(db, "tbUsers");
 const groupCollection = collection(db, "tbGroups");
 const buddyList = document.getElementById("buddies");
 
+// Cache for user profiles (uid -> {profilePicture, name})
+const userProfileCache = new Map();
+
 /* ── This helps Tab switching (Buddies ↔ Chat) ── */
 document.getElementById("tabBuddies").addEventListener("click", function () {
   document.getElementById("buddiesScrollable").style.display = "block";
@@ -76,23 +79,55 @@ function createOrUpdateChat() {
       return;
     }
 
-    //Add messages from the DB that are not the server message
-    snapshot.forEach((msgDoc) => {
+    // Collect all unique UIDs from messages
+    const uidList = [];
+    for (const msgDoc of snapshot.docs) {
       const data = msgDoc.data();
-      if (data.user === "server") return;
+      if (data.uid && !uidList.includes(data.uid) && data.user !== "server") {
+        uidList.push(data.uid);
+      }
+    }
+
+    // Fetch user profiles for all UIDs
+    for (const uid of uidList) {
+      if (!userProfileCache.has(uid)) {
+        // Listen for this user's profile changes
+        const userQuery = query(userCollection, where("userID", "==", uid));
+        onSnapshot(userQuery, (userSnap) => {
+          if (!userSnap.empty) {
+            const userData = userSnap.docs[0].data();
+            userProfileCache.set(uid, {
+              profilePicture: userData.profilePicture || "/images/account.png",
+              name: userData.name || "Unknown",
+            });
+          }
+        });
+      }
+    }
+
+    // Add messages from the DB that are not the server message
+    for (const msgDoc of snapshot.docs) {
+      const data = msgDoc.data();
+      if (data.user === "server") continue;
 
       const currentUser = auth.currentUser;
       const isMine = data.uid === currentUser?.uid;
 
+      // Get profile from cache or use defaults
+      const cachedProfile = userProfileCache.get(data.uid);
+      const profilePicture = cachedProfile?.profilePicture || "/images/account.png";
+      const userName = cachedProfile?.name || data.user;
+
       appendChatBubble({
         text: data.message,
-        senderName: data.user,
-        initials: data.user.charAt(0).toUpperCase(),
+        senderName: userName,
+        initials: userName.charAt(0).toUpperCase(),
+        profilePicture: profilePicture,
         color: isMine ? "#7b5ea0" : "#e85d75",
         isMine,
         timestamp: data.timestamp,
       });
-    });
+    }
 
     // Auto-scroll to bottom on new message!!!
     chatDiv.scrollTop = chatDiv.scrollHeight;
@@ -306,6 +341,7 @@ function appendChatBubble({
   text,
   senderName,
   initials,
+  profilePicture,
   color,
   isMine,
   timestamp,
@@ -318,11 +354,18 @@ function appendChatBubble({
   const row = document.createElement("div");
   row.className = "chat-msg-row" + (isMine ? " mine" : "");
 
-  // Avatar circle showing the sender's initial
+  // Avatar - show profile picture or fallback to initial circle
   const avatarEl = document.createElement("div");
   avatarEl.className = "chat-avatar-msg";
-  avatarEl.style.background = color || "#7b5ea0";
-  avatarEl.textContent = initials || "?";
+  if (profilePicture) {
+    const img = document.createElement("img");
+    img.src = profilePicture;
+    img.className = "chat-avatar-img";
+    avatarEl.appendChild(img);
+  } else {
+    avatarEl.style.background = color || "#7b5ea0";
+    avatarEl.textContent = initials || "?";
+  }
 
   const body = document.createElement("div");
   body.className = "chat-msg-body";
