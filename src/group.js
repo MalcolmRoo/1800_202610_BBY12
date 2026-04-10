@@ -2,6 +2,7 @@ import { db, auth } from "/src/firebaseConfig.js";
 import {
   doc,
   setDoc,
+  getDoc,
   getDocs,
   updateDoc,
   arrayRemove,
@@ -46,13 +47,27 @@ document.getElementById("tabChat").addEventListener("click", function () {
 /* This function checks to see if a chat sub-document
 exists, if it does refreshes the existing chat box, if not
 creates a new sub-document for the chat. */
-function createOrUpdateChat() {
+async function createOrUpdateChat() {
   const chatDiv = document.getElementById("chatMessages");
   const groupID = localStorage.getItem("group");
   const subCollection = "chat";
 
   //Clear chat to remove dublicates
   chatDiv.innerHTML = "<div class='chat-date-divider'>Top</div>";
+
+  // PRE-FETCH CURRENT USER'S PROFILE (Option A)
+  // Get current user's profile immediately so it's available from the start
+  const currentUser = auth.currentUser;
+  if (currentUser && !userProfileCache.has(currentUser.uid)) {
+    const currentUserDoc = await getDoc(doc(db, "tbUsers", currentUser.uid));
+    if (currentUserDoc.exists()) {
+      const userData = currentUserDoc.data();
+      userProfileCache.set(currentUser.uid, {
+        profilePicture: userData.profilePicture || "/images/account.png",
+        name: userData.name || currentUser.displayName || "You",
+      });
+    }
+  }
 
   const collectionRef = collection(db, "tbGroups", groupID, subCollection);
   const chatQuery = query(collectionRef, orderBy("timestamp", "asc"));
