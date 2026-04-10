@@ -119,7 +119,7 @@ input[type="search"]::placeholder {
 /* ─── Date Picker ────────────────────────────────────────────────────── */
 .date-row {
   display: flex;
-  gap: 16px;
+  gap: 12px;
 }
 
 .date-col {
@@ -127,7 +127,6 @@ input[type="search"]::placeholder {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  min-width: 0;
 }
 
 .date-sub-label {
