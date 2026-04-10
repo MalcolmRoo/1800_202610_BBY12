@@ -70,20 +70,19 @@ body > .container-fluid {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.2rem;
   flex-shrink: 0;
   overflow: hidden;
-  margin-top: 0.3rem;
 }
 
 .mainLogo {
-  width: 75px;
-  height: 75px;
-  padding: 5px;
-  border-radius: 18px;
+  width: 65px;
+  height: 65px;
+  padding: 4px;
+  border-radius: 16px;
   background-color: #7b5ea0;
   box-sizing: content-box;
-  box-shadow: 0 4px 12px rgba(33, 20, 56, 0.3);
+  box-shadow: 0 3px 10px rgba(33, 20, 56, 0.3);
   transition: transform 0.3s ease;
 }
 
@@ -94,7 +93,7 @@ body > .container-fluid {
 .mainTitle {
   margin: 0;
   color: #3d2066;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 800;
   letter-spacing: 0.5px;
   text-shadow: 0 1px 4px rgba(255, 255, 255, 0.3);
@@ -103,7 +102,7 @@ body > .container-fluid {
 .mainSubtitle {
   margin: 0;
   color: #3d2066;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 500;
   text-align: center;
   max-width: 300px;
@@ -114,25 +113,24 @@ body > .container-fluid {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   width: 100%;
   max-width: 360px;
   flex-shrink: 0;
   overflow: hidden;
-  margin-top: 0.2rem;
 }
 
 .mainScreenButton {
   width: 100%;
-  padding: 1.8rem 1.4rem;
+  padding: 1.6rem 1.3rem;
   border: none;
-  border-radius: 18px;
-  font-size: 1.5rem;
+  border-radius: 16px;
+  font-size: 1.4rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.6rem;
   background: linear-gradient(135deg, var(--purple-primary), #6a4a9a);
   color: var(--text-light);
   box-shadow: 0 4px 14px rgba(33, 20, 56, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.15);
