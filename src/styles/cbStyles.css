@@ -151,8 +151,7 @@ input[type="date"] {
   color: var(--text-color);
   font-family: "DM Sans", sans-serif;
   font-size: 16px;
-  padding: 14px 16px;
-  padding-right: 48px;
+  padding: 14px 12px;
   padding-left: 12px;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
