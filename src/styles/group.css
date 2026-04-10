@@ -284,8 +284,8 @@ body.group-page {
   );
   flex-shrink: 0;
   position: fixed;
-  bottom: 80px;
-  bottom: calc(110px + env(safe-area-inset-bottom, 0px));
+  bottom: 65px;
+  bottom: calc(65px + env(safe-area-inset-bottom, 0px));
   left: 0;
   right: 0;
   z-index: 100;
