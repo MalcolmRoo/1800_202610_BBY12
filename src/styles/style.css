@@ -59,30 +59,36 @@ body > .container-fluid {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  height: calc(100vh - 60px);
-  padding: 0.5rem 1rem 70px;
-  gap: 0.3rem;
-  overflow: hidden;
+  justify-content: center;
+  flex: 1;
+  min-height: calc(100vh - 5rem);
+  padding: 2rem 1rem 5rem;
+  gap: 1rem;
+}
+
+.mainBackground {
+  background: linear-gradient(
+    160deg,
+    var(--purple-bg-start) 0%,
+    var(--purple-bg-end) 100%
+  );
 }
 
 .mainLogoSection {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.2rem;
-  flex-shrink: 0;
-  overflow: hidden;
+  gap: 1rem;
 }
 
 .mainLogo {
-  width: 65px;
-  height: 65px;
-  padding: 4px;
-  border-radius: 16px;
+  width: 120px;
+  height: 120px;
+  padding: 10px;
+  border-radius: 28px;
   background-color: #7b5ea0;
   box-sizing: content-box;
-  box-shadow: 0 3px 10px rgba(33, 20, 56, 0.3);
+  box-shadow: 0 8px 24px rgba(33, 20, 56, 0.3);
   transition: transform 0.3s ease;
 }
 
@@ -93,7 +99,7 @@ body > .container-fluid {
 .mainTitle {
   margin: 0;
   color: #3d2066;
-  font-size: 1.5rem;
+  font-size: 2.4rem;
   font-weight: 800;
   letter-spacing: 0.5px;
   text-shadow: 0 1px 4px rgba(255, 255, 255, 0.3);
@@ -102,7 +108,7 @@ body > .container-fluid {
 .mainSubtitle {
   margin: 0;
   color: #3d2066;
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   font-weight: 500;
   text-align: center;
   max-width: 300px;
@@ -113,24 +119,22 @@ body > .container-fluid {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
+  gap: 1.1rem;
   width: 100%;
   max-width: 360px;
-  flex-shrink: 0;
-  overflow: hidden;
 }
 
 .mainScreenButton {
   width: 100%;
-  padding: 1.6rem 1.3rem;
+  padding: 2.4rem 2rem;
   border: none;
-  border-radius: 16px;
-  font-size: 1.4rem;
+  border-radius: 20px;
+  font-size: 1.6rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 1rem;
   background: linear-gradient(135deg, var(--purple-primary), #6a4a9a);
   color: var(--text-light);
   box-shadow: 0 4px 14px rgba(33, 20, 56, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.15);
