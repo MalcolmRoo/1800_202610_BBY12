@@ -74,7 +74,7 @@ async function createOrUpdateChat() {
 
   // Create a Listener that watches the DB live and functions whenever
   // the db gets a new entry
-  const unsubscribe = onSnapshot(chatQuery, (snapshot) => {
+  const unsubscribe = onSnapshot(chatQuery, async (snapshot) => {
     // If the collection is empty, create the system message
     chatDiv.innerHTML = "<div class='chat-date-divider'>Top</div>";
     if (snapshot.empty) {
@@ -103,20 +103,19 @@ async function createOrUpdateChat() {
       }
     }
 
-    // Fetch user profiles for all UIDs
+    // Fetch user profiles for all UIDs (sync - immediately available)
     for (const uid of uidList) {
       if (!userProfileCache.has(uid)) {
-        // Listen for this user's profile changes
+        // Use getDocs for immediate fetch instead of onSnapshot
         const userQuery = query(userCollection, where("userID", "==", uid));
-        onSnapshot(userQuery, (userSnap) => {
-          if (!userSnap.empty) {
-            const userData = userSnap.docs[0].data();
-            userProfileCache.set(uid, {
-              profilePicture: userData.profilePicture || "/images/account.png",
-              name: userData.name || "Unknown",
-            });
-          }
-        });
+        const userSnap = await getDocs(userQuery);
+        if (!userSnap.empty) {
+          const userData = userSnap.docs[0].data();
+          userProfileCache.set(uid, {
+            profilePicture: userData.profilePicture || "/images/account.png",
+            name: userData.name || "Unknown",
+          });
+        }
       }
     }
 
