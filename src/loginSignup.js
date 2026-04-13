@@ -12,6 +12,17 @@ import "./styles/style.css";
 import { loginUser, signupUser, authErrorMessage } from "./authentication.js";
 
 // --- Login and Signup Page ---
+// ─────────────────────────────────────────────────────────────────────────────
+// initAuthUI()
+// ─────────────────────────────────────────────────────────────────────────────
+// Initializes the login/signup page UI.
+// 1. Caches DOM element references
+// 2. Sets up helper functions (setVisible, showError, etc.)
+// 3. Attaches event listeners for form toggles and submissions
+//
+// Parameters: None — reads from DOM
+// Returns: Nothing — runs initialization side-effects
+// ─────────────────────────────────────────────────────────────────────────────
 // Handles toggling between Login/Signup views and form submits
 // using plain DOM APIs for simplicity and maintainability.
 
@@ -27,32 +38,69 @@ function initAuthUI() {
   const redirectUrl = "/main.html";
 
   // --- Helper Functions ---
-  // Toggle element visibility
-  function setVisible(el, visible) {
-    el.classList.toggle("d-none", !visible);
-  }
+// ─────────────────────────────────────────────────────────────────────────────
+// setVisible(el, visible)
+// ─────────────────────────────────────────────────────────────────────────────
+// Toggles the Bootstrap "d-none" class to show/hide an element.
+//
+// Parameters:
+//   el (DOM element) - The element to show/hide
+//   visible (boolean) - true to show, false to hide
+//
+// Returns: Nothing
+// ─────────────────────────────────────────────────────────────────────────────
+function setVisible(el, visible) {
+  el.classList.toggle("d-none", !visible);
+}
 
-  // Show error message with accessibility and auto-hide
-  let errorTimeout;
-  function showError(msg) {
-    alertEl.textContent = msg || "";
-    alertEl.classList.remove("d-none");
-    clearTimeout(errorTimeout);
-    errorTimeout = setTimeout(hideError, 5000); // Auto-hide after 5s
-  }
+// ─────────────────────────────────────────────────────────────────────────────
+// showError(msg)
+// ─────────────────────────────────────────────────────────────────────────────
+// Displays an error message in the alert element and auto-hides after 5 seconds.
+// Uses a timeout to allow auto-dismissal.
+//
+// Parameters:
+//   msg (string) - Error message to display
+//
+// Returns: Nothing
+// ─────────────────────────────────────────────────────────────────────────────
+let errorTimeout;
+function showError(msg) {
+  alertEl.textContent = msg || "";
+  alertEl.classList.remove("d-none");
+  clearTimeout(errorTimeout);
+  errorTimeout = setTimeout(hideError, 5000); // Auto-hide after 5s
+}
 
-  // Hide error message
-  function hideError() {
-    alertEl.classList.add("d-none");
-    alertEl.textContent = "";
-    clearTimeout(errorTimeout);
-  }
+// ─────────────────────────────────────────────────────────────────────────────
+// hideError()
+// ─────────────────────────────────────────────────────────────────────────────
+// Hides the error alert and clears the timeout.
+//
+// Parameters: None
+// Returns: Nothing
+// ─────────────────────────────────────────────────────────────────────────────
+function hideError() {
+  alertEl.classList.add("d-none");
+  alertEl.textContent = "";
+  clearTimeout(errorTimeout);
+}
 
-  // Enable/disable submit button for forms
-  function setSubmitDisabled(form, disabled) {
-    const submitBtn = form?.querySelector('[type="submit"]');
-    if (submitBtn) submitBtn.disabled = disabled;
-  }
+// ─────────────────────────────────────────────────────────────────────────────
+// setSubmitDisabled(form, disabled)
+// ─────────────────────────────────────────────────────────────────────────────
+// Enables or disables the submit button in a form to prevent double-submits.
+//
+// Parameters:
+//   form (DOM element) - The form element
+//   disabled (boolean) - true to disable, false to enable
+//
+// Returns: Nothing
+// ─────────────────────────────────────────────────────────────────────────────
+function setSubmitDisabled(form, disabled) {
+  const submitBtn = form?.querySelector('[type="submit"]');
+  if (submitBtn) submitBtn.disabled = disabled;
+}
 
   // --- Event Listeners ---
   // Toggle buttons

@@ -101,6 +101,15 @@ class SiteNavbar extends HTMLElement {
     offcanvasEl.parentNode.insertBefore(backdrop, offcanvasEl);
 
     // Makes the backdrop visible and lets it receive click events
+    // ─────────────────────────────────────────────────────────────────────────────
+    // showBackdrop()
+    // ─────────────────────────────────────────────────────────────────────────────
+    // Makes the dark overlay visible by setting opacity to 1 and enabling pointer events.
+    // This creates the dimmed background effect behind the slide-out menu.
+    //
+    // Parameters: None
+    // Returns: Nothing
+    // ─────────────────────────────────────────────────────────────────────────────
     function showBackdrop() {
       backdrop.style.opacity = "1";
       backdrop.style.pointerEvents = "auto";
@@ -108,6 +117,16 @@ class SiteNavbar extends HTMLElement {
 
     // Hides the backdrop and cleans up any leftover Bootstrap styling/elements
     // that Bootstrap adds to the body when a menu opens
+    // ─────────────────────────────────────────────────────────────────────────────
+    // hideBackdrop()
+    // ─────────────────────────────────────────────────────────────────────────────
+    // Hides the dark overlay by setting opacity to 0 and disabling pointer events.
+    // Also removes Bootstrap artifacts (modal-open class, overflow styles, offcanvas-backdrop elements)
+    // that can persist after the menu closes.
+    //
+    // Parameters: None
+    // Returns: Nothing
+    // ─────────────────────────────────────────────────────────────────────────────
     function hideBackdrop() {
       backdrop.style.opacity = "0";
       backdrop.style.pointerEvents = "none";
