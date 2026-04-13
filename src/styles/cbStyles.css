@@ -2,7 +2,6 @@
 :root {
   --primary: #7b5ea0;
   --secondary: #c5ace5;
-  --white: #ffffff;
   --grey: #5d5d5d;
   --text-color: #262626;
   --muted: #8a7a9b;
@@ -77,8 +76,7 @@
 }
 
 /* ─── Labels ─────────────────────────────────────────────────────────── */
-#cbLable,
-label[id="cbLable"] {
+#cbLable {
   font-family: "Syne", sans-serif;
   font-size: 11.5px;
   font-weight: 700;
@@ -161,14 +159,6 @@ input[type="date"] {
 input[type="date"]:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(123, 94, 160, 0.15);
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 0;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
 }
 
 .date-hint {
