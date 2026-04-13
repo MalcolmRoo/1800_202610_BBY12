@@ -1,8 +1,13 @@
 ---
 Travel Buddy
+---
+
 Overview
+
 Travel Buddy is a client-side JavaScript web application that connects travelers looking to share trips and find companions. The app allows users to create and join travel groups, coordinate trip details, and communicate with fellow travelers through real-time chat.
-Developed for the COMP 1800 course, this project applies User-Centred Design practices and agile project management, and demonstrates integration with Firebase backend services for authentication, database management, and real-time messaging.
+Developed for the COMP 1800 course, this project applies User-Centred Design practices and agile project management, and demonstrates integration with Firebase backend services for authentication, database management, and 
+real-time messaging.
+
 ---
 
 Features
@@ -43,6 +48,7 @@ To run the application locally:
 ---
 
 Project Structure
+```
 travel-buddy/
 ├── src/
 │ ├── authentication.js # Firebase auth functions (login, signup, logout)
@@ -69,7 +75,7 @@ travel-buddy/
 ├── package.json
 ├── vite.config.js
 └── README.md
-
+```
 ---
 
 ## Database Schema
