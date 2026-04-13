@@ -328,3 +328,60 @@ body.dark-mode.joinGroupBody .navbar {
   margin-bottom: 0.75rem;
 }
 
+/* ── Google Places Autocomplete Dropdown ── */
+
+/* The container Google injects into the page */
+.pac-container {
+  background: #c5ace5;
+  border: 1px solid rgba(98, 219, 64, 0.3);
+  border-radius: 14px;
+  margin-top: 6px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  font-family: inherit;
+  overflow: hidden;
+  z-index: 9999 !important;
+}
+
+/* Each suggestion row */
+.pac-item {
+  background: transparent;
+  color: black;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  border-top: 1px solid rgba(197, 172, 229, 0.1);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.pac-item:first-child {
+  border-top: none;
+}
+
+/* Hovered suggestion */
+.pac-item:hover,
+.pac-item-selected {
+  background: rgba(197, 172, 229, 0.15) !important;
+}
+
+/* The main text (city name) */
+.pac-item-query {
+  color: rgb(62, 61, 61);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+/* The secondary text (country, province) */
+.pac-matched {
+  color: black;
+}
+
+/* The little pin icon Google puts on each row */
+.pac-icon {
+  filter: invert(1) sepia(1) saturate(10) hue-rotate(320deg) brightness(0.9)
+    contrast(1.5);
+}
+
+/* Hide the "powered by Google" logo at the bottom */
+.pac-logo:after {
+  display: none;
+}
