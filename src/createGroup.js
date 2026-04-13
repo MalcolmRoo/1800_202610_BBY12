@@ -5,7 +5,18 @@ import { getSelectedTags } from "/src/tags.js";
 
 const form = document.getElementById("createGroupForm");
 
-// Listen for form submission
+// ─────────────────────────────────────────────────────────────────────────────
+// form.addEventListener("submit", ...)
+// ─────────────────────────────────────────────────────────────────────────────
+// Handles the Create Group form submission.
+// 1. Prevents default form behavior
+// 2. Extracts all form field values via FormData
+// 3. Validates start/end dates are present and valid
+// 4. Calls CreateGroup() to save to Firestore if validation passes
+//
+// No parameters — reads from the DOM form and localStorage
+// No return value — navigates to group.html on success
+// ─────────────────────────────────────────────────────────────────────────────
 form.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -73,8 +84,30 @@ form.addEventListener("submit", function (event) {
   );
 });
 
-// Creates a new group document in Firestore with a random unique ID,
-// saves that ID to localStorage, then redirects to the group page
+// ─────────────────────────────────────────────────────────────────────────────
+// CreateGroup(name, tags, leader, destination, travelMethod, maxBuddies, members, joinType, status, startDate, endDate)
+// ─────────────────────────────────────────────────────────────────────────────
+// Creates a new travel group document in Firestore.
+// 1. Generates a unique group ID via UUID
+// 2. Saves group data to Firestore tbGroups collection
+// 3. Stores groupID in localStorage for group.html to read
+// 4. Redirects user to the new group page
+//
+// Parameters:
+//   name (string)       - Group name from form
+//   tags (array)       - Selected trip vibe tags
+//   leader (string)   - Creator's user ID
+//   destination (string) - Searched destination
+//   travelMethod (string) - Selected travel method
+//   maxBuddies (string) - Max members slider value
+//   members (array)   - Array containing leader's UID
+//   joinType (string)  - "open" or "private"
+//   status (string)  - Group status (always true for open)
+//   startDate (string) - Trip start date (YYYY-MM-DD)
+//   endDate (string)  - Trip end date (YYYY-MM-DD)
+//
+// Returns: Nothing — navigates to /group.html on success, shows alert on error
+// ─────────────────────────────────────────────────────────────────────────────
 export async function CreateGroup(
   name,
   tags,

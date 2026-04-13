@@ -22,6 +22,17 @@ const buddyList = document.getElementById("buddies");
 const userProfileCache = new Map();
 
 /* ── This helps Tab switching (Buddies ↔ Chat) ── */
+// ─────────────────────────────────────────────────────────────────────────────
+// document.getElementById("tabBuddies").addEventListener("click", ...)
+// ─────────────────────────────────────────────────────────────────────────────
+// Switches to the Buddies tab.
+// 1. Shows buddy list, hides chat
+// 2. Updates active tab styling
+// 3. Loads buddy cards via fillBuddyCard()
+//
+// Parameters: None — reads from DOM
+// Returns: Nothing
+// ─────────────────────────────────────────────────────────────────────────────
 document.getElementById("tabBuddies").addEventListener("click", function () {
   document.getElementById("buddiesScrollable").style.display = "block";
   document.getElementById("chat").style.display = "none";
@@ -30,6 +41,18 @@ document.getElementById("tabBuddies").addEventListener("click", function () {
   fillBuddyCard();
 });
 
+// ─────────────────────────────────────────────────────────────────────────────
+// document.getElementById("tabChat").addEventListener("click", ...)
+// ─────────────────────────────────────────────────────────────────────────────
+// Switches to the Chat tab.
+// 1. Shows chat, hides buddy list
+// 2. Updates active tab styling
+// 3. Loads/creates chat via createOrUpdateChat()
+// 4. Scrolls to bottom and focuses input
+//
+// Parameters: None — reads from DOM
+// Returns: Nothing
+// ─────────────────────────────────────────────────────────────────────────────
 document.getElementById("tabChat").addEventListener("click", function () {
   document.getElementById("buddiesScrollable").style.display = "none";
   document.getElementById("chat").style.display = "flex";
@@ -44,6 +67,20 @@ document.getElementById("tabChat").addEventListener("click", function () {
   }, 50);
 });
 
+// ─────────────────────────────────────────────────────────────────────────────
+// createOrUpdateChat()
+// ─────────────────────────────────────────────────────────────────────────────
+// Loads or creates the chat for the current group.
+// 1. Checks for existing chat subcollection in Firestore
+// 2. If empty, creates a welcome system message
+// 3. Pre-fetches all user profiles for chat participants
+// 4. Sets up a real-time listener (onSnapshot) for new messages
+// 5. Appends each message as a chat bubble
+// Uses userProfileCache to avoid redundant Firestore reads.
+//
+// Parameters: None — reads groupID from localStorage
+// Returns: unsubscribe function (call to stop listening)
+// ─────────────────────────────────────────────────────────────────────────────
 /* This function checks to see if a chat sub-document
 exists, if it does refreshes the existing chat box, if not
 creates a new sub-document for the chat. */
@@ -151,6 +188,19 @@ async function createOrUpdateChat() {
   return unsubscribe;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// postChatMessage(text)
+// ─────────────────────────────────────────────────────────────────────────────
+// Saves a chat message to Firestore.
+// 1. Gets current groupID and user from localStorage/auth
+// 2. Creates a unique subdocument ID using timestamp
+// 3. Saves message with user info and timestamp to Firestore
+//
+// Parameters:
+//   text (string) - The message content to send
+//
+// Returns: Nothing — shows alert on error
+// ─────────────────────────────────────────────────────────────────────────────
 /* This is a function to post chat messages */
 /* ── Post a chat message to Firestore ── */
 async function postChatMessage(text) {
@@ -212,6 +262,15 @@ document
    Waits for Firebase Auth to resolve before loading the page.
    This prevents a race condition where group data loads before
    the user is confirmed as logged in */
+// ─────────────────────────────────────────────────────────────────────────────
+// window.addEventListener("load", ...)
+// ─────────────────────────────────────────────────────────────────────────────
+// Security check: waits for Firebase auth to initialize.
+// If user is logged in, loads buddy cards. If not, redirects to login.
+//
+// Parameters: None
+// Returns: Nothing — navigates on failure
+// ─────────────────────────────────────────────────────────────────────────────
 window.addEventListener("load", function () {
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -222,6 +281,19 @@ window.addEventListener("load", function () {
   });
 });
 
+// ─────────────────────────────────────────────────────────────────────────────
+// fillBuddyCard()
+// ─────────────────────────────────────────────────────────────────────────────
+// Loads and displays the buddy list for the current group.
+// 1. Gets groupID from localStorage
+// 2. Sets up real-time listener (onSnapshot) on the group document
+// 3. Fetches each member's user profile via their own onSnapshot listener
+// 4. Renders buddy cards with profile picture, name, status
+// 5. Shows leader crown icon for the group creator
+//
+// Parameters: None — reads groupID from localStorage
+// Returns: Nothing — updates DOM directly
+// ─────────────────────────────────────────────────────────────────────────────
 async function fillBuddyCard() {
   const groupID = localStorage.getItem("group");
   const buddyList = document.getElementById("buddies");
@@ -306,7 +378,15 @@ async function fillBuddyCard() {
 }
 
 /* ── Chat UI helpers ── */
-
+// ─────────────────────────────────────────────────────────────────────────────
+// getTimeLabel()
+// ─────────────────────────────────────────────────────────────────────────────
+// Returns the current time formatted as HH:MM (e.g., "2:30 PM").
+// Used for chat bubble timestamps.
+//
+// Parameters: None
+// Returns: string - formatted time
+// ─────────────────────────────────────────────────────────────────────────────
 // Returns the current time formatted as HH:MM for chat bubble timestamps
 function getTimeLabel() {
   return new Date().toLocaleTimeString([], {
@@ -315,6 +395,18 @@ function getTimeLabel() {
   });
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// addDateDividerIfNeeded(timestamp)
+// ─────────────────────────────────────────────────────────────────────────────
+// Adds a date divider above chat messages when the date changes.
+// Shows "Today", "Yesterday", or the date for new days.
+// Prevents duplicate dividers by checking the last divider's date.
+//
+// Parameters:
+//   timestamp (number) - Unix timestamp in milliseconds
+//
+// Returns: Nothing — appends divider to DOM
+// ─────────────────────────────────────────────────────────────────────────────
 // this function gives the date of chats on top of em
 // when the date changes between messages
 function addDateDividerIfNeeded(timestamp) {
@@ -349,6 +441,27 @@ function addDateDividerIfNeeded(timestamp) {
   chatMessages.appendChild(divider);
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// appendChatBubble({ text, senderName, initials, profilePicture, color, isMine, timestamp })
+// ─────────────────────────────────────────────────────────────────────────────
+// Builds and appends a single chat bubble to the chat window.
+// 1. Adds date divider if timestamp is on a new day
+// 2. Creates avatar (profile picture or colored initials)
+// 3. Creates message body with sender name, bubble, and timestamp
+// 4. "mine" bubbles appear on the right, others on the left
+// 5. Auto-scrolls to the latest message
+//
+// Parameters:
+//   text (string) - Message content
+//   senderName (string) - Display name of sender
+//   initials (string) - First letter of name for avatar fallback
+//   profilePicture (string) - URL to profile image
+//   color (string) - Hex color for avatar background
+//   isMine (boolean) - true if sent by current user
+//   timestamp (number) - Unix timestamp in ms
+//
+// Returns: Nothing — appends bubble to DOM
+// ─────────────────────────────────────────────────────────────────────────────
 // Builds and appends a single chat bubble to the chat window.
 // "mine" bubbles appear on the right, others on the left
 function appendChatBubble({
@@ -415,6 +528,18 @@ function appendChatBubble({
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// sendChatMessage()
+// ─────────────────────────────────────────────────────────────────────────────
+// Handles the send button click and Enter key press.
+// 1. Gets text from input, trims whitespace
+// 2. Calls postChatMessage() to save to Firestore
+// 3. Clears input and resets height
+// Called by both button click and Enter key press.
+//
+// Parameters: None — reads from DOM
+// Returns: Nothing
+// ─────────────────────────────────────────────────────────────────────────────
 /* ── Send message — saves to Firestore + shows bubble ── */
 function sendChatMessage() {
   const input = document.getElementById("chatInput");
