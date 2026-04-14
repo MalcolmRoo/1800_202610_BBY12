@@ -326,6 +326,8 @@ async function fillBuddyCard() {
 
     // Update UI elements that might change (Member Count, Group Name)
     document.getElementById("groupTitle").textContent = groupData.groupName;
+    const destEl = document.getElementById("destination-text");
+    if (destEl) destEl.textContent = groupData.destination || "";
     const countEl = document.getElementById("memberCountText");
     if (countEl) countEl.textContent = members.length + " Buddies";
 
