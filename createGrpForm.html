@@ -15,8 +15,13 @@
     <!-- Google Maps — define initialize() BEFORE the script loads -->
     <script>
       function initialize() {
+        var input = document.getElementById("destinations-list");
+        if (!input) {
+          setTimeout(initialize, 100);
+          return;
+        }
         var autocomplete = new google.maps.places.Autocomplete(
-          document.getElementById("destinations-list"),
+          input,
           { types: ["geocode"] },
         );
         autocomplete.addListener("place_changed", function () {
