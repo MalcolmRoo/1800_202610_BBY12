@@ -25,7 +25,7 @@ Technologies Used
 
 - Frontend: HTML, CSS, JavaScript
 - Build Tool: Vite (https://vitejs.dev/)
-- Backend: Firebase for hosting
+- Backend: Firebase for hosting, and Vercel for hosting
 - Database: Firestore
 - Authentication: Firebase Authentication
 - UI Framework: Bootstrap 5
